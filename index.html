@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Staff — Personnel Hôtelier d'Excellence</title>
+  <meta name="description" content="Renfort de personnel hôtelier ponctuel pour établissements 3★ à 5★. Femmes de chambre, gouvernantes, réceptionnistes — disponibles en 24h.">
+  <meta property="og:title" content="Clean Staff — Personnel Hôtelier d'Excellence">
+  <meta property="og:description" content="Renfort de personnel hôtelier ponctuel pour hôtels de standing.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 120px 0 80px;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        var(--grad-hero),
+        radial-gradient(ellipse 50% 80% at 80% 50%, rgba(201,168,76,0.06) 0%, transparent 60%),
+        var(--noir-0);
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&q=80&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center 30%;
+      opacity: 0.07;
+      mix-blend-mode: luminosity;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow-line {
+      width: 40px;
+      height: 1px;
+      background: var(--grad-or);
+    }
+    .hero-eyebrow-text {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--or-2);
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 6vw, 6rem);
+      font-weight: 300;
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .hero-title em {
+      font-style: italic;
+      background: var(--grad-or);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin-bottom: 40px;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-right {
+      position: relative;
+    }
+    .hero-card-stack {
+      position: relative;
+      height: 480px;
+    }
+    .hero-card-main {
+      position: absolute;
+      inset: 0;
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-glow);
+    }
+    .hero-card-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+    .hero-card-main::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(10,12,20,0.5) 0%, transparent 50%, rgba(201,168,76,0.1) 100%);
+    }
+    .hero-card-overlay {
+      position: absolute;
+      bottom: 24px;
+      left: 24px;
+      right: 24px;
+      background: rgba(10,12,20,0.85);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-lg);
+      padding: 20px 24px;
+    }
+    .hero-live-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: #4ade80;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .hero-live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .hero-stat-row {
+      display: flex;
+      gap: 24px;
+    }
+    .hero-stat {
+      text-align: center;
+    }
+    .hero-stat-value {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--or-3);
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+    .hero-float-card {
+      position: absolute;
+      top: -24px;
+      right: -24px;
+      background: var(--noir-2);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-lg);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-gold);
+      animation: float 4s ease-in-out infinite;
+      z-index: 10;
+    }
+    .hero-float-top {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+    .hero-float-value {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--or-3);
+      font-weight: 400;
+    }
+
+    /* ── BAND LOGOS ── */
+    .band {
+      padding: 28px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+      overflow: hidden;
+    }
+    .band-inner {
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      animation: scrollLeft 25s linear infinite;
+      width: max-content;
+    }
+    .band-inner:hover { animation-play-state: paused; }
+    .band-item {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .band-item::before { content: '◆'; font-size: 0.5rem; color: var(--or-2); }
+    @keyframes scrollLeft {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── STATS SECTION ── */
+    .stats-section {
+      padding: var(--space-20) 0;
+      background: linear-gradient(180deg, var(--noir-0) 0%, var(--noir-2) 50%, var(--noir-0) 100%);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border-subtle);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+    }
+    .stat-item {
+      background: var(--noir-1);
+      padding: 48px 32px;
+      text-align: center;
+      transition: background var(--t-base);
+    }
+    .stat-item:hover { background: var(--noir-2); }
+    .stat-unit {
+      font-size: 0.8rem;
+      color: var(--or-2);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 8px;
+    }
+    .stat-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    /* ── SERVICES SECTION ── */
+    .services-intro {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto var(--space-16);
+    }
+    .service-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 36px 32px;
+      transition: all var(--t-base) var(--ease-smooth);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--grad-or);
+      transform: scaleX(0);
+      transition: transform var(--t-base) var(--ease-smooth);
+    }
+    .service-card:hover { border-color: var(--border-medium); transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-icon {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .service-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .service-price {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--or-2);
+      margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* ── PROCESS ── */
+    .process-section { position: relative; }
+    .process-line {
+      position: absolute;
+      top: 50%;
+      left: 5%;
+      right: 5%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--or-0), var(--or-2), var(--or-0), transparent);
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-6);
+      position: relative;
+      z-index: 2;
+    }
+    .process-step {
+      text-align: center;
+    }
+    .process-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid var(--border-medium);
+      background: var(--noir-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--or-2);
+      font-weight: 300;
+      position: relative;
+    }
+    .process-num::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+    }
+    .process-step-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .process-step-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* ── TEMOIGNAGES ── */
+    .temoignages { position: relative; overflow: hidden; }
+    .temoignage-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 36px;
+    }
+    .temoignage-stars {
+      color: var(--or-2);
+      font-size: 0.85rem;
+      margin-bottom: 16px;
+      letter-spacing: 4px;
+    }
+    .temoignage-text {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .temoignage-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .temoignage-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--grad-or);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--noir-1);
+      font-size: 0.9rem;
+    }
+    .temoignage-name {
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .temoignage-role {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* ── URGENCE BANNER ── */
+    .urgence-banner {
+      background: linear-gradient(135deg, var(--noir-3) 0%, var(--noir-2) 100%);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-xl);
+      padding: 48px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .urgence-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    }
+    .urgence-banner-content { position: relative; z-index: 2; }
+    .urgence-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--or-2);
+      margin-bottom: 8px;
+    }
+    .urgence-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .urgence-sub { font-size: 0.95rem; color: var(--text-secondary); }
+    .urgence-actions { display: flex; flex-direction: column; gap: 12px; align-items: flex-end; flex-shrink: 0; position: relative; z-index: 2; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--noir-0);
+      border-top: 1px solid var(--border-subtle);
+      padding: var(--space-16) 0 var(--space-8);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand { }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer-tagline {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 280px;
+      margin-bottom: 24px;
+    }
+    .footer-contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+    .footer-contact-item span:first-child { color: var(--or-2); }
+    .footer-col-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-link {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      transition: color var(--t-fast);
+    }
+    .footer-link:hover { color: var(--or-2); }
+    .footer-bottom {
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .footer-badges {
+      display: flex;
+      gap: 12px;
+    }
+    .footer-badge {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-full);
+      padding: 4px 12px;
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-right { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .hero-title { font-size: clamp(2.2rem, 8vw, 3.5rem); }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .urgence-banner { flex-direction: column; padding: 36px; }
+      .urgence-actions { align-items: stretch; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">CS</div>
+      Clean Staff
+    </a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Accueil</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="tarifs.html"   class="nav-link">Tarifs</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="hotel-login.html" class="btn btn-outline btn-sm" data-role="login">Espace hôtel</a>
+      <a href="commander.html"   class="btn btn-primary btn-sm">Commander →</a>
+    </div>
+    <div class="nav-burger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MENU MOBILE -->
+<div class="mobile-menu">
+  <a href="index.html"    class="nav-link">Accueil</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="tarifs.html"   class="nav-link">Tarifs</a>
+  <a href="contact.html"  class="nav-link">Contact</a>
+  <a href="hotel-login.html" class="nav-link">Espace hôtel</a>
+  <a href="commander.html" class="btn btn-primary" style="text-align:center;margin-top:8px">Commander →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-img"></div>
+  <div class="thread-container">
+    <svg class="thread-svg" viewBox="0 0 1200 100vh" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   stop-color="#C9A84C" stop-opacity="0"/>
+          <stop offset="30%"  stop-color="#E2C56B" stop-opacity="0.5"/>
+          <stop offset="70%"  stop-color="#C9A84C" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path class="thread-path" d="M-100,200 C200,100 400,350 600,200 S900,50 1300,250"/>
+      <path class="thread-path" d="M-100,400 C300,300 500,550 700,380 S1000,200 1400,420" style="animation-delay:-3s; opacity:0.2"/>
+    </svg>
+  </div>
+
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-eyebrow animate-fade-up">
+          <div class="hero-eyebrow-line"></div>
+          <span class="hero-eyebrow-text">Personnel hôtelier de prestige</span>
+        </div>
+        <h1 class="hero-title animate-fade-up delay-1">
+          L'excellence,<br><em>disponible</em><br>en 24 heures
+        </h1>
+        <p class="hero-subtitle animate-fade-up delay-2">
+          Clean Staff met à disposition des hôtels 3 à 5 étoiles un personnel qualifié, discret et immédiatement opérationnel pour toutes les missions ponctuelles.
+        </p>
+        <div class="hero-actions animate-fade-up delay-3">
+          <a href="commander.html" class="btn btn-primary btn-lg">
+            Faire une demande
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="services.html" class="btn btn-outline">Voir nos profils</a>
+        </div>
+      </div>
+
+      <div class="hero-right animate-fade-up delay-2">
+        <div class="hero-float-card">
+          <div class="hero-float-top">Délai moyen</div>
+          <div class="hero-float-value">24h</div>
+          <div style="font-size:0.72rem;color:var(--text-muted);margin-top:4px">de prise en charge</div>
+        </div>
+        <div class="hero-card-stack">
+          <div class="hero-card-main">
+            <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80&auto=format&fit=crop" alt="Personnel hôtelier professionnel" loading="lazy">
+          </div>
+          <div class="hero-card-overlay">
+            <div class="hero-live-badge">
+              <div class="hero-live-dot"></div>
+              Disponible maintenant
+            </div>
+            <div class="hero-stat-row">
+              <div class="hero-stat">
+                <div class="hero-stat-value">+500</div>
+                <div class="hero-stat-label">Missions</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">98%</div>
+                <div class="hero-stat-label">Satisfaction</div>
+              </div>
+              <div class="hero-stat">
+                <div class="hero-stat-value">6</div>
+                <div class="hero-stat-label">Profils</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BAND HOTELS -->
+<div class="band">
+  <div class="band-inner">
+    <div class="band-item">Le Meurice</div>
+    <div class="band-item">Four Seasons</div>
+    <div class="band-item">Hôtel de Crillon</div>
+    <div class="band-item">Mandarin Oriental</div>
+    <div class="band-item">Ritz Paris</div>
+    <div class="band-item">The Peninsula</div>
+    <div class="band-item">Grand Hyatt</div>
+    <div class="band-item">Hôtel Costes</div>
+    <div class="band-item">Sofitel Legend</div>
+    <!-- répétition pour boucle continue -->
+    <div class="band-item">Le Meurice</div>
+    <div class="band-item">Four Seasons</div>
+    <div class="band-item">Hôtel de Crillon</div>
+    <div class="band-item">Mandarin Oriental</div>
+    <div class="band-item">Ritz Paris</div>
+    <div class="band-item">The Peninsula</div>
+    <div class="band-item">Grand Hyatt</div>
+    <div class="band-item">Hôtel Costes</div>
+    <div class="band-item">Sofitel Legend</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item" data-reveal>
+        <div class="stat-unit">Missions</div>
+        <div class="stat-number">
+          <span data-counter="500" data-suffix="+">0+</span>
+        </div>
+        <div class="stat-desc">Interventions réalisées depuis notre création</div>
+      </div>
+      <div class="stat-item" data-reveal>
+        <div class="stat-unit">Satisfaction</div>
+        <div class="stat-number">
+          <span data-counter="98" data-suffix="%">0%</span>
+        </div>
+        <div class="stat-desc">De nos clients hôteliers nous renouvellent leur confiance</div>
+      </div>
+      <div class="stat-item" data-reveal>
+        <div class="stat-unit">Délai</div>
+        <div class="stat-number" style="font-size:2.5rem">
+          <span data-counter="24" data-suffix="h">0h</span>
+        </div>
+        <div class="stat-desc">Délai maximum de réponse à toute demande</div>
+      </div>
+      <div class="stat-item" data-reveal>
+        <div class="stat-unit">Partenaires</div>
+        <div class="stat-number">
+          <span data-counter="45" data-suffix="+">0+</span>
+        </div>
+        <div class="stat-desc">Établissements 3★ à 5★ nous font confiance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" style="background: var(--noir-0)">
+  <div class="container">
+    <div class="services-intro" data-reveal>
+      <span class="section-eyebrow">Nos profils</span>
+      <h2 class="display-2">Des experts pour chaque<br><em class="italic text-gold">poste de votre établissement</em></h2>
+      <p class="body-lg mt-6">Du housekeeping à la réception, nos collaborateurs sont formés aux exigences des hôtels de standing et s'intègrent immédiatement à vos équipes.</p>
+    </div>
+
+    <div class="grid-3">
+      <div class="service-card" data-reveal>
+        <div class="service-icon">🏨</div>
+        <div class="service-title">Femme de chambre</div>
+        <div class="service-price">26 €/heure</div>
+        <p class="service-desc">Nettoyage et mise en ordre de chambres selon les standards hôteliers. Maîtrise des techniques de pliage et présentations soignées.</p>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--or-2);font-size:0.82rem;margin-top:16px">Voir le détail →</a>
+      </div>
+      <div class="service-card" data-reveal>
+        <div class="service-icon">👔</div>
+        <div class="service-title">Valet de chambre</div>
+        <div class="service-price">26 €/heure</div>
+        <p class="service-desc">Service de lingerie et entretien de vêtements. Discrétion et savoir-faire pour les hôtes exigeants et les suites de prestige.</p>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--or-2);font-size:0.82rem;margin-top:16px">Voir le détail →</a>
+      </div>
+      <div class="service-card" data-reveal>
+        <div class="service-icon">👑</div>
+        <div class="service-title">Gouvernante</div>
+        <div class="service-price">32 €/heure</div>
+        <p class="service-desc">Supervision des équipes de housekeeping, contrôle qualité, gestion des stocks et coordination des opérations d'étage.</p>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--or-2);font-size:0.82rem;margin-top:16px">Voir le détail →</a>
+      </div>
+      <div class="service-card" data-reveal>
+        <div class="service-icon">🌅</div>
+        <div class="service-title">Réceptionniste (jour)</div>
+        <div class="service-price">28 €/heure</div>
+        <p class="service-desc">Accueil, check-in/check-out, gestion des demandes clients. Maîtrise des logiciels hôteliers et langues étrangères.</p>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--or-2);font-size:0.82rem;margin-top:16px">Voir le détail →</a>
+      </div>
+      <div class="service-card" data-reveal>
+        <div class="service-icon">🌙</div>
+        <div class="service-title">Réceptionniste (nuit)</div>
+        <div class="service-price">29 €/heure</div>
+        <p class="service-desc">Audit de nuit, gestion des situations d'urgence, service en chambre nocturne. Profil polyvalent et expérimenté.</p>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--or-2);font-size:0.82rem;margin-top:16px">Voir le détail →</a>
+      </div>
+      <div class="service-card" data-reveal>
+        <div class="service-icon">⚡</div>
+        <div class="service-title">Équipier polyvalent</div>
+        <div class="service-price">26 €/heure</div>
+        <p class="service-desc">Renfort tous corps de métier : plonge, room service, lingerie, commis. La solution flexible pour tous vos imprévus.</p>
+        <a href="services.html" style="display:inline-flex;align-items:center;gap:6px;color:var(--or-2);font-size:0.82rem;margin-top:16px">Voir le détail →</a>
+      </div>
+    </div>
+
+    <div class="text-center mt-12" data-reveal>
+      <a href="services.html" class="btn btn-outline btn-lg">Explorer tous les profils</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process-section" style="background:var(--noir-1)">
+  <div class="container">
+    <div class="text-center mb-12" data-reveal>
+      <span class="section-eyebrow">Comment ça fonctionne</span>
+      <h2 class="display-2">En 4 étapes,<br><em class="italic text-gold">votre renfort est assuré</em></h2>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step" data-reveal>
+        <div class="process-num">1</div>
+        <h3 class="process-step-title">Envoyez votre demande</h3>
+        <p class="process-step-desc">Via notre formulaire en ligne ou par téléphone — date, horaires, profils souhaités et nombre de personnes.</p>
+      </div>
+      <div class="process-step" data-reveal>
+        <div class="process-num">2</div>
+        <h3 class="process-step-title">Confirmation sous 4h</h3>
+        <p class="process-step-desc">Notre équipe revient vers vous avec la disponibilité confirmée et le devis estimatif.</p>
+      </div>
+      <div class="process-step" data-reveal>
+        <div class="process-num">3</div>
+        <h3 class="process-step-title">Prise en poste</h3>
+        <p class="process-step-desc">Le personnel se présente à l'heure convenue, prêt à s'intégrer à vos équipes et à votre organisation.</p>
+      </div>
+      <div class="process-step" data-reveal>
+        <div class="process-num">4</div>
+        <h3 class="process-step-title">Suivi en temps réel</h3>
+        <p class="process-step-desc">Suivez l'avancement de votre mission depuis votre espace hôtel. Facture disponible en fin de mission.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEMOIGNAGES -->
+<section class="section temoignages" style="background:var(--noir-0)">
+  <div class="container">
+    <div class="text-center mb-12" data-reveal>
+      <span class="section-eyebrow">Ils nous font confiance</span>
+      <h2 class="display-2">Ce que nos<br><em class="italic text-gold">clients disent de nous</em></h2>
+    </div>
+
+    <div class="grid-3">
+      <div class="temoignage-card" data-reveal>
+        <div class="temoignage-stars">★★★★★</div>
+        <p class="temoignage-text">"Une réactivité exemplaire. Appelés un vendredi à 18h pour un besoin en urgence le lendemain matin, l'équipe était en place à 7h pile."</p>
+        <div class="temoignage-author">
+          <div class="temoignage-avatar">GD</div>
+          <div>
+            <div class="temoignage-name">Guillaume Dubois</div>
+            <div class="temoignage-role">Directeur — Le Meurice ★★★★★</div>
+          </div>
+        </div>
+      </div>
+      <div class="temoignage-card" data-reveal>
+        <div class="temoignage-stars">★★★★★</div>
+        <p class="temoignage-text">"Le niveau professionnel des équipes est remarquable. Nos standards les plus exigeants sont parfaitement respectés. Un partenaire de confiance."</p>
+        <div class="temoignage-author">
+          <div class="temoignage-avatar">LM</div>
+          <div>
+            <div class="temoignage-name">Laura Martin</div>
+            <div class="temoignage-role">Responsable hébergement — Grand Palais ★★★★</div>
+          </div>
+        </div>
+      </div>
+      <div class="temoignage-card" data-reveal>
+        <div class="temoignage-stars">★★★★★</div>
+        <p class="temoignage-text">"La qualité de la gouvernante mise à disposition pour notre audit qualité nous a époustouflés. Elle connaissait nos procédures mieux que certains titulaires."</p>
+        <div class="temoignage-author">
+          <div class="temoignage-avatar">MF</div>
+          <div>
+            <div class="temoignage-name">Marc Fontaine</div>
+            <div class="temoignage-role">Chef de réception — Hôtel Costes ★★★★★</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCE BANNER -->
+<section class="section-sm" style="background:var(--noir-1)">
+  <div class="container">
+    <div class="urgence-banner" data-reveal>
+      <div class="urgence-banner-content">
+        <div class="urgence-label">🚨 Disponibilité 7j/7</div>
+        <h2 class="urgence-title">Besoin en urgence ?</h2>
+        <p class="urgence-sub">Nous traitons les demandes d'urgence sous 4 heures, 7 jours sur 7, y compris les jours fériés.</p>
+      </div>
+      <div class="urgence-actions">
+        <a href="tel:+33600000000" class="btn btn-primary btn-lg">
+          📞 Appel direct
+        </a>
+        <a href="https://wa.me/33600000000" class="btn btn-outline" target="_blank" rel="noopener">
+          💬 WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="text-gold">Clean</span> Staff
+        </div>
+        <p class="footer-tagline">
+          Personnel hôtelier qualifié pour établissements 3 à 5 étoiles. Discrétion, réactivité et excellence à chaque mission.
+        </p>
+        <div>
+          <div class="footer-contact-item"><span>📍</span> Île-de-France & Paris</div>
+          <div class="footer-contact-item"><span>📞</span> +33 6 00 00 00 00</div>
+          <div class="footer-contact-item"><span>✉</span> contact@cleanstaff.fr</div>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <div class="footer-links">
+          <a href="services.html#femme-chambre" class="footer-link">Femme de chambre</a>
+          <a href="services.html#valet"          class="footer-link">Valet de chambre</a>
+          <a href="services.html#gouvernante"    class="footer-link">Gouvernante</a>
+          <a href="services.html#receptionniste" class="footer-link">Réceptionniste</a>
+          <a href="services.html#equipier"       class="footer-link">Équipier polyvalent</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Hôtels</div>
+        <div class="footer-links">
+          <a href="hotel-register.html" class="footer-link">Créer un compte</a>
+          <a href="hotel-login.html"    class="footer-link">Se connecter</a>
+          <a href="commander.html"      class="footer-link">Faire une demande</a>
+          <a href="tarifs.html"         class="footer-link">Nos tarifs</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Informations</div>
+        <div class="footer-links">
+          <a href="contact.html"       class="footer-link">Contact</a>
+          <a href="mentions-legales.html" class="footer-link">Mentions légales</a>
+          <a href="cgv.html"           class="footer-link">CGV</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</p>
+      <div class="footer-badges">
+        <span class="footer-badge">🇫🇷 France</span>
+        <span class="footer-badge">⭐ Établissements 3–5★</span>
+        <span class="footer-badge">🔒 RGPD conforme</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/core.js"></script>
+</body>
+</html>

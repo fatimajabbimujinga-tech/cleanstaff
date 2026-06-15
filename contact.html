@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Clean Staff</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 64px;
+      padding: 120px 0 80px;
+      align-items: start;
+    }
+    .contact-info-block {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 36px;
+      margin-bottom: 20px;
+    }
+    .contact-info-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .contact-info-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .contact-info-value { font-size: 1.05rem; color: var(--text-primary); font-weight: 500; margin-bottom: 4px; }
+    .contact-info-sub { font-size: 0.85rem; color: var(--text-muted); }
+    .contact-form-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 40px;
+    }
+    @media (max-width: 768px) {
+      .contact-layout { grid-template-columns: 1fr; padding: 100px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav nav--scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">CS</div>
+      Clean Staff
+    </a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Accueil</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="tarifs.html"   class="nav-link">Tarifs</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="hotel-login.html" class="btn btn-outline btn-sm">Espace hôtel</a>
+      <a href="commander.html"   class="btn btn-primary btn-sm">Commander →</a>
+    </div>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html"    class="nav-link">Accueil</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="tarifs.html"   class="nav-link">Tarifs</a>
+  <a href="contact.html"  class="nav-link">Contact</a>
+  <a href="hotel-login.html" class="nav-link">Espace hôtel</a>
+</div>
+
+<div style="background:var(--noir-0);min-height:100vh">
+  <div class="container">
+    <div class="contact-layout">
+
+      <!-- Infos -->
+      <div>
+        <span class="section-eyebrow" data-reveal>Nous contacter</span>
+        <h1 class="display-2 mt-4 mb-6" data-reveal>Parlons de<br><em class="italic text-gold">votre projet</em></h1>
+        <p class="body-lg mb-10" data-reveal>Pour toute demande de renseignement, devis spécifique ou partenariat, notre équipe vous répond dans les plus brefs délais.</p>
+
+        <div class="contact-info-block" data-reveal>
+          <div class="contact-info-icon">📞</div>
+          <div class="contact-info-label">Téléphone</div>
+          <div class="contact-info-value"><a href="tel:+33600000000" style="color:inherit">+33 6 00 00 00 00</a></div>
+          <div class="contact-info-sub">Lun–Sam · 7h–22h</div>
+        </div>
+
+        <div class="contact-info-block" data-reveal>
+          <div class="contact-info-icon">💬</div>
+          <div class="contact-info-label">WhatsApp</div>
+          <div class="contact-info-value"><a href="https://wa.me/33600000000" target="_blank" rel="noopener" style="color:var(--or-2)">Écrire sur WhatsApp →</a></div>
+          <div class="contact-info-sub">Réponse en moins d'une heure en journée</div>
+        </div>
+
+        <div class="contact-info-block" data-reveal>
+          <div class="contact-info-icon">✉</div>
+          <div class="contact-info-label">Email</div>
+          <div class="contact-info-value"><a href="mailto:contact@cleanstaff.fr" style="color:inherit">contact@cleanstaff.fr</a></div>
+          <div class="contact-info-sub">Pour les demandes non urgentes et devis</div>
+        </div>
+
+        <div class="contact-info-block" data-reveal>
+          <div class="contact-info-icon">📍</div>
+          <div class="contact-info-label">Zone d'intervention</div>
+          <div class="contact-info-value">Île-de-France & Paris</div>
+          <div class="contact-info-sub">Interventions dans un rayon de 80km autour de Paris</div>
+        </div>
+      </div>
+
+      <!-- Formulaire -->
+      <div data-reveal>
+        <div class="contact-form-card">
+          <h2 class="heading-1 mb-2">Envoyer un message</h2>
+          <p class="body-sm mb-8">Nous vous répondons sous 24 heures ouvrées.</p>
+
+          <div style="display:flex;flex-direction:column;gap:16px" id="contact-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Prénom *</label>
+                <input type="text" class="form-input" id="c-prenom" placeholder="Votre prénom" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nom *</label>
+                <input type="text" class="form-input" id="c-nom" placeholder="Votre nom" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email *</label>
+              <input type="email" class="form-input" id="c-email" placeholder="votre@email.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nom de votre établissement</label>
+              <input type="text" class="form-input" id="c-hotel" placeholder="Hôtel…">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sujet *</label>
+              <select class="form-select" id="c-sujet">
+                <option value="">— Sélectionnez —</option>
+                <option value="demande">Demande de personnel</option>
+                <option value="partenariat">Partenariat / accord-cadre</option>
+                <option value="devis">Demande de devis</option>
+                <option value="information">Renseignement général</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message *</label>
+              <textarea class="form-textarea" id="c-message" rows="5" placeholder="Décrivez votre besoin…" required></textarea>
+            </div>
+            <button class="btn btn-primary btn-lg" onclick="sendContact()" style="margin-top:8px">
+              Envoyer le message →
+            </button>
+          </div>
+
+          <div id="contact-success" style="display:none;text-align:center;padding:40px 0">
+            <div style="font-size:2.5rem;margin-bottom:16px">✓</div>
+            <h3 class="heading-2 mb-4">Message envoyé !</h3>
+            <p class="body-sm">Nous vous répondons dans les 24 heures. Merci de nous avoir contactés.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--border-subtle)">
+      <div class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</div>
+      <div style="display:flex;gap:24px">
+        <a href="index.html"   class="footer-link">Accueil</a>
+        <a href="services.html" class="footer-link">Services</a>
+        <a href="tarifs.html"  class="footer-link">Tarifs</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/core.js"></script>
+<script>
+function sendContact() {
+  const required = ['c-prenom', 'c-nom', 'c-email', 'c-message'];
+  for (const id of required) {
+    if (!document.getElementById(id).value.trim()) {
+      UI.toast('Veuillez remplir tous les champs requis.', 'error');
+      document.getElementById(id).focus();
+      return;
+    }
+  }
+  document.getElementById('contact-form').style.display = 'none';
+  document.getElementById('contact-success').style.display = 'block';
+  UI.toast('Message envoyé avec succès !', 'success');
+}
+</script>
+</body>
+</html>

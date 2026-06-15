@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — Clean Staff</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    body { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .admin-sidebar {
+      background: var(--noir-0);
+      border-right: 1px solid var(--border-subtle);
+      padding: 28px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      padding: 0 24px 28px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .sidebar-logo-sub { font-size: 0.72rem; color: var(--or-2); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+    .sidebar-nav { padding: 20px 12px; flex: 1; }
+    .sidebar-section-title {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 12px;
+      margin-bottom: 8px;
+      margin-top: 20px;
+    }
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--r-md);
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      transition: all var(--t-fast);
+      cursor: pointer;
+    }
+    .sidebar-link:hover { background: rgba(255,255,255,0.04); color: var(--text-primary); }
+    .sidebar-link.active { background: rgba(201,168,76,0.1); color: var(--or-2); }
+    .sidebar-link-icon { font-size: 1rem; width: 20px; text-align: center; }
+    .sidebar-badge {
+      margin-left: auto;
+      background: rgba(201,168,76,0.15);
+      color: var(--or-2);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border-radius: var(--r-full);
+      font-weight: 600;
+    }
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .sidebar-user { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; }
+
+    /* MAIN */
+    .admin-main {
+      background: var(--noir-1);
+      overflow-y: auto;
+      padding: 32px;
+    }
+    .admin-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .admin-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; }
+    .admin-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* KPI CARDS */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .kpi-card {
+      background: var(--noir-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 20px 22px;
+      transition: all var(--t-base);
+    }
+    .kpi-card:hover { border-color: var(--border-medium); }
+    .kpi-card.clickable { cursor: pointer; }
+    .kpi-card.clickable:hover { transform: translateY(-2px); }
+    .kpi-card.active { border-color: var(--or-2); background: rgba(201,168,76,0.05); }
+    .kpi-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .kpi-value { font-family: var(--font-display); font-size: 2rem; font-weight: 300; line-height: 1; }
+    .kpi-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* TOOLBAR */
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      background: var(--noir-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-md);
+      color: var(--text-primary);
+      padding: 10px 16px;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color var(--t-base);
+    }
+    .search-input:focus { border-color: var(--or-2); }
+    .search-input::placeholder { color: var(--text-muted); }
+
+    /* TABLE */
+    .orders-table-wrap {
+      background: var(--noir-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+    }
+    .orders-table { width: 100%; border-collapse: collapse; }
+    .orders-table th {
+      text-align: left;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--noir-3);
+    }
+    .orders-table td { padding: 16px 20px; border-bottom: 1px solid rgba(201,168,76,0.05); vertical-align: middle; }
+    .orders-table tr:last-child td { border-bottom: none; }
+    .orders-table tr:hover td { background: rgba(201,168,76,0.02); }
+    .order-id { font-family: var(--font-mono); font-size: 0.8rem; color: var(--or-2); }
+    .order-hotel { font-weight: 500; font-size: 0.9rem; }
+    .order-hotel-sub { font-size: 0.76rem; color: var(--text-muted); }
+    .order-services-summary { font-size: 0.82rem; color: var(--text-secondary); }
+    .order-amount { font-family: var(--font-mono); font-size: 0.88rem; color: var(--text-primary); }
+    .action-btns { display: flex; gap: 6px; }
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: var(--r-md);
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      transition: all var(--t-fast);
+      cursor: pointer;
+      background: none;
+    }
+    .action-btn:hover { border-color: var(--or-2); color: var(--or-2); }
+    .action-btn.view { }
+    .action-btn.accept { border-color: rgba(74,222,128,0.3); color: #4ade80; }
+    .action-btn.refuse { border-color: rgba(248,113,113,0.3); color: #f87171; }
+
+    /* MODAL */
+    .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0; }
+    .detail-item { }
+    .detail-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 4px; }
+    .detail-value { font-size: 0.9rem; color: var(--text-primary); }
+    .services-detail { margin: 16px 0; }
+    .service-detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--noir-1);
+      border-radius: var(--r-md);
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+    }
+    .status-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-subtle); }
+
+    /* HOTELS SECTION */
+    .hotels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
+    .hotel-admin-card {
+      background: var(--noir-2);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 20px;
+    }
+    .hotel-admin-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; margin-bottom: 4px; }
+    .hotel-admin-stars { color: var(--or-2); font-size: 0.75rem; margin-bottom: 12px; }
+    .hotel-admin-info { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--text-muted);
+    }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 16px; }
+
+    @media (max-width: 1200px) { .kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 1024px) {
+      body { grid-template-columns: 1fr; }
+      .admin-sidebar { display: none; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .hotels-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .detail-grid { grid-template-columns: 1fr; }
+      .hotels-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar">
+  <div class="sidebar-logo">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="nav-logo-mark" style="width:32px;height:32px;background:var(--grad-or);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--noir-1)">CS</div>
+      Clean Staff
+    </div>
+    <div class="sidebar-logo-sub">Administration</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="sidebar-section-title">Tableau de bord</div>
+    <div class="sidebar-link active" onclick="showSection('commandes')">
+      <span class="sidebar-link-icon">📋</span> Commandes
+      <span class="sidebar-badge" id="pending-count">0</span>
+    </div>
+    <div class="sidebar-link" onclick="showSection('hotels')">
+      <span class="sidebar-link-icon">🏨</span> Hôtels clients
+    </div>
+    <div class="sidebar-section-title">Navigation</div>
+    <a href="index.html" class="sidebar-link">
+      <span class="sidebar-link-icon">🌐</span> Voir le site
+    </a>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sidebar-user">Connecté en tant qu'Admin</div>
+    <button class="btn btn-outline btn-sm" onclick="AUTH.logout()" style="width:100%;justify-content:center">Déconnexion</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="admin-main">
+
+  <!-- SECTION COMMANDES -->
+  <div id="section-commandes">
+    <div class="admin-topbar">
+      <div>
+        <h1 class="admin-title">Gestion des commandes</h1>
+        <p class="admin-subtitle" id="topbar-date"></p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <a href="index.html" class="btn btn-outline btn-sm">🌐 Voir le site</a>
+        <button class="btn btn-outline btn-sm" onclick="AUTH.logout()">Déconnexion</button>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card clickable" onclick="filterOrders('all')">
+        <div class="kpi-label">Total</div>
+        <div class="kpi-value text-gradient" id="kpi-total">—</div>
+        <div class="kpi-sub">commandes</div>
+      </div>
+      <div class="kpi-card clickable" onclick="filterOrders('attente')">
+        <div class="kpi-label">⏳ En attente</div>
+        <div class="kpi-value" style="color:var(--or-2)" id="kpi-attente">—</div>
+        <div class="kpi-sub">à traiter</div>
+      </div>
+      <div class="kpi-card clickable" onclick="filterOrders('acceptee')">
+        <div class="kpi-label">✓ Acceptées</div>
+        <div class="kpi-value" style="color:#4ade80" id="kpi-acceptee">—</div>
+        <div class="kpi-sub">confirmées</div>
+      </div>
+      <div class="kpi-card clickable" onclick="filterOrders('en-cours')">
+        <div class="kpi-label">⟳ En cours</div>
+        <div class="kpi-value" style="color:#60a5fa" id="kpi-encours">—</div>
+        <div class="kpi-sub">en mission</div>
+      </div>
+      <div class="kpi-card clickable" onclick="filterOrders('terminee')">
+        <div class="kpi-label">★ Terminées</div>
+        <div class="kpi-value" style="color:#c084fc" id="kpi-terminee">—</div>
+        <div class="kpi-sub">achevées</div>
+      </div>
+    </div>
+
+    <!-- TOOLBAR -->
+    <div class="table-toolbar">
+      <input type="text" class="search-input" id="search-input" placeholder="Rechercher par hôtel, numéro, contact…" oninput="renderOrders()">
+      <div id="active-filter" style="display:none;font-size:0.78rem;color:var(--or-2);background:rgba(201,168,76,0.1);padding:6px 12px;border-radius:var(--r-full);border:1px solid var(--border-medium)"></div>
+      <button class="btn btn-ghost btn-sm" onclick="filterOrders('all')" id="clear-filter" style="display:none">✕ Effacer filtre</button>
+    </div>
+
+    <!-- TABLE -->
+    <div class="orders-table-wrap">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Établissement</th>
+            <th>Date mission</th>
+            <th>Personnel</th>
+            <th>Montant</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="orders-tbody">
+          <tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">⏳</div>Chargement…</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION HOTELS -->
+  <div id="section-hotels" style="display:none">
+    <div class="admin-topbar">
+      <div>
+        <h1 class="admin-title">Hôtels clients</h1>
+        <p class="admin-subtitle">Comptes hôteliers enregistrés</p>
+      </div>
+      <button class="btn btn-outline btn-sm" onclick="AUTH.logout()">Déconnexion</button>
+    </div>
+    <div class="hotels-grid" id="hotels-grid"></div>
+  </div>
+
+</main>
+
+<!-- MODAL DÉTAIL COMMANDE -->
+<div class="modal-overlay" id="modal-order">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-header">
+      <div>
+        <div id="modal-id" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--or-2);margin-bottom:4px"></div>
+        <h2 id="modal-hotel" class="heading-1"></h2>
+      </div>
+      <button class="modal-close" onclick="UI.closeModal('modal-order')">✕</button>
+    </div>
+
+    <div id="modal-status-badge" style="margin-bottom:20px"></div>
+
+    <div class="detail-grid" id="modal-grid"></div>
+
+    <div>
+      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px">Personnel demandé</div>
+      <div class="services-detail" id="modal-services"></div>
+    </div>
+
+    <div id="modal-notes-section" style="display:none;margin-top:16px">
+      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:8px">Notes</div>
+      <div id="modal-notes" style="font-size:0.88rem;color:var(--text-secondary);background:var(--noir-1);border-radius:var(--r-md);padding:14px;font-style:italic;line-height:1.6"></div>
+    </div>
+
+    <div class="status-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script>
+  // Redirect if not admin
+  AUTH.requireAdmin();
+
+  let currentFilter = 'all';
+
+  function init() {
+    document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    updateKPIs();
+    renderOrders();
+    renderHotels();
+  }
+
+  function updateKPIs() {
+    const orders = STORE.getOrders();
+    document.getElementById('kpi-total').textContent   = orders.length;
+    document.getElementById('kpi-attente').textContent  = orders.filter(o => o.status === 'attente').length;
+    document.getElementById('kpi-acceptee').textContent = orders.filter(o => o.status === 'acceptee').length;
+    document.getElementById('kpi-encours').textContent  = orders.filter(o => o.status === 'en-cours').length;
+    document.getElementById('kpi-terminee').textContent = orders.filter(o => o.status === 'terminee').length;
+    document.getElementById('pending-count').textContent = orders.filter(o => o.status === 'attente').length;
+  }
+
+  function filterOrders(status) {
+    currentFilter = status;
+    const activeDiv = document.getElementById('active-filter');
+    const clearBtn = document.getElementById('clear-filter');
+    if (status !== 'all') {
+      const cfg = UTILS.STATUS_CONFIG[status] || { label: status };
+      activeDiv.textContent = 'Filtre : ' + cfg.label;
+      activeDiv.style.display = 'inline-flex';
+      clearBtn.style.display = 'inline-flex';
+    } else {
+      activeDiv.style.display = 'none';
+      clearBtn.style.display = 'none';
+    }
+    renderOrders();
+  }
+
+  function renderOrders() {
+    const search = document.getElementById('search-input').value.toLowerCase();
+    let orders = STORE.getOrders();
+    if (currentFilter !== 'all') orders = orders.filter(o => o.status === currentFilter);
+    if (search) orders = orders.filter(o =>
+      o.id.toLowerCase().includes(search) ||
+      o.hotelName?.toLowerCase().includes(search) ||
+      o.contact?.toLowerCase().includes(search)
+    );
+
+    const tbody = document.getElementById('orders-tbody');
+    if (!orders.length) {
+      tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><div class="empty-state-icon">📭</div>Aucune commande trouvée</div></td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = orders.map(o => `
+      <tr>
+        <td><div class="order-id">${o.id}</div></td>
+        <td>
+          <div class="order-hotel">${o.hotelName}</div>
+          <div class="order-hotel-sub">${o.contact || ''} · ${o.telephone || ''}</div>
+        </td>
+        <td>
+          <div style="font-size:0.88rem">${UTILS.formatDate(o.date)}</div>
+          <div style="font-size:0.76rem;color:var(--text-muted)">${o.heure || ''} · ${o.duree || ''}h</div>
+        </td>
+        <td><div class="order-services-summary">${(o.services||[]).map(s => `${s.nombre}× ${UTILS.posteLabel(s.poste)}`).join('<br>')}</div></td>
+        <td><div class="order-amount">${o.montantEstime ? UTILS.formatCurrency(o.montantEstime) : '—'}</div></td>
+        <td>${UTILS.statusBadge(o.status)}</td>
+        <td>
+          <div class="action-btns">
+            <button class="action-btn view" onclick="openOrderModal('${o.id}')">Voir</button>
+            ${o.status === 'attente' ? `
+              <button class="action-btn accept" onclick="updateStatus('${o.id}','acceptee')">Accepter</button>
+              <button class="action-btn refuse" onclick="updateStatus('${o.id}','refusee')">Refuser</button>
+            ` : ''}
+            ${o.status === 'acceptee' ? `<button class="action-btn" onclick="updateStatus('${o.id}','en-cours')">Démarrer</button>` : ''}
+            ${o.status === 'en-cours' ? `<button class="action-btn" onclick="updateStatus('${o.id}','terminee')">Terminer</button>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function updateStatus(id, status) {
+    const msgs = {
+      'acceptee': 'Commande acceptée', 'refusee': 'Commande refusée',
+      'en-cours': 'Mission démarrée', 'terminee': 'Mission terminée'
+    };
+    const note = msgs[status] || '';
+    const order = STORE.updateOrder(id, {
+      status,
+      statusHistory: [...(STORE.getOrder(id)?.statusHistory || []),
+        { status, date: new Date().toLocaleString('fr-FR'), note }]
+    });
+    updateKPIs();
+    renderOrders();
+    UI.toast(note + ' — ' + id, status === 'refusee' ? 'error' : 'success');
+    UI.closeModal('modal-order');
+  }
+
+  function openOrderModal(id) {
+    const o = STORE.getOrder(id);
+    if (!o) return;
+    document.getElementById('modal-id').textContent = o.id;
+    document.getElementById('modal-hotel').textContent = o.hotelName;
+    document.getElementById('modal-status-badge').innerHTML = UTILS.statusBadge(o.status);
+
+    document.getElementById('modal-grid').innerHTML = [
+      { label: 'Contact', value: o.contact },
+      { label: 'Email', value: `<a href="mailto:${o.email}" style="color:var(--or-2)">${o.email}</a>` },
+      { label: 'Téléphone', value: `<a href="tel:${o.telephone}" style="color:var(--or-2)">${o.telephone}</a>` },
+      { label: 'Date mission', value: UTILS.formatDate(o.date) },
+      { label: 'Heure', value: o.heure },
+      { label: 'Durée', value: o.duree + ' heures' },
+      { label: 'Urgence', value: o.urgence ? '🚨 Oui (+15%)' : 'Non' },
+      { label: 'Jour férié', value: o.ferie ? '📅 Oui (+25%)' : 'Non' },
+      { label: 'Montant estimé', value: o.montantEstime ? `<strong style="color:var(--or-2)">${UTILS.formatCurrency(o.montantEstime)}</strong>` : '—' },
+      { label: 'Demande créée le', value: UTILS.formatDateTime(o.createdAt) },
+    ].map(d => `
+      <div class="detail-item">
+        <div class="detail-label">${d.label}</div>
+        <div class="detail-value">${d.value || '—'}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('modal-services').innerHTML = (o.services || []).map(s => `
+      <div class="service-detail-row">
+        <div>
+          <strong>${UTILS.posteLabel(s.poste)}</strong>
+          ${s.specialite ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px">${s.specialite}</div>` : ''}
+        </div>
+        <div style="font-family:var(--font-mono);color:var(--or-2)">${s.nombre} pers.</div>
+      </div>
+    `).join('');
+
+    if (o.notes) {
+      document.getElementById('modal-notes-section').style.display = 'block';
+      document.getElementById('modal-notes').textContent = o.notes;
+    } else {
+      document.getElementById('modal-notes-section').style.display = 'none';
+    }
+
+    const actions = document.getElementById('modal-actions');
+    let btns = '';
+    if (o.status === 'attente') {
+      btns = `
+        <button class="btn btn-primary" onclick="updateStatus('${o.id}','acceptee')">✓ Accepter la demande</button>
+        <button class="btn btn-outline" style="border-color:rgba(248,113,113,0.4);color:#f87171" onclick="updateStatus('${o.id}','refusee')">✕ Refuser</button>
+      `;
+    } else if (o.status === 'acceptee') {
+      btns = `<button class="btn btn-primary" onclick="updateStatus('${o.id}','en-cours')">⟳ Démarrer la mission</button>`;
+    } else if (o.status === 'en-cours') {
+      btns = `<button class="btn btn-primary" onclick="updateStatus('${o.id}','terminee')">★ Marquer comme terminée</button>`;
+    }
+    actions.innerHTML = btns;
+
+    UI.openModal('modal-order');
+  }
+
+  function renderHotels() {
+    const hotels = STORE.getHotels();
+    const grid = document.getElementById('hotels-grid');
+    grid.innerHTML = hotels.map(h => `
+      <div class="hotel-admin-card">
+        <div class="hotel-admin-name">${h.nom}</div>
+        <div class="hotel-admin-stars">${UTILS.etoiles(h.etoiles)}</div>
+        <div class="hotel-admin-info">👤 ${h.contact}</div>
+        <div class="hotel-admin-info">✉ <a href="mailto:${h.email}" style="color:var(--or-2)">${h.email}</a></div>
+        <div class="hotel-admin-info">📞 ${h.telephone}</div>
+        <div class="hotel-admin-info" style="margin-top:8px">📋 ${h.totalOrders || 0} commandes · Depuis ${h.createdAt}</div>
+        ${h.adresse ? `<div class="hotel-admin-info">📍 ${h.adresse}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function showSection(name) {
+    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById('section-commandes').style.display = name === 'commandes' ? '' : 'none';
+    document.getElementById('section-hotels').style.display = name === 'hotels' ? '' : 'none';
+  }
+
+  init();
+</script>
+</body>
+</html>

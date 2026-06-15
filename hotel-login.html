@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Espace Hôtel — Clean Staff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/design.css" />
+  <style>
+    body { background: var(--noir-0); min-height: 100vh; display: flex; flex-direction: column; }
+    .auth-page { flex: 1; display: flex; align-items: center; justify-content: center; padding: var(--space-8) var(--space-4); }
+    .auth-split { display: grid; grid-template-columns: 1fr 1fr; max-width: 1000px; width: 100%; border-radius: var(--radius-2xl); overflow: hidden; border: 1px solid var(--or-2-20); }
+    .auth-visual { background: linear-gradient(135deg, var(--noir-3) 0%, var(--noir-4) 100%); padding: var(--space-12); display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .auth-visual::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 60%); }
+    .auth-visual-logo { display: flex; align-items: center; gap: var(--space-3); }
+    .auth-visual-logo .logo-mark { width: 36px; height: 36px; }
+    .auth-visual-logo .logo-name { font-family: var(--font-display); font-size: 1.25rem; color: var(--text-primary); letter-spacing: 0.05em; }
+    .auth-visual-logo .logo-tag { font-size: 0.6rem; color: var(--or-2); letter-spacing: 0.15em; text-transform: uppercase; }
+    .auth-visual-content { position: relative; z-index: 1; }
+    .auth-visual-content h2 { font-family: var(--font-display); font-size: 2.5rem; font-weight: 300; color: var(--text-primary); line-height: 1.2; margin-bottom: var(--space-4); }
+    .auth-visual-content h2 em { color: var(--or-3); font-style: italic; }
+    .auth-visual-content p { color: var(--text-secondary); line-height: 1.7; font-size: 0.9rem; }
+    .auth-perks { list-style: none; margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-3); }
+    .auth-perks li { display: flex; align-items: flex-start; gap: var(--space-3); font-size: 0.85rem; color: var(--text-secondary); }
+    .auth-perks li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--or-2); margin-top: 6px; flex-shrink: 0; }
+    .auth-form-wrap { background: var(--noir-1); padding: var(--space-12); display: flex; flex-direction: column; justify-content: center; }
+    .auth-form-wrap h1 { font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-2); }
+    .auth-form-wrap .auth-subtitle { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: var(--space-8); }
+    .auth-form-wrap .auth-subtitle a { color: var(--or-3); text-decoration: none; }
+    .auth-form-wrap .auth-subtitle a:hover { text-decoration: underline; }
+    .demo-hint { background: rgba(201,168,76,0.06); border: 1px solid var(--or-2-20); border-radius: var(--radius-lg); padding: var(--space-4); margin-bottom: var(--space-6); }
+    .demo-hint p { font-size: 0.78rem; color: var(--text-secondary); margin: 0 0 var(--space-2); }
+    .demo-hint p:last-child { margin: 0; }
+    .demo-hint strong { color: var(--or-3); }
+    .demo-hint code { background: var(--noir-3); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--ivoire-1); }
+    @media (max-width: 768px) {
+      .auth-split { grid-template-columns: 1fr; }
+      .auth-visual { display: none; }
+      .auth-form-wrap { padding: var(--space-8) var(--space-6); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="url(#logoGrad)"/>
+          <path d="M12 20 L20 12 L28 20 L20 28 Z" stroke="#060810" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="3" fill="#060810"/>
+          <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8B6914"/></linearGradient></defs>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">Clean Staff</span>
+          <span class="logo-tag">Personnel Hôtelier</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a href="commander.html" class="btn btn-primary btn-sm">Faire une demande</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-split">
+    <div class="auth-visual">
+      <div class="auth-visual-logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="40" height="40" rx="8" fill="url(#logoGrad2)"/>
+          <path d="M12 20 L20 12 L28 20 L20 28 Z" stroke="#060810" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="3" fill="#060810"/>
+          <defs><linearGradient id="logoGrad2" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8B6914"/></linearGradient></defs>
+        </svg>
+        <div>
+          <div class="logo-name">Clean Staff</div>
+          <div class="logo-tag">Personnel Hôtelier</div>
+        </div>
+      </div>
+
+      <div class="auth-visual-content">
+        <h2>Votre espace<br /><em>établissement</em></h2>
+        <p>Gérez vos demandes de personnel, suivez vos missions en temps réel et accédez à l'historique complet de vos interventions.</p>
+        <ul class="auth-perks">
+          <li>Suivi en temps réel de vos commandes</li>
+          <li>Historique complet de toutes vos missions</li>
+          <li>Facturation et récapitulatifs disponibles</li>
+          <li>Demande de personnel en quelques clics</li>
+          <li>Contact direct avec notre équipe</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="auth-form-wrap">
+      <h1>Connexion</h1>
+      <p class="auth-subtitle">Pas encore inscrit ? <a href="hotel-register.html">Créer un compte →</a></p>
+
+      <div class="demo-hint">
+        <p>Comptes démo disponibles :</p>
+        <p><strong>Le Meurice :</strong> <code>gdubois@lemeurice.com</code> / <code>hotel123</code></p>
+        <p><strong>Grand Palais :</strong> <code>lmartin@grandpalais.fr</code> / <code>hotel123</code></p>
+      </div>
+
+      <form id="hotelLoginForm">
+        <div class="form-group">
+          <label class="form-label" for="email">Adresse email</label>
+          <input class="form-control" type="email" id="email" placeholder="contact@votre-hotel.fr" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="password">Mot de passe</label>
+          <input class="form-control" type="password" id="password" placeholder="••••••••" required />
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom: var(--space-6);">
+          <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer;">
+            <input type="checkbox" id="remember" style="accent-color: var(--or-2);" />
+            <span style="font-size:0.85rem; color: var(--text-secondary);">Se souvenir de moi</span>
+          </label>
+          <a href="#" style="font-size:0.85rem; color: var(--or-3); text-decoration:none;">Mot de passe oublié ?</a>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;" id="loginBtn">
+          <span id="loginBtnText">Se connecter</span>
+        </button>
+        <div id="loginError" class="form-error" style="display:none; margin-top: var(--space-3);"></div>
+      </form>
+
+      <div style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--or-2-10); text-align:center;">
+        <p style="font-size:0.8rem; color: var(--text-secondary);">
+          Vous êtes administrateur ? <a href="admin-login.html" style="color: var(--or-3); text-decoration:none;">Accès admin →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script>
+document.getElementById('hotelLoginForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const btn = document.getElementById('loginBtn');
+  const btnText = document.getElementById('loginBtnText');
+  const errorEl = document.getElementById('loginError');
+
+  btn.disabled = true;
+  btnText.textContent = 'Connexion…';
+  errorEl.style.display = 'none';
+
+  await new Promise(r => setTimeout(r, 600));
+
+  const result = AUTH.loginHotel(email, password);
+  if (result.success) {
+    btnText.textContent = '✓ Connecté !';
+    UI.showToast('Bienvenue, ' + result.hotel.name, 'success');
+    setTimeout(() => window.location.href = 'hotel-dashboard.html', 800);
+  } else {
+    btn.disabled = false;
+    btnText.textContent = 'Se connecter';
+    errorEl.textContent = 'Identifiants incorrects. Vérifiez votre email et mot de passe.';
+    errorEl.style.display = 'block';
+  }
+});
+</script>
+
+</body>
+</html>

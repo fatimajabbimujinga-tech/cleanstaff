@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Espace — Clean Staff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/design.css" />
+  <style>
+    body { background: var(--noir-0); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Layout */
+    .dashboard-layout { display: flex; min-height: calc(100vh - var(--nav-height)); padding-top: var(--nav-height); }
+    .sidebar { width: 260px; flex-shrink: 0; background: var(--noir-1); border-right: 1px solid var(--or-2-10); padding: var(--space-8) 0; position: sticky; top: var(--nav-height); height: calc(100vh - var(--nav-height)); overflow-y: auto; }
+    .main-area { flex: 1; padding: var(--space-8); overflow-x: hidden; }
+
+    /* Sidebar */
+    .sidebar-hotel-info { padding: 0 var(--space-6) var(--space-6); border-bottom: 1px solid var(--or-2-10); margin-bottom: var(--space-4); }
+    .sidebar-hotel-badge { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); background: rgba(201,168,76,0.1); border: 1px solid var(--or-2-20); border-radius: 999px; font-size: 0.7rem; color: var(--or-3); margin-bottom: var(--space-3); letter-spacing: 0.1em; text-transform: uppercase; }
+    .sidebar-hotel-name { font-family: var(--font-display); font-size: 1.2rem; color: var(--text-primary); margin-bottom: var(--space-1); }
+    .sidebar-hotel-email { font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono); }
+    .sidebar-nav { padding: 0 var(--space-3); }
+    .sidebar-nav-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-3); border-radius: var(--radius-lg); cursor: pointer; transition: all 0.2s; margin-bottom: var(--space-1); color: var(--text-secondary); font-size: 0.875rem; border: none; background: none; width: 100%; text-align: left; }
+    .sidebar-nav-item:hover { background: var(--noir-3); color: var(--text-primary); }
+    .sidebar-nav-item.active { background: rgba(201,168,76,0.1); color: var(--or-3); border: 1px solid var(--or-2-20); }
+    .sidebar-nav-item svg { width: 16px; height: 16px; opacity: 0.7; }
+    .sidebar-nav-item.active svg { opacity: 1; }
+    .sidebar-logout { padding: var(--space-4) var(--space-6); margin-top: auto; border-top: 1px solid var(--or-2-10); }
+    .sidebar-logout-btn { display: flex; align-items: center; gap: var(--space-2); font-size: 0.8rem; color: var(--text-secondary); cursor: pointer; background: none; border: none; width: 100%; transition: color 0.2s; }
+    .sidebar-logout-btn:hover { color: var(--error); }
+
+    /* Sections */
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .panel-title { font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-2); }
+    .panel-subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: var(--space-8); }
+
+    /* KPI cards */
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-8); }
+    .kpi-card { background: var(--noir-2); border: 1px solid var(--or-2-10); border-radius: var(--radius-xl); padding: var(--space-5); }
+    .kpi-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2); }
+    .kpi-value { font-family: var(--font-display); font-size: 2rem; color: var(--or-3); font-weight: 300; }
+    .kpi-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-1); }
+
+    /* Orders table */
+    .orders-filter-bar { display: flex; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
+    .filter-tab { padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); font-size: 0.8rem; cursor: pointer; border: 1px solid var(--or-2-20); background: var(--noir-2); color: var(--text-secondary); transition: all 0.2s; }
+    .filter-tab.active, .filter-tab:hover { background: rgba(201,168,76,0.1); color: var(--or-3); border-color: var(--or-2); }
+    .table-wrap { background: var(--noir-1); border: 1px solid var(--or-2-10); border-radius: var(--radius-xl); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; }
+    th { padding: var(--space-4) var(--space-5); text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); border-bottom: 1px solid var(--or-2-10); background: var(--noir-2); }
+    td { padding: var(--space-4) var(--space-5); font-size: 0.85rem; color: var(--text-primary); border-bottom: 1px solid var(--or-2-05); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .order-ref { font-family: var(--font-mono); font-size: 0.78rem; color: var(--or-2); }
+    .empty-state { text-align: center; padding: var(--space-16); color: var(--text-secondary); }
+    .empty-state p { margin-bottom: var(--space-4); }
+
+    /* Quick order form */
+    .quick-order-card { background: var(--noir-2); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-8); }
+    .quick-service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }
+    .service-toggle { cursor: pointer; }
+    .service-toggle input { display: none; }
+    .service-toggle span { display: block; padding: var(--space-3) var(--space-4); border: 1px solid var(--or-2-20); border-radius: var(--radius-lg); font-size: 0.8rem; color: var(--text-secondary); text-align: center; transition: all 0.2s; background: var(--noir-3); }
+    .service-toggle input:checked + span { border-color: var(--or-2); background: rgba(201,168,76,0.1); color: var(--or-3); }
+    .service-toggle span:hover { border-color: var(--or-2); }
+
+    /* Profile card */
+    .profile-card { background: var(--noir-2); border: 1px solid var(--or-2-10); border-radius: var(--radius-2xl); padding: var(--space-8); }
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+
+    /* Status badges */
+    .badge-status { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 500; }
+    .badge-status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+    .badge-attente { background: rgba(234,179,8,0.15); color: #EAB308; border: 1px solid rgba(234,179,8,0.3); }
+    .badge-attente::before { background: #EAB308; }
+    .badge-acceptee { background: rgba(34,197,94,0.12); color: #22C55E; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-acceptee::before { background: #22C55E; }
+    .badge-en-cours { background: rgba(59,130,246,0.12); color: #60A5FA; border: 1px solid rgba(59,130,246,0.3); }
+    .badge-en-cours::before { background: #60A5FA; }
+    .badge-terminee { background: rgba(139,92,246,0.12); color: #A78BFA; border: 1px solid rgba(139,92,246,0.3); }
+    .badge-terminee::before { background: #A78BFA; }
+    .badge-refusee { background: rgba(239,68,68,0.1); color: #F87171; border: 1px solid rgba(239,68,68,0.25); }
+    .badge-refusee::before { background: #F87171; }
+
+    /* Tracker */
+    .tracker-steps { display: flex; align-items: center; gap: 0; margin: var(--space-6) 0; }
+    .tracker-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
+    .tracker-step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--or-2-20); background: var(--noir-3); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--text-secondary); z-index: 1; transition: all 0.3s; }
+    .tracker-step.done .tracker-step-dot { background: var(--or-2); border-color: var(--or-2); color: var(--noir-0); }
+    .tracker-step.current .tracker-step-dot { border-color: var(--or-3); background: rgba(201,168,76,0.15); color: var(--or-3); box-shadow: 0 0 0 4px rgba(201,168,76,0.1); }
+    .tracker-step-label { font-size: 0.7rem; color: var(--text-secondary); margin-top: var(--space-2); text-align: center; }
+    .tracker-step.done .tracker-step-label, .tracker-step.current .tracker-step-label { color: var(--or-3); }
+    .tracker-line { flex: 1; height: 2px; background: var(--or-2-20); margin-top: -14px; }
+    .tracker-line.done { background: var(--or-2); }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main-area { padding: var(--space-5); }
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .quick-service-grid { grid-template-columns: 1fr 1fr; }
+      .profile-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 500px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" rx="8" fill="url(#lg1)"/>
+          <path d="M12 20 L20 12 L28 20 L20 28 Z" stroke="#060810" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="3" fill="#060810"/>
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8B6914"/></linearGradient></defs>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">Clean Staff</span>
+          <span class="logo-tag">Espace Établissement</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <button class="btn btn-sm" onclick="showPanel('nouvelle-demande')" style="background: var(--or-2); color: var(--noir-0);">+ Nouvelle demande</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="dashboard-layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-hotel-info">
+      <div class="sidebar-hotel-badge" id="sidebarStars">★★★★★ Palace</div>
+      <div class="sidebar-hotel-name" id="sidebarHotelName">Le Meurice</div>
+      <div class="sidebar-hotel-email" id="sidebarEmail">gdubois@lemeurice.com</div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="sidebar-nav-item active" onclick="showPanel('apercu')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Aperçu
+      </button>
+      <button class="sidebar-nav-item" onclick="showPanel('mes-commandes')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        Mes commandes
+      </button>
+      <button class="sidebar-nav-item" onclick="showPanel('nouvelle-demande')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        Nouvelle demande
+      </button>
+      <button class="sidebar-nav-item" onclick="showPanel('suivi')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Suivi en direct
+      </button>
+      <button class="sidebar-nav-item" onclick="showPanel('mon-compte')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Mon compte
+      </button>
+    </nav>
+
+    <div class="sidebar-logout">
+      <button class="sidebar-logout-btn" onclick="logout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Se déconnecter
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-area">
+
+    <!-- Aperçu -->
+    <div class="panel active" id="panel-apercu">
+      <p class="panel-subtitle" style="margin-bottom: var(--space-2); font-family: var(--font-display); font-size: 0.9rem; color: var(--or-2); letter-spacing: 0.1em; text-transform: uppercase;">Tableau de bord</p>
+      <h1 class="panel-title">Bonjour, <span id="contactName">G. Dubois</span></h1>
+      <p class="panel-subtitle">Voici un résumé de votre activité avec Clean Staff.</p>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Commandes totales</div>
+          <div class="kpi-value" id="kpiTotal">0</div>
+          <div class="kpi-sub">Depuis le début</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">En cours</div>
+          <div class="kpi-value" id="kpiActive" style="color: #60A5FA;">0</div>
+          <div class="kpi-sub">Missions actives</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Total dépensé</div>
+          <div class="kpi-value" id="kpiSpend">0 €</div>
+          <div class="kpi-sub">Hors commandes en cours</div>
+        </div>
+      </div>
+
+      <h2 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-5);">Dernières commandes</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Référence</th><th>Date</th><th>Services</th><th>Montant</th><th>Statut</th></tr></thead>
+          <tbody id="recentOrdersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Mes commandes -->
+    <div class="panel" id="panel-mes-commandes">
+      <h1 class="panel-title">Mes commandes</h1>
+      <p class="panel-subtitle">Historique complet de toutes vos demandes de personnel.</p>
+
+      <div class="orders-filter-bar">
+        <button class="filter-tab active" onclick="filterOrders('all', this)">Toutes</button>
+        <button class="filter-tab" onclick="filterOrders('attente', this)">En attente</button>
+        <button class="filter-tab" onclick="filterOrders('acceptee', this)">Acceptées</button>
+        <button class="filter-tab" onclick="filterOrders('en-cours', this)">En cours</button>
+        <button class="filter-tab" onclick="filterOrders('terminee', this)">Terminées</button>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Référence</th><th>Date mission</th><th>Services demandés</th><th>Durée</th><th>Montant</th><th>Statut</th></tr></thead>
+          <tbody id="allOrdersBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Nouvelle demande -->
+    <div class="panel" id="panel-nouvelle-demande">
+      <h1 class="panel-title">Nouvelle demande</h1>
+      <p class="panel-subtitle">Commandez du personnel rapidement pour votre établissement.</p>
+
+      <div class="quick-order-card">
+        <form id="quickOrderForm">
+          <div class="form-group">
+            <label class="form-label">Date et heure de début *</label>
+            <input class="form-control" type="datetime-local" id="missionStart" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Services souhaités *</label>
+            <div class="quick-service-grid">
+              <label class="service-toggle"><input type="checkbox" name="services" value="femme-chambre" /><span>👩 Femme de chambre<br/><small style="color: var(--text-secondary);">26 €/h · min 4h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="valet-chambre" /><span>🧹 Valet de chambre<br/><small style="color: var(--text-secondary);">26 €/h · min 4h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="equipier" /><span>🔧 Équipier polyvalent<br/><small style="color: var(--text-secondary);">26 €/h · min 4h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="receptionniste-jour" /><span>🏨 Réceptionniste jour<br/><small style="color: var(--text-secondary);">28 €/h · min 6h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="receptionniste-nuit" /><span>🌙 Réceptionniste nuit<br/><small style="color: var(--text-secondary);">29 €/h · min 8h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="gouvernante" /><span>👑 Gouvernante<br/><small style="color: var(--text-secondary);">32 €/h · min 6h</small></span></label>
+            </div>
+          </div>
+
+          <div class="form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap: var(--space-4);">
+            <div class="form-group">
+              <label class="form-label">Nombre de personnes *</label>
+              <input class="form-control" type="number" id="staffCount" min="1" max="20" value="1" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Durée estimée (heures)</label>
+              <input class="form-control" type="number" id="duration" min="1" max="24" value="8" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Notes particulières</label>
+            <textarea class="form-control" id="quickNotes" rows="3" placeholder="Tenue requise, consignes spécifiques, accès service…"></textarea>
+          </div>
+
+          <div style="display:flex; align-items:center; gap: var(--space-4); flex-wrap: wrap;">
+            <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer; font-size:0.85rem; color: var(--text-secondary);">
+              <input type="checkbox" id="urgentCheck" style="accent-color: var(--or-2);" />
+              Demande urgente (+15%)
+            </label>
+            <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer; font-size:0.85rem; color: var(--text-secondary);">
+              <input type="checkbox" id="ferieCheck" style="accent-color: var(--or-2);" />
+              Jour férié (+25%)
+            </label>
+          </div>
+
+          <div style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--or-2-10); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap: var(--space-4);">
+            <div>
+              <div style="font-size:0.75rem; color: var(--text-secondary); text-transform:uppercase; letter-spacing:0.1em;">Estimation</div>
+              <div style="font-family: var(--font-display); font-size: 2rem; color: var(--or-3);" id="quickEstimate">— €</div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="min-width: 200px;">Envoyer la demande</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Suivi en direct -->
+    <div class="panel" id="panel-suivi">
+      <h1 class="panel-title">Suivi en direct</h1>
+      <p class="panel-subtitle">Entrez une référence de commande pour suivre son avancement.</p>
+
+      <div style="display:flex; gap: var(--space-3); margin-bottom: var(--space-8); max-width: 480px;">
+        <input class="form-control" type="text" id="trackRef" placeholder="CS-2024-001" style="font-family: var(--font-mono);" />
+        <button class="btn btn-primary" onclick="trackOrder()">Suivre</button>
+      </div>
+
+      <div id="trackResult" style="display:none;">
+        <div style="background: var(--noir-2); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-8);">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap: var(--space-4); margin-bottom: var(--space-6);">
+            <div>
+              <div class="order-ref" id="trackRefDisplay" style="font-size:1rem; margin-bottom: var(--space-2);"></div>
+              <div style="font-family: var(--font-display); font-size: 1.5rem; color: var(--text-primary);" id="trackService"></div>
+              <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: var(--space-1);" id="trackDate"></div>
+            </div>
+            <div id="trackStatus"></div>
+          </div>
+
+          <div class="tracker-steps" id="trackerSteps">
+            <div class="tracker-step" id="step-attente">
+              <div class="tracker-step-dot">1</div>
+              <div class="tracker-step-label">Reçue</div>
+            </div>
+            <div class="tracker-line" id="line-1"></div>
+            <div class="tracker-step" id="step-acceptee">
+              <div class="tracker-step-dot">2</div>
+              <div class="tracker-step-label">Acceptée</div>
+            </div>
+            <div class="tracker-line" id="line-2"></div>
+            <div class="tracker-step" id="step-en-cours">
+              <div class="tracker-step-dot">3</div>
+              <div class="tracker-step-label">En cours</div>
+            </div>
+            <div class="tracker-line" id="line-3"></div>
+            <div class="tracker-step" id="step-terminee">
+              <div class="tracker-step-dot">4</div>
+              <div class="tracker-step-label">Terminée</div>
+            </div>
+          </div>
+
+          <div style="background: var(--noir-3); border-radius: var(--radius-lg); padding: var(--space-4);">
+            <div style="font-size: 0.78rem; color: var(--text-secondary);" id="trackDetails"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="trackNotFound" style="display:none; text-align:center; padding: var(--space-10); color: var(--text-secondary);">
+        <p>Commande introuvable. Vérifiez la référence et réessayez.</p>
+      </div>
+    </div>
+
+    <!-- Mon compte -->
+    <div class="panel" id="panel-mon-compte">
+      <h1 class="panel-title">Mon compte</h1>
+      <p class="panel-subtitle">Informations de votre établissement et vos coordonnées.</p>
+
+      <div class="profile-card">
+        <div class="form-section-title" style="font-family: var(--font-display); font-size: 1rem; color: var(--or-3); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em;">Informations établissement</div>
+        <div class="profile-grid" style="margin-bottom: var(--space-8);">
+          <div class="form-group"><label class="form-label">Nom</label><input class="form-control" id="profileHotelName" readonly /></div>
+          <div class="form-group"><label class="form-label">Catégorie</label><input class="form-control" id="profileStars" readonly /></div>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-control" id="profileEmail" readonly /></div>
+          <div class="form-group"><label class="form-label">Contact</label><input class="form-control" id="profileContact" readonly /></div>
+        </div>
+
+        <div class="form-section-title" style="font-family: var(--font-display); font-size: 1rem; color: var(--or-3); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em;">Modifier le mot de passe</div>
+        <div class="profile-grid">
+          <div class="form-group">
+            <label class="form-label">Nouveau mot de passe</label>
+            <input class="form-control" type="password" placeholder="••••••••" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmer</label>
+            <input class="form-control" type="password" placeholder="••••••••" />
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="UI.showToast('Mot de passe mis à jour', 'success')">Enregistrer</button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/core.js"></script>
+<script>
+// --- Auth guard ---
+const session = AUTH.getHotelSession();
+if (!session) window.location.href = 'hotel-login.html';
+
+// Populate hotel info
+const hotel = session;
+document.getElementById('sidebarHotelName').textContent = hotel.nom || hotel.name;
+document.getElementById('sidebarEmail').textContent = hotel.email;
+const stars = hotel.etoiles || hotel.stars;
+document.getElementById('sidebarStars').textContent = stars === 'palace' ? '★★★★★ Palace' : '★'.repeat(Number(stars) || 5);
+document.getElementById('contactName').textContent = hotel.contact ? hotel.contact.split(' ')[0] + ' ' + (hotel.contact.split(' ')[1]?.[0] || '') + '.' : (hotel.nom || hotel.name);
+
+// Profile fields
+document.getElementById('profileHotelName').value = hotel.nom || hotel.name;
+document.getElementById('profileEmail').value = hotel.email;
+document.getElementById('profileContact').value = hotel.contact || '—';
+document.getElementById('profileStars').value = stars === 'palace' ? 'Palace' : (stars + ' étoiles');
+
+// Get hotel orders
+const allOrders = STORE.get('orders') || DEMO_ORDERS;
+const hotelOrders = allOrders.filter(o => o.hotelId === hotel.id);
+
+// KPIs
+document.getElementById('kpiTotal').textContent = hotelOrders.length;
+document.getElementById('kpiActive').textContent = hotelOrders.filter(o => o.status === 'en-cours').length;
+const spent = hotelOrders.filter(o => o.status === 'terminee').reduce((s, o) => s + (o.montantEstime || o.amount || 0), 0);
+document.getElementById('kpiSpend').textContent = spent.toLocaleString('fr-FR') + ' €';
+
+// Get display-friendly fields from order
+function orderAmount(o) { return o.montantEstime || o.amount || 0; }
+function orderDuration(o) { return o.duree ? o.duree + 'h' : (o.duration || '—'); }
+function orderServices(o) {
+  if (Array.isArray(o.services)) return o.services.map(s => s.poste).join(', ');
+  return o.services || o.service || '—';
+}
+
+// Render order row
+function renderRow(o) {
+  const statusLabels = { 'attente': 'En attente', 'acceptee': 'Acceptée', 'en-cours': 'En cours', 'terminee': 'Terminée', 'refusee': 'Refusée' };
+  const amt = orderAmount(o);
+  return `<tr>
+    <td><span class="order-ref">${o.id}</span></td>
+    <td>${o.date || '—'}</td>
+    <td>${orderServices(o)}</td>
+    <td>${orderDuration(o)}</td>
+    <td>${amt ? amt.toLocaleString('fr-FR') + ' €' : '—'}</td>
+    <td><span class="badge-status badge-${o.status}">${statusLabels[o.status] || o.status}</span></td>
+  </tr>`;
+}
+
+// Recent orders (aperçu)
+const recentBody = document.getElementById('recentOrdersBody');
+if (hotelOrders.length === 0) {
+  recentBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--text-secondary); padding: var(--space-8);">Aucune commande pour le moment.</td></tr>';
+} else {
+  recentBody.innerHTML = hotelOrders.slice(0, 5).map(o => {
+    const statusLabels = { 'attente': 'En attente', 'acceptee': 'Acceptée', 'en-cours': 'En cours', 'terminee': 'Terminée', 'refusee': 'Refusée' };
+    const amt = orderAmount(o);
+    return `<tr>
+      <td><span class="order-ref">${o.id}</span></td>
+      <td>${o.date || '—'}</td>
+      <td>${orderServices(o)}</td>
+      <td>${amt ? amt.toLocaleString('fr-FR') + ' €' : '—'}</td>
+      <td><span class="badge-status badge-${o.status}">${statusLabels[o.status] || o.status}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// All orders table
+let currentFilter = 'all';
+function renderAllOrders(filter) {
+  const body = document.getElementById('allOrdersBody');
+  const filtered = filter === 'all' ? hotelOrders : hotelOrders.filter(o => o.status === filter);
+  if (filtered.length === 0) {
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-secondary); padding: var(--space-8);">Aucune commande dans cette catégorie.</td></tr>';
+  } else {
+    body.innerHTML = filtered.map(renderRow).join('');
+  }
+}
+renderAllOrders('all');
+
+function filterOrders(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderAllOrders(filter);
+}
+
+// Panel navigation
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.querySelectorAll('.sidebar-nav-item').forEach(b => {
+    if (b.getAttribute('onclick').includes(id)) b.classList.add('active');
+  });
+}
+
+// Quick order estimate
+function calcEstimate() {
+  const services = document.querySelectorAll('input[name="services"]:checked');
+  const count = parseInt(document.getElementById('staffCount').value) || 1;
+  const hours = parseInt(document.getElementById('duration').value) || 8;
+  const urgent = document.getElementById('urgentCheck').checked;
+  const ferie = document.getElementById('ferieCheck').checked;
+
+  if (services.length === 0) { document.getElementById('quickEstimate').textContent = '— €'; return; }
+
+  const rates = { 'femme-chambre': 26, 'valet-chambre': 26, 'equipier': 26, 'receptionniste-jour': 28, 'receptionniste-nuit': 29, 'gouvernante': 32 };
+  const baseRate = rates[services[0].value] || 26;
+  let total = baseRate * hours * count;
+  if (urgent) total *= 1.15;
+  if (ferie) total *= 1.25;
+  document.getElementById('quickEstimate').textContent = Math.round(total).toLocaleString('fr-FR') + ' €';
+}
+document.querySelectorAll('input[name="services"], #staffCount, #duration, #urgentCheck, #ferieCheck').forEach(el => el.addEventListener('change', calcEstimate));
+
+// Quick order submit
+document.getElementById('quickOrderForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const services = [...document.querySelectorAll('input[name="services"]:checked')].map(i => i.value);
+  if (services.length === 0) { UI.showToast('Sélectionnez au moins un service', 'error'); return; }
+
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true; btn.textContent = 'Envoi…';
+
+  await new Promise(r => setTimeout(r, 900));
+
+  const newOrder = {
+    id: 'CS-' + new Date().getFullYear() + '-' + String(Date.now()).slice(-3),
+    hotelId: hotel.id,
+    hotelName: hotel.nom || hotel.name,
+    date: document.getElementById('missionStart').value?.split('T')[0] || 'À définir',
+    services: services.join(', '),
+    status: 'attente',
+    amount: parseInt(document.getElementById('quickEstimate').textContent) || 0,
+    duration: document.getElementById('duration').value + 'h',
+    notes: document.getElementById('quickNotes').value
+  };
+  const orders = STORE.get('orders') || [...DEMO_ORDERS];
+  orders.unshift(newOrder);
+  STORE.set('orders', orders);
+
+  UI.showToast('Demande envoyée — réf. ' + newOrder.id, 'success');
+  btn.disabled = false; btn.textContent = 'Envoyer la demande';
+  e.target.reset();
+  document.getElementById('quickEstimate').textContent = '— €';
+  setTimeout(() => showPanel('mes-commandes'), 1200);
+});
+
+// Tracker
+function trackOrder() {
+  const ref = document.getElementById('trackRef').value.trim().toUpperCase();
+  const orders = STORE.get('orders') || [...DEMO_ORDERS];
+  const order = orders.find(o => o.id.toUpperCase() === ref);
+
+  document.getElementById('trackResult').style.display = 'none';
+  document.getElementById('trackNotFound').style.display = 'none';
+
+  if (!order) { document.getElementById('trackNotFound').style.display = 'block'; return; }
+
+  document.getElementById('trackRefDisplay').textContent = order.id;
+  document.getElementById('trackService').textContent = orderServices(order) || 'Mission hôtelière';
+  document.getElementById('trackDate').textContent = 'Date : ' + (order.date || '—') + (order.duree ? ' · ' + order.duree + 'h' : (order.duration ? ' · ' + order.duration : ''));
+
+  const statusMap = { 'attente': 'En attente', 'acceptee': 'Acceptée', 'en-cours': 'En cours', 'terminee': 'Terminée', 'refusee': 'Refusée' };
+  document.getElementById('trackStatus').innerHTML = `<span class="badge-status badge-${order.status}">${statusMap[order.status] || order.status}</span>`;
+
+  const stepsOrder = ['attente', 'acceptee', 'en-cours', 'terminee'];
+  const currentIdx = stepsOrder.indexOf(order.status);
+
+  stepsOrder.forEach((step, i) => {
+    const el = document.getElementById('step-' + step);
+    el.className = 'tracker-step';
+    if (i < currentIdx) el.classList.add('done');
+    if (i === currentIdx) el.classList.add('current');
+  });
+
+  for (let i = 1; i <= 3; i++) {
+    const line = document.getElementById('line-' + i);
+    line.className = 'tracker-line' + (i <= currentIdx ? ' done' : '');
+  }
+
+  const detailsMap = {
+    'attente': 'Votre demande a été reçue et est en cours d\'examen par notre équipe. Vous serez contacté sous 30 minutes.',
+    'acceptee': 'Votre demande a été acceptée. Notre équipe prépare l\'affectation du personnel sélectionné.',
+    'en-cours': 'La mission est en cours. Le personnel est actuellement présent dans votre établissement.',
+    'terminee': 'La mission est terminée. Merci de votre confiance.',
+    'refusee': 'Nous n\'avons pas pu honorer cette demande. Contactez-nous pour en savoir plus.'
+  };
+  document.getElementById('trackDetails').textContent = detailsMap[order.status] || '';
+
+  document.getElementById('trackResult').style.display = 'block';
+}
+
+document.getElementById('trackRef').addEventListener('keydown', e => { if (e.key === 'Enter') trackOrder(); });
+
+// Logout
+function logout() {
+  AUTH.logoutHotel();
+  window.location.href = 'hotel-login.html';
+}
+</script>
+
+</body>
+</html>

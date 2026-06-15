@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commander — Clean Staff</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    .order-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: start;
+      padding-top: 120px;
+      padding-bottom: 80px;
+    }
+    .order-form-section {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 40px;
+    }
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .form-section-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.12);
+      border: 1px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      color: var(--or-2);
+      font-family: var(--font-body);
+      flex-shrink: 0;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Service rows */
+    .services-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+    .service-row {
+      background: var(--noir-1);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-lg);
+      padding: 20px;
+      position: relative;
+    }
+    .service-row-grid { display: grid; grid-template-columns: 2fr 80px 1fr; gap: 12px; align-items: end; }
+    .service-remove {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: all var(--t-fast);
+    }
+    .service-remove:hover { border-color: #f87171; color: #f87171; }
+
+    .add-service-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--or-2);
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 12px 0;
+      transition: color var(--t-fast);
+    }
+    .add-service-btn:hover { color: var(--or-3); }
+
+    /* Sidebar */
+    .order-sidebar { position: sticky; top: 100px; }
+    .sidebar-card {
+      background: var(--noir-2);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-xl);
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .sidebar-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .sidebar-total {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 300;
+      background: var(--grad-or);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .sidebar-total-detail { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; }
+    .sidebar-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .sidebar-line:last-of-type { border-bottom: none; }
+    .sidebar-line strong { color: var(--text-primary); }
+
+    /* Tracker statut */
+    .tracker { padding: 0; }
+    .tracker-step {
+      display: flex;
+      gap: 16px;
+      position: relative;
+    }
+    .tracker-step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 28px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border-subtle);
+    }
+    .tracker-dot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all var(--t-base);
+    }
+    .tracker-dot.active { border-color: var(--or-2); background: rgba(201,168,76,0.1); color: var(--or-2); }
+    .tracker-dot.done   { border-color: #4ade80; background: rgba(74,222,128,0.1); color: #4ade80; }
+    .tracker-dot.refused { border-color: #f87171; background: rgba(248,113,113,0.1); color: #f87171; }
+    .tracker-info { padding-bottom: 20px; }
+    .tracker-label { font-size: 0.85rem; font-weight: 500; }
+    .tracker-date  { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+    .tracker-note  { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; font-style: italic; }
+
+    /* Success state */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 60px 40px;
+    }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(74,222,128,0.1);
+      border: 2px solid rgba(74,222,128,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 24px;
+    }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .search-bar .form-input { flex: 1; }
+
+    @media (max-width: 1024px) {
+      .order-layout { grid-template-columns: 1fr; }
+      .order-sidebar { position: static; }
+    }
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+      .service-row-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav nav--scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">CS</div>
+      Clean Staff
+    </a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Accueil</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="tarifs.html"   class="nav-link">Tarifs</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="hotel-login.html" class="btn btn-outline btn-sm">Espace hôtel</a>
+    </div>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html"    class="nav-link">Accueil</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="tarifs.html"   class="nav-link">Tarifs</a>
+  <a href="contact.html"  class="nav-link">Contact</a>
+</div>
+
+<div style="background:var(--noir-0);min-height:100vh">
+  <div class="container">
+    <div class="order-layout">
+
+      <!-- FORMULAIRE -->
+      <div>
+        <div class="mb-8">
+          <span class="section-eyebrow">Demande de personnel</span>
+          <h1 class="display-3 mt-4">Nouvelle commande</h1>
+          <p class="body-lg mt-4">Remplissez le formulaire ci-dessous. Nous vous confirmons la disponibilité sous 4 heures.</p>
+        </div>
+
+        <!-- Form principal -->
+        <div id="order-form">
+
+          <!-- SECTION 1 : Établissement -->
+          <div class="order-form-section mb-6">
+            <div class="form-section-title">
+              <div class="form-section-num">1</div>
+              Votre établissement
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Nom de l'hôtel *</label>
+                  <input type="text" class="form-input" id="hotel-nom" placeholder="Ex: Hôtel Le Grand" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Classement</label>
+                  <select class="form-select" id="hotel-etoiles">
+                    <option value="3">★★★ 3 étoiles</option>
+                    <option value="4" selected>★★★★ 4 étoiles</option>
+                    <option value="5">★★★★★ 5 étoiles</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Nom du contact *</label>
+                  <input type="text" class="form-input" id="contact-nom" placeholder="Prénom Nom" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Poste / Fonction</label>
+                  <input type="text" class="form-input" id="contact-poste" placeholder="Ex: Gouvernante générale">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Email *</label>
+                  <input type="email" class="form-input" id="contact-email" placeholder="contact@hotel.com" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Téléphone *</label>
+                  <input type="tel" class="form-input" id="contact-tel" placeholder="+33 6 00 00 00 00" required>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 2 : Mission -->
+          <div class="order-form-section mb-6">
+            <div class="form-section-title">
+              <div class="form-section-num">2</div>
+              Détails de la mission
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Date souhaitée *</label>
+                  <input type="date" class="form-input" id="mission-date" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Heure de début *</label>
+                  <input type="time" class="form-input" id="mission-heure" value="08:00" required>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Durée (heures)</label>
+                  <input type="number" class="form-input" id="mission-duree" value="8" min="4" max="24" step="0.5">
+                  <span class="form-help">Minimum 4h par poste</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Type de mission</label>
+                  <select class="form-select" id="mission-type">
+                    <option value="">— Sélectionnez —</option>
+                    <option value="remplacement">Remplacement maladie / absence</option>
+                    <option value="renfort">Renfort pic d'activité</option>
+                    <option value="evenement">Événement / groupe</option>
+                    <option value="audit">Préparation audit qualité</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex;gap:24px;flex-wrap:wrap">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.88rem">
+                  <input type="checkbox" id="urgence-check" onchange="updateTotal()" style="accent-color:var(--or-2)">
+                  <span>Demande urgente <span style="color:var(--or-2);font-family:var(--font-mono);font-size:0.75rem">+15%</span></span>
+                </label>
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.88rem">
+                  <input type="checkbox" id="ferie-check" onchange="updateTotal()" style="accent-color:var(--or-2)">
+                  <span>Jour férié / dimanche <span style="color:var(--or-2);font-family:var(--font-mono);font-size:0.75rem">+25%</span></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3 : Services -->
+          <div class="order-form-section mb-6">
+            <div class="form-section-title">
+              <div class="form-section-num">3</div>
+              Personnel souhaité
+            </div>
+            <div class="services-list" id="services-list">
+              <!-- Services ajoutés dynamiquement -->
+            </div>
+            <button type="button" class="add-service-btn" onclick="addService()">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M8 5v6M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              Ajouter un profil
+            </button>
+          </div>
+
+          <!-- SECTION 4 : Notes -->
+          <div class="order-form-section mb-6">
+            <div class="form-section-title">
+              <div class="form-section-num">4</div>
+              Informations complémentaires
+            </div>
+            <div class="form-group">
+              <label class="form-label">Notes & instructions particulières</label>
+              <textarea class="form-textarea" id="notes" rows="4" placeholder="Accès au parking, codes d'accès, instructions spécifiques, langues requises…"></textarea>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" onclick="submitOrder()" style="width:100%;justify-content:center">
+            Envoyer ma demande →
+          </button>
+          <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:12px">
+            En soumettant ce formulaire, vous acceptez d'être contacté par Clean Staff pour la confirmation de votre demande.
+          </p>
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div class="success-screen order-form-section" id="success-screen">
+          <div class="success-icon">✓</div>
+          <h2 class="heading-1 mb-4">Demande envoyée !</h2>
+          <p class="body-lg mb-6">Votre numéro de demande est :</p>
+          <div style="font-family:var(--font-mono);font-size:1.8rem;color:var(--or-2);background:rgba(201,168,76,0.08);border:1px solid var(--border-medium);border-radius:var(--r-lg);padding:20px;margin-bottom:24px">
+            <span id="success-id"></span>
+          </div>
+          <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:32px">
+            Nous vous contactons dans les 4 heures pour confirmer la disponibilité et les modalités. Gardez ce numéro pour suivre votre demande.
+          </p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <a href="index.html" class="btn btn-outline">Retour à l'accueil</a>
+            <button class="btn btn-primary" onclick="resetForm()">Nouvelle demande</button>
+          </div>
+        </div>
+
+        <!-- SUIVI PAR ID -->
+        <div class="order-form-section mt-8">
+          <div class="form-section-title" style="margin-bottom:16px">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v6m0 2v.5" stroke="var(--or-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            Suivre une demande existante
+          </div>
+          <div class="search-bar">
+            <input type="text" class="form-input" id="track-id" placeholder="Ex: CS-2024-0012" style="font-family:var(--font-mono)">
+            <button class="btn btn-outline" onclick="trackOrder()">Rechercher</button>
+          </div>
+          <div id="track-result" style="margin-top:16px"></div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="order-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-title">Récapitulatif</div>
+          <div class="sidebar-total" id="sidebar-total">0 €</div>
+          <div class="sidebar-total-detail" id="sidebar-detail">Ajoutez un service pour estimer</div>
+          <div style="border-top:1px solid var(--border-subtle);margin:16px 0"></div>
+          <div id="sidebar-lines">
+            <div class="sidebar-line" style="font-style:italic;color:var(--text-muted)">Aucun service ajouté</div>
+          </div>
+          <div style="border-top:1px solid var(--border-subtle);margin:16px 0"></div>
+          <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.5">Prix HT indicatif. Confirmé après validation de disponibilité.</div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">Besoin d'aide ?</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <a href="tel:+33600000000" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-secondary)">
+              <span style="color:var(--or-2)">📞</span> +33 6 00 00 00 00
+            </a>
+            <a href="https://wa.me/33600000000" target="_blank" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-secondary)">
+              <span style="color:var(--or-2)">💬</span> WhatsApp
+            </a>
+            <a href="mailto:contact@cleanstaff.fr" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-secondary)">
+              <span style="color:var(--or-2)">✉</span> contact@cleanstaff.fr
+            </a>
+          </div>
+        </div>
+
+        <div class="sidebar-card">
+          <div class="sidebar-title">Garanties</div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--text-secondary)">
+              <span>⚡</span> Réponse sous 4h garantie
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--text-secondary)">
+              <span>🛡️</span> Personnel assuré RC pro
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--text-secondary)">
+              <span>🔒</span> Données sécurisées RGPD
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script>
+const TARIFS = {
+  'femme-chambre': 26, 'valet': 26, 'equipier': 26,
+  'gouvernante': 32, 'receptionniste-jour': 28, 'receptionniste-nuit': 29
+};
+const POSTES = [
+  { value: 'femme-chambre', label: 'Femme de chambre — 26€/h' },
+  { value: 'valet', label: 'Valet de chambre — 26€/h' },
+  { value: 'equipier', label: 'Équipier polyvalent — 26€/h' },
+  { value: 'receptionniste-jour', label: 'Réceptionniste jour — 28€/h' },
+  { value: 'receptionniste-nuit', label: 'Réceptionniste nuit — 29€/h' },
+  { value: 'gouvernante', label: 'Gouvernante — 32€/h' },
+];
+
+let serviceCount = 0;
+
+// Set min date to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('mission-date').min = today;
+document.getElementById('mission-date').value = today;
+
+// Pre-fill from URL
+const urlParams = new URLSearchParams(location.search);
+const prePoste = urlParams.get('poste');
+
+function addService(preselect = null) {
+  serviceCount++;
+  const id = 'srv-' + serviceCount;
+  const div = document.createElement('div');
+  div.className = 'service-row';
+  div.id = id;
+
+  const opts = POSTES.map(p =>
+    `<option value="${p.value}" ${(preselect || prePoste) === p.value ? 'selected' : ''}>${p.label}</option>`
+  ).join('');
+
+  div.innerHTML = `
+    ${serviceCount > 1 ? `<button type="button" class="service-remove" onclick="removeService('${id}')">×</button>` : ''}
+    <div class="service-row-grid">
+      <div class="form-group">
+        <label class="form-label">Profil</label>
+        <select class="form-select service-poste" onchange="updateTotal()">${opts}</select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Nombre</label>
+        <input type="number" class="form-input service-nb" value="1" min="1" max="20" onchange="updateTotal()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Détails (optionnel)</label>
+        <input type="text" class="form-input service-detail" placeholder="Étage, zone…">
+      </div>
+    </div>
+  `;
+  document.getElementById('services-list').appendChild(div);
+  updateTotal();
+}
+
+function removeService(id) {
+  document.getElementById(id)?.remove();
+  updateTotal();
+}
+
+function updateTotal() {
+  const duree   = parseFloat(document.getElementById('mission-duree').value) || 8;
+  const urgence = document.getElementById('urgence-check').checked;
+  const ferie   = document.getElementById('ferie-check').checked;
+
+  const postes   = [...document.querySelectorAll('.service-poste')];
+  const nombres  = [...document.querySelectorAll('.service-nb')];
+
+  let total = 0;
+  const lines = [];
+
+  postes.forEach((p, i) => {
+    const tarif = TARIFS[p.value] || 26;
+    const nb    = parseInt(nombres[i]?.value) || 1;
+    const sub   = tarif * nb * duree;
+    total += sub;
+    const label = POSTES.find(x => x.value === p.value)?.label.split(' —')[0] || p.value;
+    lines.push({ label, nb, tarif, duree, sub });
+  });
+
+  let totalFinal = total;
+  const extras = [];
+  if (urgence) { totalFinal *= 1.15; extras.push('+15% urgence'); }
+  if (ferie)   { totalFinal *= 1.25; extras.push('+25% jour férié'); }
+
+  document.getElementById('sidebar-total').textContent = Math.round(totalFinal).toLocaleString('fr-FR') + ' €';
+
+  let detail = lines.map(l => `${l.nb}× ${l.label}`).join(', ');
+  if (extras.length) detail += ' · ' + extras.join(' · ');
+  document.getElementById('sidebar-detail').textContent = detail || 'Estimatif HT';
+
+  // Lines
+  const linesEl = document.getElementById('sidebar-lines');
+  if (lines.length) {
+    linesEl.innerHTML = lines.map(l =>
+      `<div class="sidebar-line"><span>${l.nb}× ${l.label}</span><strong>${Math.round(l.sub).toLocaleString('fr-FR')} €</strong></div>`
+    ).join('') +
+    (extras.length ? `<div class="sidebar-line"><span>${extras.join(', ')}</span><strong>Incl.</strong></div>` : '') +
+    `<div class="sidebar-line" style="font-weight:600;color:var(--or-2)"><span>Total estimé</span><strong>${Math.round(totalFinal).toLocaleString('fr-FR')} €</strong></div>`;
+  } else {
+    linesEl.innerHTML = '<div class="sidebar-line" style="font-style:italic;color:var(--text-muted)">Aucun service ajouté</div>';
+  }
+}
+
+function submitOrder() {
+  // Validation
+  const fields = [
+    { id: 'hotel-nom',     label: 'Nom de l\'hôtel' },
+    { id: 'contact-nom',   label: 'Nom du contact' },
+    { id: 'contact-email', label: 'Email' },
+    { id: 'contact-tel',   label: 'Téléphone' },
+    { id: 'mission-date',  label: 'Date' },
+  ];
+  for (const f of fields) {
+    const el = document.getElementById(f.id);
+    if (!el.value.trim()) {
+      UI.toast(`Champ requis : ${f.label}`, 'error');
+      el.focus();
+      return;
+    }
+  }
+  if (!document.querySelectorAll('.service-poste').length) {
+    UI.toast('Ajoutez au moins un profil de personnel.', 'error');
+    return;
+  }
+
+  // Collect services
+  const postes  = [...document.querySelectorAll('.service-poste')];
+  const nombres = [...document.querySelectorAll('.service-nb')];
+  const details = [...document.querySelectorAll('.service-detail')];
+  const services = postes.map((p, i) => ({
+    poste: p.value,
+    nombre: parseInt(nombres[i]?.value) || 1,
+    specialite: details[i]?.value || ''
+  }));
+
+  const urgence = document.getElementById('urgence-check').checked;
+  const ferie   = document.getElementById('ferie-check').checked;
+  const duree   = parseFloat(document.getElementById('mission-duree').value) || 8;
+  const montant = UTILS.calcMontant(services, duree, urgence, ferie);
+
+  const order = {
+    id: UTILS.generateId(),
+    hotelName: document.getElementById('hotel-nom').value,
+    hotelId: null,
+    contact: document.getElementById('contact-nom').value,
+    email: document.getElementById('contact-email').value,
+    telephone: document.getElementById('contact-tel').value,
+    date: document.getElementById('mission-date').value,
+    heure: document.getElementById('mission-heure').value,
+    duree,
+    services,
+    urgence,
+    ferie,
+    notes: document.getElementById('notes').value,
+    status: 'attente',
+    statusHistory: [{ status: 'attente', date: new Date().toLocaleString('fr-FR'), note: 'Demande soumise en ligne' }],
+    montantEstime: montant,
+    createdAt: new Date().toISOString()
+  };
+
+  STORE.addOrder(order);
+
+  // Show success
+  document.getElementById('order-form').style.display = 'none';
+  const success = document.getElementById('success-screen');
+  success.style.display = 'block';
+  document.getElementById('success-id').textContent = order.id;
+  UI.toast('Demande envoyée avec succès !', 'success');
+}
+
+function resetForm() {
+  document.getElementById('success-screen').style.display = 'none';
+  document.getElementById('order-form').style.display = 'block';
+  document.getElementById('services-list').innerHTML = '';
+  serviceCount = 0;
+  addService();
+}
+
+function trackOrder() {
+  const id = document.getElementById('track-id').value.trim().toUpperCase();
+  const result = document.getElementById('track-result');
+  const order = STORE.getOrder(id);
+  if (!order) {
+    result.innerHTML = `<div style="padding:16px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:var(--r-lg);font-size:0.88rem;color:#f87171">Aucune demande trouvée avec le numéro <strong>${id}</strong>.</div>`;
+    return;
+  }
+
+  const statusCfg = UTILS.STATUS_CONFIG[order.status] || {};
+  result.innerHTML = `
+    <div style="background:var(--noir-2);border:1px solid var(--border-medium);border-radius:var(--r-xl);padding:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--or-2);margin-bottom:4px">${order.id}</div>
+          <div style="font-weight:500">${order.hotelName}</div>
+          <div style="font-size:0.82rem;color:var(--text-muted)">${UTILS.formatDate(order.date)} à ${order.heure}</div>
+        </div>
+        ${UTILS.statusBadge(order.status)}
+      </div>
+      <div class="tracker">
+        ${(order.statusHistory || []).map(h => {
+          const cfg = UTILS.STATUS_CONFIG[h.status] || {};
+          const isLast = h === (order.statusHistory || []).slice(-1)[0];
+          const dotClass = isLast ? (h.status === 'refusee' ? 'refused' : h.status === 'terminee' ? 'done' : 'active') : 'done';
+          return `
+            <div class="tracker-step">
+              <div class="tracker-dot ${dotClass}">${isLast ? '●' : '✓'}</div>
+              <div class="tracker-info">
+                <div class="tracker-label">${cfg.label || h.status}</div>
+                <div class="tracker-date">${h.date}</div>
+                ${h.note ? `<div class="tracker-note">${h.note}</div>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// Init
+addService(prePoste);
+document.getElementById('mission-duree').addEventListener('input', updateTotal);
+</script>
+</body>
+</html>

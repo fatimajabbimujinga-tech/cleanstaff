@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarifs — Clean Staff</title>
+  <meta name="description" content="Grille tarifaire transparente pour notre personnel hôtelier. De 26€ à 32€/h selon le profil, suppléments urgence et jours fériés.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    .page-hero {
+      padding: 140px 0 80px;
+      background: var(--noir-0);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--grad-hero);
+    }
+    .page-hero-content { position: relative; z-index: 2; }
+
+    /* Calculateur */
+    .calc-section {
+      background: var(--noir-2);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-xl);
+      padding: 48px;
+      margin-bottom: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .calc-section::before {
+      content: '✦';
+      position: absolute;
+      top: -20px; right: 40px;
+      font-size: 8rem;
+      color: var(--or-2);
+      opacity: 0.04;
+      line-height: 1;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .calc-controls { display: flex; flex-direction: column; gap: 20px; }
+    .calc-result {
+      background: var(--noir-1);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-xl);
+      padding: 32px;
+      text-align: center;
+    }
+    .calc-result-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .calc-result-amount {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 300;
+      background: var(--grad-or);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .calc-result-detail { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .calc-checks { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+    .calc-check {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .calc-check-toggle {
+      width: 44px;
+      height: 24px;
+      border-radius: 12px;
+      background: var(--noir-4);
+      border: 1px solid var(--border-subtle);
+      position: relative;
+      cursor: pointer;
+      transition: background var(--t-base);
+      flex-shrink: 0;
+    }
+    .calc-check-toggle::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      transition: all var(--t-base) var(--ease-spring);
+    }
+    .calc-check-toggle.on { background: rgba(201,168,76,0.2); border-color: var(--or-2); }
+    .calc-check-toggle.on::after { background: var(--or-2); left: 23px; }
+    .calc-check-label { font-size: 0.88rem; color: var(--text-secondary); }
+    .calc-check-tag { font-size: 0.72rem; color: var(--or-2); font-family: var(--font-mono); margin-left: 8px; }
+
+    /* Tarifs table */
+    .tarif-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    .tarif-table th {
+      text-align: left;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .tarif-table td {
+      padding: 20px 20px;
+      border-bottom: 1px solid rgba(201,168,76,0.06);
+      font-size: 0.9rem;
+    }
+    .tarif-table tr:last-child td { border-bottom: none; }
+    .tarif-table tr:hover td { background: rgba(201,168,76,0.03); }
+    .tarif-poste { font-family: var(--font-display); font-size: 1rem; font-weight: 500; }
+    .tarif-price { font-family: var(--font-mono); color: var(--or-2); font-size: 1rem; }
+    .tarif-min { color: var(--text-muted); font-size: 0.82rem; }
+
+    /* Supplements */
+    .suppl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 48px; }
+    .suppl-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 28px;
+      text-align: center;
+    }
+    .suppl-pct {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--or-3);
+      margin: 8px 0;
+    }
+    .suppl-name { font-weight: 500; margin-bottom: 6px; }
+    .suppl-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* FAQ */
+    .faq-item {
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 24px 0;
+    }
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      gap: 16px;
+    }
+    .faq-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border-medium);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--or-2);
+      flex-shrink: 0;
+      transition: transform var(--t-base);
+    }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      display: none;
+      padding-top: 16px;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    @media (max-width: 768px) {
+      .calc-grid { grid-template-columns: 1fr; }
+      .calc-section { padding: 28px; }
+      .suppl-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">CS</div>
+      Clean Staff
+    </a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Accueil</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="tarifs.html"   class="nav-link">Tarifs</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="hotel-login.html" class="btn btn-outline btn-sm">Espace hôtel</a>
+      <a href="commander.html"   class="btn btn-primary btn-sm">Commander →</a>
+    </div>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html"    class="nav-link">Accueil</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="tarifs.html"   class="nav-link">Tarifs</a>
+  <a href="contact.html"  class="nav-link">Contact</a>
+  <a href="hotel-login.html" class="nav-link">Espace hôtel</a>
+  <a href="commander.html" class="btn btn-primary" style="text-align:center;margin-top:8px">Commander →</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-content">
+      <span class="section-eyebrow" data-reveal>Tarification</span>
+      <h1 class="display-2 mt-4" data-reveal>Tarifs clairs,<br><em class="italic text-gold">sans mauvaises surprises</em></h1>
+      <p class="body-lg mt-6" style="max-width:540px" data-reveal>
+        Notre grille tarifaire est transparente et fixe. Vous savez exactement ce que vous payez avant de confirmer votre commande.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:var(--noir-1)">
+  <div class="container">
+
+    <!-- SIMULATEUR -->
+    <div class="calc-section" data-reveal>
+      <span class="section-eyebrow" style="margin-bottom:16px">Simulateur de coût</span>
+      <h2 class="heading-1 mb-8">Estimez votre mission</h2>
+      <div class="calc-grid">
+        <div class="calc-controls">
+          <div class="form-group">
+            <label class="form-label">Profil recherché</label>
+            <select class="form-select" id="calc-poste">
+              <option value="26">Femme de chambre — 26 €/h</option>
+              <option value="26">Valet de chambre — 26 €/h</option>
+              <option value="26">Équipier polyvalent — 26 €/h</option>
+              <option value="28">Réceptionniste (jour) — 28 €/h</option>
+              <option value="29">Réceptionniste (nuit) — 29 €/h</option>
+              <option value="32">Gouvernante — 32 €/h</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre de personnes</label>
+            <input type="number" class="form-input" id="calc-nombre" value="1" min="1" max="20">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Durée (heures)</label>
+            <input type="number" class="form-input" id="calc-duree" value="8" min="4" max="24" step="0.5">
+          </div>
+          <div class="calc-checks">
+            <div class="calc-check">
+              <div class="calc-check-toggle" id="toggle-urgence" onclick="this.classList.toggle('on'); recalc()"></div>
+              <div>
+                <span class="calc-check-label">Demande en urgence</span>
+                <span class="calc-check-tag">+15%</span>
+              </div>
+            </div>
+            <div class="calc-check">
+              <div class="calc-check-toggle" id="toggle-ferie" onclick="this.classList.toggle('on'); recalc()"></div>
+              <div>
+                <span class="calc-check-label">Jour férié ou dimanche</span>
+                <span class="calc-check-tag">+25%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="calc-result">
+          <div class="calc-result-label">Estimation indicative</div>
+          <div class="calc-result-amount" id="calc-total">208 €</div>
+          <div class="calc-result-detail" id="calc-detail">
+            1 personne × 26 €/h × 8 heures
+          </div>
+          <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border-subtle)">
+            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:16px">Prix HT indicatif. Devis définitif sur confirmation.</div>
+            <a href="commander.html" class="btn btn-primary" style="width:100%;justify-content:center">Commander maintenant →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRILLE TARIFAIRE -->
+    <div data-reveal>
+      <span class="section-eyebrow mb-6">Grille tarifaire</span>
+      <h2 class="heading-1 mb-8">Tarifs horaires par profil</h2>
+      <div style="background:var(--grad-card);border:1px solid var(--border-subtle);border-radius:var(--r-xl);overflow:hidden">
+        <table class="tarif-table">
+          <thead>
+            <tr>
+              <th>Profil</th>
+              <th>Catégorie</th>
+              <th>Tarif horaire HT</th>
+              <th>Durée minimum</th>
+              <th style="text-align:right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="tarif-poste">Femme de chambre</div></td>
+              <td><span style="color:var(--text-muted)">Housekeeping</span></td>
+              <td><div class="tarif-price">26 €/h</div></td>
+              <td><div class="tarif-min">4 heures</div></td>
+              <td style="text-align:right"><a href="commander.html?poste=femme-chambre" class="btn btn-primary btn-sm">Demander</a></td>
+            </tr>
+            <tr>
+              <td><div class="tarif-poste">Valet de chambre</div></td>
+              <td><span style="color:var(--text-muted)">Housekeeping</span></td>
+              <td><div class="tarif-price">26 €/h</div></td>
+              <td><div class="tarif-min">4 heures</div></td>
+              <td style="text-align:right"><a href="commander.html?poste=valet" class="btn btn-primary btn-sm">Demander</a></td>
+            </tr>
+            <tr>
+              <td><div class="tarif-poste">Équipier polyvalent</div></td>
+              <td><span style="color:var(--text-muted)">Polyvalent</span></td>
+              <td><div class="tarif-price">26 €/h</div></td>
+              <td><div class="tarif-min">4 heures</div></td>
+              <td style="text-align:right"><a href="commander.html?poste=equipier" class="btn btn-primary btn-sm">Demander</a></td>
+            </tr>
+            <tr>
+              <td><div class="tarif-poste">Réceptionniste (jour)</div></td>
+              <td><span style="color:var(--text-muted)">Réception</span></td>
+              <td><div class="tarif-price">28 €/h</div></td>
+              <td><div class="tarif-min">6 heures</div></td>
+              <td style="text-align:right"><a href="commander.html?poste=receptionniste-jour" class="btn btn-primary btn-sm">Demander</a></td>
+            </tr>
+            <tr>
+              <td><div class="tarif-poste">Réceptionniste (nuit)</div></td>
+              <td><span style="color:var(--text-muted)">Réception</span></td>
+              <td><div class="tarif-price">29 €/h</div></td>
+              <td><div class="tarif-min">8 heures</div></td>
+              <td style="text-align:right"><a href="commander.html?poste=receptionniste-nuit" class="btn btn-primary btn-sm">Demander</a></td>
+            </tr>
+            <tr>
+              <td><div class="tarif-poste">Gouvernante</div></td>
+              <td><span style="color:var(--text-muted)">Encadrement</span></td>
+              <td><div class="tarif-price">32 €/h</div></td>
+              <td><div class="tarif-min">6 heures</div></td>
+              <td style="text-align:right"><a href="commander.html?poste=gouvernante" class="btn btn-primary btn-sm">Demander</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SUPPLEMENTS -->
+    <div class="mt-12" data-reveal>
+      <h2 class="heading-1 mb-8">Suppléments applicables</h2>
+      <div class="suppl-grid">
+        <div class="suppl-card">
+          <div style="font-size:1.5rem">🚨</div>
+          <div class="suppl-pct">+15%</div>
+          <div class="suppl-name">Urgence (moins de 12h)</div>
+          <p class="suppl-desc">Demande formulée moins de 12 heures avant la prise de poste souhaitée.</p>
+        </div>
+        <div class="suppl-card">
+          <div style="font-size:1.5rem">📅</div>
+          <div class="suppl-pct">+25%</div>
+          <div class="suppl-name">Jours fériés & dimanches</div>
+          <p class="suppl-desc">Applicable aux jours fériés légaux et aux dimanches travaillés.</p>
+        </div>
+        <div class="suppl-card">
+          <div style="font-size:1.5rem">🤝</div>
+          <div class="suppl-pct">0%</div>
+          <div class="suppl-name">Aucun frais cachés</div>
+          <p class="suppl-desc">Pas de frais de déplacement, pas de frais de gestion, pas de surprise à la facturation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ TARIFS -->
+    <div class="mt-12" data-reveal>
+      <h2 class="heading-1 mb-8">Questions fréquentes</h2>
+      <div class="container--narrow" style="margin:0">
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Comment est établie la facturation ?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            La facturation est établie sur la base des heures réellement effectuées, au tarif horaire correspondant au profil. Une facture récapitulative est transmise par email à la fin de chaque mission. Le règlement se fait par virement bancaire à 30 jours.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Y a-t-il un nombre minimum de personnes par commande ?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            Non, vous pouvez commander à partir d'une seule personne. Il n'y a pas de minimum de volume. Cependant, chaque poste a une durée minimum de prestation (4h ou 6h selon le profil) pour garantir la qualité de la mission.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Les suppléments urgence et férié se cumulent-ils ?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            Oui, les suppléments se cumulent. Par exemple, une demande d'urgence un jour férié sera majorée de 15% + 25% = 40% du tarif de base. Ce cas est rare mais il est important d'être transparent à ce sujet. Notre simulateur intègre ce calcul automatiquement.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Puis-je annuler ou modifier une commande ?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            Une annulation plus de 24h à l'avance est sans frais. Entre 12h et 24h avant la mission, une indemnité de 30% du montant estimé est applicable. En dessous de 12h, l'indemnité est de 50%. Pour toute modification, contactez-nous dès que possible afin que nous puissions nous adapter.
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Proposez-vous des tarifs dégressifs pour les commandes régulières ?
+            <div class="faq-icon">+</div>
+          </div>
+          <div class="faq-answer">
+            Oui, nous proposons des conditions tarifaires préférentielles aux établissements partenaires qui passent plus de 20 missions par mois. Contactez-nous pour négocier un accord-cadre adapté à votre volume.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-sm" style="background:var(--noir-0)">
+  <div class="container text-center" data-reveal>
+    <h2 class="display-3 mb-4">Commencer maintenant</h2>
+    <p class="body-lg mb-8">Votre demande est traitée en moins de 4 heures.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a href="commander.html" class="btn btn-primary btn-lg">Faire une demande →</a>
+      <a href="contact.html" class="btn btn-outline btn-lg">Parler à un conseiller</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--border-subtle)">
+      <div class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</div>
+      <div style="display:flex;gap:24px">
+        <a href="index.html"   class="footer-link">Accueil</a>
+        <a href="services.html" class="footer-link">Services</a>
+        <a href="contact.html" class="footer-link">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/core.js"></script>
+<script>
+function recalc() {
+  const tarifH = parseFloat(document.getElementById('calc-poste').value) || 26;
+  const nb     = parseFloat(document.getElementById('calc-nombre').value) || 1;
+  const duree  = parseFloat(document.getElementById('calc-duree').value) || 8;
+  const urgence = document.getElementById('toggle-urgence').classList.contains('on');
+  const ferie   = document.getElementById('toggle-ferie').classList.contains('on');
+
+  let total = tarifH * nb * duree;
+  let details = [`${nb} personne${nb>1?'s':''} × ${tarifH} €/h × ${duree}h`];
+  if (urgence) { total *= 1.15; details.push('+15% urgence'); }
+  if (ferie)   { total *= 1.25; details.push('+25% jour férié'); }
+
+  document.getElementById('calc-total').textContent = Math.round(total).toLocaleString('fr-FR') + ' €';
+  document.getElementById('calc-detail').textContent = details.join(' · ');
+}
+
+document.getElementById('calc-poste').addEventListener('change', recalc);
+document.getElementById('calc-nombre').addEventListener('input', recalc);
+document.getElementById('calc-duree').addEventListener('input', recalc);
+
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>

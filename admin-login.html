@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration — Clean Staff</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    body { min-height: 100vh; display: grid; place-items: center; background: var(--noir-0); }
+    .login-card {
+      background: var(--noir-2);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-xl);
+      padding: 48px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: var(--shadow-glow);
+    }
+    .login-logo { text-align: center; margin-bottom: 32px; }
+    .login-logo-mark {
+      width: 52px; height: 52px;
+      background: var(--grad-or);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-weight: 700;
+      color: var(--noir-1);
+      font-size: 1.1rem;
+    }
+    .demo-box {
+      background: rgba(201,168,76,0.06);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-md);
+      padding: 14px 16px;
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-mark">CS</div>
+      <div style="font-family:var(--font-display);font-size:1.2rem;font-weight:500">Administration</div>
+      <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Accès réservé au personnel Clean Staff</div>
+    </div>
+
+    <div class="demo-box">
+      <div style="color:var(--or-2);margin-bottom:6px;font-size:0.72rem;letter-spacing:0.08em">DÉMO</div>
+      Email : admin@cleanstaff.fr<br>
+      Mot de passe : CleanStaff2024!
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="email" placeholder="admin@cleanstaff.fr" value="admin@cleanstaff.fr">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Mot de passe</label>
+        <input type="password" class="form-input" id="password" placeholder="••••••••" value="CleanStaff2024!" onkeydown="if(event.key==='Enter') login()">
+      </div>
+      <div id="error-msg" style="display:none;color:#f87171;font-size:0.83rem;background:rgba(248,113,113,0.1);padding:10px 14px;border-radius:var(--r-md);border:1px solid rgba(248,113,113,0.2)"></div>
+      <button class="btn btn-primary btn-lg" onclick="login()" style="justify-content:center;margin-top:8px">
+        Se connecter
+      </button>
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <a href="hotel-login.html" style="font-size:0.82rem;color:var(--text-muted)">← Accès hôtels</a>
+    </div>
+  </div>
+
+<script src="js/core.js"></script>
+<script>
+  if (STORE.isAdmin()) window.location.href = 'admin.html';
+
+  function login() {
+    const email = document.getElementById('email').value.trim();
+    const pwd   = document.getElementById('password').value;
+    const res   = AUTH.loginAdmin(email, pwd);
+    if (res.ok) {
+      window.location.href = 'admin.html';
+    } else {
+      const err = document.getElementById('error-msg');
+      err.textContent = res.error;
+      err.style.display = 'block';
+    }
+  }
+</script>
+</body>
+</html>

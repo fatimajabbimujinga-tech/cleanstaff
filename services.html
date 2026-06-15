@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nos Services — Clean Staff</title>
+  <meta name="description" content="Découvrez tous nos profils hôteliers : femmes de chambre, valets, gouvernantes, réceptionnistes. Tarifs et disponibilités.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
+  <link rel="stylesheet" href="css/design.css">
+  <style>
+    .page-hero {
+      padding: 140px 0 80px;
+      background: var(--noir-0);
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--grad-hero);
+    }
+    .page-hero-content { position: relative; z-index: 2; }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .filter-tab {
+      padding: 8px 20px;
+      border-radius: var(--r-full);
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      transition: all var(--t-base);
+      cursor: pointer;
+      background: none;
+    }
+    .filter-tab:hover { border-color: var(--border-medium); color: var(--text-primary); }
+    .filter-tab.active { background: var(--grad-or); color: var(--noir-1); border-color: transparent; }
+
+    .profile-card {
+      background: var(--grad-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      transition: all var(--t-base) var(--ease-smooth);
+    }
+    .profile-card:hover { border-color: var(--border-medium); transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+    .profile-card-img {
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+    }
+    .profile-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-smooth); }
+    .profile-card:hover .profile-card-img img { transform: scale(1.05); }
+    .profile-card-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(10,12,20,0.8) 0%, transparent 60%);
+    }
+    .profile-card-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(10,12,20,0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-medium);
+      border-radius: var(--r-full);
+      padding: 4px 14px;
+      font-size: 0.72rem;
+      color: var(--or-2);
+      font-weight: 500;
+    }
+    .profile-card-body { padding: 28px; }
+    .profile-card-category {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--or-2);
+      margin-bottom: 8px;
+    }
+    .profile-card-name {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .profile-card-price {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .profile-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .profile-card-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+    .skill-tag {
+      font-size: 0.72rem;
+      padding: 4px 10px;
+      border-radius: var(--r-full);
+      background: rgba(201,168,76,0.08);
+      border: 1px solid rgba(201,168,76,0.15);
+      color: var(--or-3);
+    }
+    .profile-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .avail-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      display: inline-block;
+      margin-right: 6px;
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0%,100% { opacity:1; } 50% { opacity:0.4; }
+    }
+    .avail-text { font-size: 0.78rem; color: var(--text-secondary); }
+
+    /* Garanties section */
+    .garanties-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .garantie-item {
+      text-align: center;
+      padding: 40px 24px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      background: rgba(15,22,35,0.4);
+    }
+    .garantie-icon { font-size: 2.5rem; margin-bottom: 16px; }
+    .garantie-title { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 8px; }
+    .garantie-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+
+    @media (max-width: 768px) {
+      .garanties-grid { grid-template-columns: 1fr; }
+      .filter-tabs { gap: 6px; }
+      .filter-tab { font-size: 0.75rem; padding: 6px 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-mark">CS</div>
+      Clean Staff
+    </a>
+    <div class="nav-links">
+      <a href="index.html"    class="nav-link">Accueil</a>
+      <a href="services.html" class="nav-link">Services</a>
+      <a href="tarifs.html"   class="nav-link">Tarifs</a>
+      <a href="contact.html"  class="nav-link">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <a href="hotel-login.html" class="btn btn-outline btn-sm">Espace hôtel</a>
+      <a href="commander.html"   class="btn btn-primary btn-sm">Commander →</a>
+    </div>
+    <div class="nav-burger"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="index.html"    class="nav-link">Accueil</a>
+  <a href="services.html" class="nav-link">Services</a>
+  <a href="tarifs.html"   class="nav-link">Tarifs</a>
+  <a href="contact.html"  class="nav-link">Contact</a>
+  <a href="hotel-login.html" class="nav-link">Espace hôtel</a>
+  <a href="commander.html" class="btn btn-primary" style="text-align:center;margin-top:8px">Commander →</a>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-content">
+      <span class="section-eyebrow" data-reveal>Nos profils</span>
+      <h1 class="display-2 mt-4" data-reveal>Personnel qualifié pour<br><em class="italic text-gold">chaque besoin hôtelier</em></h1>
+      <p class="body-lg mt-6" style="max-width:560px" data-reveal>
+        Nos collaborateurs sont sélectionnés pour leur expérience en établissements de standing, leur discrétion et leur capacité à s'adapter rapidement à votre environnement.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FILTRES + PROFILS -->
+<section class="section" style="background:var(--noir-1)">
+  <div class="container">
+    <!-- Filtres -->
+    <div class="filter-tabs" data-reveal>
+      <button class="filter-tab active" data-filter="all">Tous les profils</button>
+      <button class="filter-tab" data-filter="housekeeping">Housekeeping</button>
+      <button class="filter-tab" data-filter="reception">Réception</button>
+      <button class="filter-tab" data-filter="encadrement">Encadrement</button>
+      <button class="filter-tab" data-filter="polyvalent">Polyvalent</button>
+    </div>
+
+    <!-- Grid profils -->
+    <div class="grid-3" id="profiles-grid">
+
+      <!-- Femme de chambre -->
+      <div class="profile-card" data-category="housekeeping" id="femme-chambre" data-reveal>
+        <div class="profile-card-img">
+          <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&q=80&auto=format&fit=crop" alt="Femme de chambre professionnelle" loading="lazy">
+          <div class="profile-card-img-overlay"></div>
+          <div class="profile-card-tag">Disponible 24h</div>
+        </div>
+        <div class="profile-card-body">
+          <div class="profile-card-category">Housekeeping</div>
+          <div class="profile-card-name">Femme de chambre</div>
+          <div class="profile-card-price">26 €/heure · minimum 4h</div>
+          <p class="profile-card-desc">Experte en mise en ordre de chambres et suites selon les standards des hôtels de standing. Maîtrise des techniques de pliage, présentation des équipements et produits d'accueil.</p>
+          <div class="profile-card-skills">
+            <span class="skill-tag">Nettoyage haute précision</span>
+            <span class="skill-tag">Pliage linge</span>
+            <span class="skill-tag">Produits d'accueil</span>
+            <span class="skill-tag">Check-list qualité</span>
+            <span class="skill-tag">Discrétion</span>
+          </div>
+          <div class="profile-card-footer">
+            <div><span class="avail-dot"></span><span class="avail-text">Disponible</span></div>
+            <a href="commander.html?poste=femme-chambre" class="btn btn-primary btn-sm">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Valet -->
+      <div class="profile-card" data-category="housekeeping" id="valet" data-reveal>
+        <div class="profile-card-img">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&q=80&auto=format&fit=crop" alt="Valet de chambre" loading="lazy">
+          <div class="profile-card-img-overlay"></div>
+          <div class="profile-card-tag">Service prestige</div>
+        </div>
+        <div class="profile-card-body">
+          <div class="profile-card-category">Housekeeping</div>
+          <div class="profile-card-name">Valet de chambre</div>
+          <div class="profile-card-price">26 €/heure · minimum 4h</div>
+          <p class="profile-card-desc">Service de lingerie personnalisé, entretien de vêtements, assistance VIP. Le valet incarne le service sur-mesure attendu dans les hôtels de prestige.</p>
+          <div class="profile-card-skills">
+            <span class="skill-tag">Lingerie & pressing</span>
+            <span class="skill-tag">Service VIP</span>
+            <span class="skill-tag">Présentation</span>
+            <span class="skill-tag">Discrétion absolue</span>
+            <span class="skill-tag">Bilingue FR/EN</span>
+          </div>
+          <div class="profile-card-footer">
+            <div><span class="avail-dot"></span><span class="avail-text">Disponible</span></div>
+            <a href="commander.html?poste=valet" class="btn btn-primary btn-sm">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gouvernante -->
+      <div class="profile-card" data-category="encadrement" id="gouvernante" data-reveal>
+        <div class="profile-card-img">
+          <img src="https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=500&q=80&auto=format&fit=crop" alt="Gouvernante hôtelière" loading="lazy">
+          <div class="profile-card-img-overlay"></div>
+          <div class="profile-card-tag">Encadrement</div>
+        </div>
+        <div class="profile-card-body">
+          <div class="profile-card-category">Encadrement</div>
+          <div class="profile-card-name">Gouvernante</div>
+          <div class="profile-card-price">32 €/heure · minimum 6h</div>
+          <p class="profile-card-desc">Pilotage de vos équipes de housekeeping, contrôle de la qualité des chambres, gestion des stocks et coordination avec la direction. Idéale lors d'audits ou en remplacement d'une gouvernante titulaire.</p>
+          <div class="profile-card-skills">
+            <span class="skill-tag">Management équipe</span>
+            <span class="skill-tag">Contrôle qualité</span>
+            <span class="skill-tag">Gestion stocks</span>
+            <span class="skill-tag">PMS hôtelier</span>
+            <span class="skill-tag">Formation équipe</span>
+          </div>
+          <div class="profile-card-footer">
+            <div><span class="avail-dot"></span><span class="avail-text">Disponible</span></div>
+            <a href="commander.html?poste=gouvernante" class="btn btn-primary btn-sm">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Réceptionniste jour -->
+      <div class="profile-card" data-category="reception" id="receptionniste" data-reveal>
+        <div class="profile-card-img">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=500&q=80&auto=format&fit=crop" alt="Réceptionniste hôtel" loading="lazy">
+          <div class="profile-card-img-overlay"></div>
+          <div class="profile-card-tag">Jour · Nuit</div>
+        </div>
+        <div class="profile-card-body">
+          <div class="profile-card-category">Réception</div>
+          <div class="profile-card-name">Réceptionniste jour</div>
+          <div class="profile-card-price">28 €/heure · minimum 6h</div>
+          <p class="profile-card-desc">Accueil clients, check-in/out, gestion des demandes et réclamations. Maîtrise des logiciels Opera, Fols ou Protel. Anglais courant, une deuxième langue est souvent disponible.</p>
+          <div class="profile-card-skills">
+            <span class="skill-tag">Opera / Fols</span>
+            <span class="skill-tag">Check-in / out</span>
+            <span class="skill-tag">Anglais courant</span>
+            <span class="skill-tag">Conciergerie</span>
+            <span class="skill-tag">Facturation</span>
+          </div>
+          <div class="profile-card-footer">
+            <div><span class="avail-dot"></span><span class="avail-text">Disponible</span></div>
+            <a href="commander.html?poste=receptionniste-jour" class="btn btn-primary btn-sm">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Réceptionniste nuit -->
+      <div class="profile-card" data-category="reception" id="receptionniste-nuit" data-reveal>
+        <div class="profile-card-img">
+          <img src="https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500&q=80&auto=format&fit=crop" alt="Réceptionniste nuit" loading="lazy">
+          <div class="profile-card-img-overlay"></div>
+          <div class="profile-card-tag">Nuit</div>
+        </div>
+        <div class="profile-card-body">
+          <div class="profile-card-category">Réception</div>
+          <div class="profile-card-name">Réceptionniste nuit</div>
+          <div class="profile-card-price">29 €/heure · minimum 8h</div>
+          <p class="profile-card-desc">Audit de nuit, clôture de caisse, gestion des situations d'urgence nocturnes. Profil polyvalent, autonome et expérimenté pour les nuits les plus exigeantes.</p>
+          <div class="profile-card-skills">
+            <span class="skill-tag">Audit de nuit</span>
+            <span class="skill-tag">Clôture caisse</span>
+            <span class="skill-tag">Gestion urgences</span>
+            <span class="skill-tag">Room service</span>
+            <span class="skill-tag">Autonomie totale</span>
+          </div>
+          <div class="profile-card-footer">
+            <div><span class="avail-dot"></span><span class="avail-text">Disponible</span></div>
+            <a href="commander.html?poste=receptionniste-nuit" class="btn btn-primary btn-sm">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Équipier -->
+      <div class="profile-card" data-category="polyvalent" id="equipier" data-reveal>
+        <div class="profile-card-img">
+          <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?w=500&q=80&auto=format&fit=crop" alt="Équipier polyvalent hôtel" loading="lazy">
+          <div class="profile-card-img-overlay"></div>
+          <div class="profile-card-tag">Flexibilité maximale</div>
+        </div>
+        <div class="profile-card-body">
+          <div class="profile-card-category">Polyvalent</div>
+          <div class="profile-card-name">Équipier polyvalent</div>
+          <div class="profile-card-price">26 €/heure · minimum 4h</div>
+          <p class="profile-card-desc">Renfort tous corps de métier : plonge, service en salle, room service, commis, lingerie ou manutention hôtelière. La solution idéale pour les imprévus et les renforts de dernière minute.</p>
+          <div class="profile-card-skills">
+            <span class="skill-tag">Plonge</span>
+            <span class="skill-tag">Room service</span>
+            <span class="skill-tag">Lingerie</span>
+            <span class="skill-tag">Manutention</span>
+            <span class="skill-tag">Polyvalence</span>
+          </div>
+          <div class="profile-card-footer">
+            <div><span class="avail-dot"></span><span class="avail-text">Disponible</span></div>
+            <a href="commander.html?poste=equipier" class="btn btn-primary btn-sm">Demander →</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIES -->
+<section class="section" style="background:var(--noir-0)">
+  <div class="container">
+    <div class="text-center mb-12" data-reveal>
+      <span class="section-eyebrow">Nos engagements</span>
+      <h2 class="display-2">Ce que vous pouvez<br><em class="italic text-gold">toujours attendre de nous</em></h2>
+    </div>
+    <div class="garanties-grid">
+      <div class="garantie-item" data-reveal>
+        <div class="garantie-icon">🎓</div>
+        <div class="garantie-title">Personnel vérifié</div>
+        <p class="garantie-desc">Chaque collaborateur est vérifié : expérience contrôlée, références vérifiées, et formé aux standards hôteliers avant toute prise de poste.</p>
+      </div>
+      <div class="garantie-item" data-reveal>
+        <div class="garantie-icon">⏱️</div>
+        <div class="garantie-title">Ponctualité garantie</div>
+        <p class="garantie-desc">En cas de retard non annoncé, nous vous informons immédiatement et assurons un remplacement ou une compensation sous 2 heures.</p>
+      </div>
+      <div class="garantie-item" data-reveal>
+        <div class="garantie-icon">🛡️</div>
+        <div class="garantie-title">Assurance incluse</div>
+        <p class="garantie-desc">Tous nos collaborateurs sont couverts par notre responsabilité civile professionnelle pendant toute la durée de leur mission dans votre établissement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section-sm" style="background:var(--noir-1)">
+  <div class="container text-center" data-reveal>
+    <h2 class="display-3 mb-4">Prêt à renforcer<br><em class="italic text-gold">vos équipes ?</em></h2>
+    <p class="body-lg mb-8">Faites votre demande en moins de 5 minutes. Réponse garantie sous 4 heures.</p>
+    <a href="commander.html" class="btn btn-primary btn-lg">Faire une demande →</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--border-subtle)">
+      <div class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</div>
+      <div style="display:flex;gap:24px">
+        <a href="index.html"  class="footer-link">Accueil</a>
+        <a href="tarifs.html" class="footer-link">Tarifs</a>
+        <a href="contact.html" class="footer-link">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/core.js"></script>
+<script>
+  // Filter tabs
+  const tabs = document.querySelectorAll('.filter-tab');
+  const cards = document.querySelectorAll('.profile-card');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.style.display = match ? '' : 'none';
+        card.style.opacity = match ? '1' : '0';
+      });
+    });
+  });
+
+  // Pre-select from URL
+  const url = new URL(location.href);
+  const anchor = url.hash.replace('#', '');
+  if (anchor) {
+    const el = document.getElementById(anchor);
+    if (el) { setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300); }
+  }
+</script>
+</body>
+</html>
