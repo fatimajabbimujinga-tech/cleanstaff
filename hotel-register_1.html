@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Créer un compte Hôtel — Clean Staff</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/design.css" />
+  <style>
+    body { background: var(--noir-0); min-height: 100vh; display: flex; flex-direction: column; }
+    .register-page { flex: 1; padding: calc(var(--nav-height) + var(--space-12)) var(--space-4) var(--space-12); }
+    .register-container { max-width: 700px; margin: 0 auto; }
+    .register-header { text-align: center; margin-bottom: var(--space-10); }
+    .register-header h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-3); }
+    .register-header h1 em { color: var(--or-3); font-style: italic; }
+    .register-header p { color: var(--text-secondary); font-size: 1rem; }
+    .register-header a { color: var(--or-3); text-decoration: none; }
+    .register-card { background: var(--noir-1); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-10); }
+    .form-section-title { font-family: var(--font-display); font-size: 1.1rem; color: var(--or-3); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em; }
+    .form-section { margin-bottom: var(--space-8); }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+    .stars-select { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+    .stars-option { cursor: pointer; }
+    .stars-option input[type="radio"] { display: none; }
+    .stars-option span { display: flex; align-items: center; gap: var(--space-1); padding: var(--space-2) var(--space-4); border: 1px solid var(--or-2-20); border-radius: var(--radius-lg); font-size: 0.85rem; color: var(--text-secondary); transition: all 0.2s; background: var(--noir-2); }
+    .stars-option input:checked + span { border-color: var(--or-2); background: rgba(201,168,76,0.12); color: var(--or-3); }
+    .stars-option span:hover { border-color: var(--or-2); color: var(--text-primary); }
+    .register-submit-area { margin-top: var(--space-8); }
+    .register-submit-area .btn { width: 100%; }
+    .register-submit-area .consent { margin-top: var(--space-4); display: flex; gap: var(--space-3); align-items: flex-start; }
+    .register-submit-area .consent input { margin-top: 3px; accent-color: var(--or-2); flex-shrink: 0; }
+    .register-submit-area .consent span { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.5; }
+    .register-submit-area .consent a { color: var(--or-3); text-decoration: none; }
+    .success-overlay { display: none; position: fixed; inset: 0; background: rgba(6,8,16,0.95); z-index: 1000; align-items: center; justify-content: center; }
+    .success-overlay.active { display: flex; }
+    .success-card { background: var(--noir-2); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-12); text-align: center; max-width: 480px; }
+    .success-icon { width: 72px; height: 72px; background: linear-gradient(135deg, var(--or-2), var(--or-3)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-6); font-size: 2rem; }
+    .success-card h2 { font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-3); }
+    .success-card p { color: var(--text-secondary); line-height: 1.7; margin-bottom: var(--space-6); }
+    @media (max-width: 640px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .register-card { padding: var(--space-6); }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="mainNav">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+          <rect width="40" height="40" rx="8" fill="url(#lg1)"/>
+          <path d="M12 20 L20 12 L28 20 L20 28 Z" stroke="#060810" stroke-width="1.5" fill="none"/>
+          <circle cx="20" cy="20" r="3" fill="#060810"/>
+          <defs><linearGradient id="lg1" x1="0" y1="0" x2="40" y2="40"><stop offset="0%" stop-color="#C9A84C"/><stop offset="100%" stop-color="#8B6914"/></linearGradient></defs>
+        </svg>
+        <div class="logo-text">
+          <span class="logo-name">Clean Staff</span>
+          <span class="logo-tag">Personnel Hôtelier</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="register-page">
+  <div class="register-container">
+    <div class="register-header">
+      <h1>Ouvrir votre<br /><em>espace établissement</em></h1>
+      <p>Déjà inscrit ? <a href="hotel-login.html">Connectez-vous →</a></p>
+    </div>
+
+    <div class="register-card">
+      <form id="registerForm">
+
+        <div class="form-section">
+          <div class="form-section-title">Votre établissement</div>
+          <div class="form-grid-2">
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label" for="hotelName">Nom de l'établissement *</label>
+              <input class="form-control" type="text" id="hotelName" placeholder="Hôtel de la Paix" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="hotelAddress">Adresse *</label>
+              <input class="form-control" type="text" id="hotelAddress" placeholder="12 rue du Faubourg Saint-Honoré" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="hotelCity">Ville *</label>
+              <input class="form-control" type="text" id="hotelCity" placeholder="Paris" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Catégorie</label>
+              <div class="stars-select">
+                <label class="stars-option"><input type="radio" name="stars" value="3" /><span>★★★</span></label>
+                <label class="stars-option"><input type="radio" name="stars" value="4" /><span>★★★★</span></label>
+                <label class="stars-option"><input type="radio" name="stars" value="5" checked /><span>★★★★★</span></label>
+                <label class="stars-option"><input type="radio" name="stars" value="palace" /><span>Palace</span></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="hotelRooms">Nombre de chambres</label>
+              <input class="form-control" type="number" id="hotelRooms" placeholder="80" min="1" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Votre contact</div>
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label" for="firstName">Prénom *</label>
+              <input class="form-control" type="text" id="firstName" placeholder="Jean" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="lastName">Nom *</label>
+              <input class="form-control" type="text" id="lastName" placeholder="Dupont" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="role">Fonction *</label>
+              <input class="form-control" type="text" id="role" placeholder="Directeur / Gouvernante / RH…" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="phone">Téléphone *</label>
+              <input class="form-control" type="tel" id="phone" placeholder="+33 6 12 34 56 78" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Accès à votre espace</div>
+          <div class="form-grid-2">
+            <div class="form-group" style="grid-column: 1/-1;">
+              <label class="form-label" for="regEmail">Email professionnel *</label>
+              <input class="form-control" type="email" id="regEmail" placeholder="direction@votre-hotel.fr" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regPassword">Mot de passe *</label>
+              <input class="form-control" type="password" id="regPassword" placeholder="Minimum 8 caractères" required minlength="8" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="regPasswordConfirm">Confirmer le mot de passe *</label>
+              <input class="form-control" type="password" id="regPasswordConfirm" placeholder="••••••••" required />
+            </div>
+          </div>
+          <div id="passwordError" class="form-error" style="display:none;"></div>
+        </div>
+
+        <div class="register-submit-area">
+          <button type="submit" class="btn btn-primary" id="registerBtn">
+            <span id="registerBtnText">Créer mon espace établissement</span>
+          </button>
+          <div class="consent">
+            <input type="checkbox" id="acceptTerms" required />
+            <span>J'accepte les <a href="#">conditions générales d'utilisation</a> et la <a href="#">politique de confidentialité</a> de Clean Staff.</span>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <h2>Compte créé !</h2>
+    <p>Votre espace établissement a été créé avec succès. Notre équipe va valider votre inscription sous 24h et vous contactera par email.</p>
+    <a href="hotel-login.html" class="btn btn-primary">Accéder à mon espace</a>
+  </div>
+</div>
+
+<script src="js/core.js"></script>
+<script>
+document.getElementById('registerForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const pwd = document.getElementById('regPassword').value;
+  const pwdConfirm = document.getElementById('regPasswordConfirm').value;
+  const pwdError = document.getElementById('passwordError');
+
+  if (pwd !== pwdConfirm) {
+    pwdError.textContent = 'Les mots de passe ne correspondent pas.';
+    pwdError.style.display = 'block';
+    return;
+  }
+  pwdError.style.display = 'none';
+
+  const btn = document.getElementById('registerBtn');
+  const btnText = document.getElementById('registerBtnText');
+  btn.disabled = true;
+  btnText.textContent = 'Création en cours…';
+
+  await new Promise(r => setTimeout(r, 1200));
+
+  // Save new hotel to STORE
+  const newHotel = {
+    id: 'H' + Date.now(),
+    name: document.getElementById('hotelName').value,
+    email: document.getElementById('regEmail').value,
+    password: document.getElementById('regPassword').value,
+    stars: document.querySelector('input[name="stars"]:checked')?.value || '4',
+    rooms: document.getElementById('hotelRooms').value,
+    contact: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+    role: document.getElementById('role').value,
+    phone: document.getElementById('phone').value,
+    city: document.getElementById('hotelCity').value,
+    status: 'pending'
+  };
+
+  const hotels = STORE.get('hotels') || [];
+  hotels.push(newHotel);
+  STORE.set('hotels', hotels);
+
+  document.getElementById('successOverlay').classList.add('active');
+});
+</script>
+
+</body>
+</html>
