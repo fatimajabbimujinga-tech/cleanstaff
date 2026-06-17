@@ -636,7 +636,7 @@ function submitOrder() {
 
   // Envoyer email notification via EmailJS
   const servicesTexte = services.map(s => `${s.nombre}× ${UTILS.posteLabel(s.poste)}${s.specialite ? ' ('+s.specialite+')' : ''}`).join(', ');
-  emailjs.send('service_h6fam19', '20m4epb', {
+  emailjs.send('service_h6fam19', 'template_fktyqs3', {
     to_email:      'admin@cleanstaff.fr',
     order_id:      order.id,
     hotel_nom:     order.hotelName,
