@@ -491,11 +491,11 @@ function addService(preselect = null) {
     <div class="service-row-grid">
       <div class="form-group">
         <label class="form-label">Profil</label>
-        <select class="form-select service-poste" onchange="updateTotal()">${opts}</select>
+        <select class="form-select service-poste" onchange="updatePosteLabel(this); updateTotal()">${opts}</select>
       </div>
       <div class="form-group">
-        <label class="form-label">Nombre</label>
-        <input type="number" class="form-input service-nb" value="1" min="1" max="20" onchange="updateTotal()">
+        <label class="form-label service-nb-label">${['femme-chambre','valet'].includes(preselect || prePoste || 'femme-chambre') ? 'Nb chambres (min. 18)' : 'Nombre de personnes'}</label>
+        <input type="number" class="form-input service-nb" value="${['femme-chambre','valet'].includes(preselect || prePoste || 'femme-chambre') ? 18 : 1}" min="1" max="200" oninput="updateTotal()">
       </div>
       <div class="form-group">
         <label class="form-label">Détails (optionnel)</label>
@@ -505,6 +505,22 @@ function addService(preselect = null) {
   `;
   document.getElementById('services-list').appendChild(div);
   updateTotal();
+}
+
+function updatePosteLabel(select) {
+  const row = select.closest('.service-row');
+  const isParChambre = ['femme-chambre', 'valet'].includes(select.value);
+  const label = row.querySelector('.service-nb-label');
+  const input = row.querySelector('.service-nb');
+  if (isParChambre) {
+    label.textContent = 'Nb chambres (min. 18)';
+    input.min = 18;
+    if (parseInt(input.value) < 18) input.value = 18;
+  } else {
+    label.textContent = 'Nombre de personnes';
+    input.min = 1;
+    if (parseInt(input.value) > 20) input.value = 1;
+  }
 }
 
 function removeService(id) {
@@ -621,6 +637,7 @@ function submitOrder() {
   // Envoyer email notification via EmailJS
   const servicesTexte = services.map(s => `${s.nombre}× ${UTILS.posteLabel(s.poste)}${s.specialite ? ' ('+s.specialite+')' : ''}`).join(', ');
   emailjs.send('service_h6fam19', '20m4epb', {
+    to_email:      'admin@cleanstaff.fr',
     order_id:      order.id,
     hotel_nom:     order.hotelName,
     contact_nom:   order.contact,
