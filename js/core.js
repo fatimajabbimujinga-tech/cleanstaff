@@ -319,13 +319,19 @@ const UTILS = {
 
   calcMontant(services, duree, urgence, ferie) {
     const tarifs = {
-      'femme-chambre': 13.5, 'valet': 13.5, 'equipier': 27,
+      'femme-chambre': 13.5, 'valet': 13.5, 'equipier': 28,
       'gouvernante': 33,
       'receptionniste-jour': 29, 'receptionniste-nuit': 30,
     };
     let base = 0;
     for (const s of services) {
-      base += (tarifs[s.poste] || 26) * s.nombre * duree;
+      const isParChambre = ['femme-chambre', 'valet'].includes(s.poste);
+      if (isParChambre) {
+        const chambres = Math.max(s.nombre, 18);
+        base += (tarifs[s.poste] || 13.5) * chambres;
+      } else {
+        base += (tarifs[s.poste] || 28) * s.nombre * duree;
+      }
     }
     if (urgence) base *= 1.15;
     if (ferie)   base *= 1.25;

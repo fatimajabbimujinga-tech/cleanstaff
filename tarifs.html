@@ -244,21 +244,21 @@
           <div class="form-group">
             <label class="form-label">Profil recherché</label>
             <select class="form-select" id="calc-poste">
-              <option value="26">Femme de chambre — 13,50 €/chambre</option>
-              <option value="26">Valet de chambre — 13,50 €/chambre</option>
-              <option value="26">Équipier polyvalent — 13,50 €/chambre</option>
-              <option value="28">Réceptionniste (jour) — 30 €/h</option>
-              <option value="29">Réceptionniste (nuit) — 30 €/h</option>
-              <option value="32">Gouvernante — 33 €/h</option>
+              <option value="chambre:13.5">Femme de chambre — 13,50 €/chambre</option>
+              <option value="chambre:13.5">Valet de chambre — 13,50 €/chambre</option>
+              <option value="heure:28">Équipier polyvalent — 28 €/h</option>
+              <option value="heure:29">Réceptionniste (jour) — 29 €/h</option>
+              <option value="heure:30">Réceptionniste (nuit) — 30 €/h</option>
+              <option value="heure:33">Gouvernante — 33 €/h</option>
             </select>
           </div>
-          <div class="form-group">
-            <label class="form-label">Nombre de personnes</label>
-            <input type="number" class="form-input" id="calc-nombre" value="1" min="1" max="20">
+          <div class="form-group" id="nombre-group">
+            <label class="form-label" id="nombre-label">Nombre de chambres (min. 18)</label>
+            <input type="number" class="form-input" id="calc-nombre" value="18" min="18" max="200">
           </div>
-          <div class="form-group">
-            <label class="form-label">Durée (heures)</label>
-            <input type="number" class="form-input" id="calc-duree" value="8" min="4" max="24" step="0.5">
+          <div class="form-group" id="duree-group" style="display:none">
+            <label class="form-label">Durée (heures, min. 7h)</label>
+            <input type="number" class="form-input" id="calc-duree" value="7" min="7" max="24" step="0.5">
           </div>
           <div class="calc-checks">
             <div class="calc-check">
@@ -324,14 +324,14 @@
             <tr>
               <td><div class="tarif-poste">Équipier polyvalent</div></td>
               <td><span style="color:var(--text-muted)">Polyvalent</span></td>
-              <td><div class="tarif-price">13,50 €/chambre</div></td>
-              <td><div class="tarif-min">18 chambres min.</div></td>
+              <td><div class="tarif-price">28 €/h</div></td>
+              <td><div class="tarif-min">7 heures</div></td>
               <td style="text-align:right"><a href="commander.html?poste=equipier" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
             <tr>
               <td><div class="tarif-poste">Réceptionniste (jour)</div></td>
               <td><span style="color:var(--text-muted)">Réception</span></td>
-              <td><div class="tarif-price">30 €/h</div></td>
+              <td><div class="tarif-price">29 €/h</div></td>
               <td><div class="tarif-min">7 heures</div></td>
               <td style="text-align:right"><a href="commander.html?poste=receptionniste-jour" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
@@ -462,14 +462,30 @@
 <script src="js/core.js"></script>
 <script>
 function recalc() {
-  const tarifH = parseFloat(document.getElementById('calc-poste').value) || 26;
-  const nb     = parseFloat(document.getElementById('calc-nombre').value) || 1;
-  const duree  = parseFloat(document.getElementById('calc-duree').value) || 8;
+  const posteVal = document.getElementById('calc-poste').value;
+  const [type, tarifStr] = posteVal.split(':');
+  const tarif = parseFloat(tarifStr) || 28;
+  const isParChambre = type === 'chambre';
+
+  // Show/hide correct input
+  document.getElementById('nombre-group').style.display = isParChambre ? '' : 'none';
+  document.getElementById('duree-group').style.display  = isParChambre ? 'none' : '';
+  document.getElementById('nombre-label').textContent   = isParChambre ? 'Nombre de chambres (min. 18)' : 'Nombre de personnes';
+
+  const nb    = parseFloat(document.getElementById('calc-nombre').value) || 18;
+  const duree = parseFloat(document.getElementById('calc-duree').value) || 7;
   const urgence = document.getElementById('toggle-urgence').classList.contains('on');
   const ferie   = document.getElementById('toggle-ferie').classList.contains('on');
 
-  let total = tarifH * nb * duree;
-  let details = [`${nb} personne${nb>1?'s':''} × ${tarifH} €/h × ${duree}h`];
+  let total, details;
+  if (isParChambre) {
+    const chambres = Math.max(nb, 18);
+    total = tarif * chambres;
+    details = [`${chambres} chambres × ${tarif} €/chambre`];
+  } else {
+    total = tarif * nb * duree;
+    details = [`${nb} personne${nb>1?'s':''} × ${tarif} €/h × ${duree}h`];
+  }
   if (urgence) { total *= 1.15; details.push('+15% urgence'); }
   if (ferie)   { total *= 1.25; details.push('+25% jour férié'); }
 

@@ -8,12 +8,12 @@
 /* ── TOKENS ── */
 :root {
   /* Noirs */
-  --noir-0:    #1A1D2E;
-  --noir-1:    #1F2235;
-  --noir-2:    #252840;
-  --noir-3:    #2B2F4A;
-  --noir-4:    #323655;
-  --noir-5:    #3A3E60;
+  --noir-0:    #232842;
+  --noir-1:    #2A2F50;
+  --noir-2:    #30365C;
+  --noir-3:    #373D68;
+  --noir-4:    #3E4575;
+  --noir-5:    #464E82;
 
   /* Or */
   --or-0:      #6B4F1A;

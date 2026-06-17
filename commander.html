@@ -450,16 +450,16 @@
 <script src="js/core.js"></script>
 <script>
 const TARIFS = {
-  'femme-chambre': 26, 'valet': 26, 'equipier': 26,
-  'gouvernante': 32, 'receptionniste-jour': 28, 'receptionniste-nuit': 29
+  'femme-chambre': 13.5, 'valet': 13.5, 'equipier': 28,
+  'gouvernante': 33, 'receptionniste-jour': 29, 'receptionniste-nuit': 30
 };
 const POSTES = [
-  { value: 'femme-chambre', label: 'Femme de chambre — 26€/h' },
-  { value: 'valet', label: 'Valet de chambre — 26€/h' },
-  { value: 'equipier', label: 'Équipier polyvalent — 26€/h' },
-  { value: 'receptionniste-jour', label: 'Réceptionniste jour — 28€/h' },
-  { value: 'receptionniste-nuit', label: 'Réceptionniste nuit — 29€/h' },
-  { value: 'gouvernante', label: 'Gouvernante — 32€/h' },
+  { value: 'femme-chambre', label: 'Femme de chambre — 13,50€/chambre (min. 18)' },
+  { value: 'valet', label: 'Valet de chambre — 13,50€/chambre (min. 18)' },
+  { value: 'equipier', label: 'Équipier polyvalent — 28€/h' },
+  { value: 'receptionniste-jour', label: 'Réceptionniste jour — 29€/h' },
+  { value: 'receptionniste-nuit', label: 'Réceptionniste nuit — 30€/h' },
+  { value: 'gouvernante', label: 'Gouvernante — 33€/h' },
 ];
 
 let serviceCount = 0;
@@ -522,12 +522,15 @@ function updateTotal() {
   const lines = [];
 
   postes.forEach((p, i) => {
-    const tarif = TARIFS[p.value] || 26;
+    const tarif = TARIFS[p.value] || 28;
     const nb    = parseInt(nombres[i]?.value) || 1;
-    const sub   = tarif * nb * duree;
+    // femme-chambre et valet = tarif × nombre de chambres (min 18)
+    const isParChambre = ['femme-chambre', 'valet'].includes(p.value);
+    const chambres = isParChambre ? Math.max(nb, 18) : nb;
+    const sub = isParChambre ? tarif * chambres : tarif * nb * duree;
     total += sub;
     const label = POSTES.find(x => x.value === p.value)?.label.split(' —')[0] || p.value;
-    lines.push({ label, nb, tarif, duree, sub });
+    lines.push({ label, nb: isParChambre ? chambres + ' chambres' : nb, tarif, duree, sub });
   });
 
   let totalFinal = total;
