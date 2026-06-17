@@ -6,6 +6,8 @@
   <title>Commander — Clean Staff</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23C9A84C'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='14' fill='%230A0C14'>CS</text></svg>">
   <link rel="stylesheet" href="css/design.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('to7tmx1qN1C4vncUU');</script>
   <style>
     .order-layout {
       display: grid;
@@ -615,6 +617,22 @@ function submitOrder() {
   };
 
   STORE.addOrder(order);
+
+  // Envoyer email notification via EmailJS
+  const servicesTexte = services.map(s => `${s.nombre}× ${UTILS.posteLabel(s.poste)}${s.specialite ? ' ('+s.specialite+')' : ''}`).join(', ');
+  emailjs.send('service_ylp5tpk', '20m4epb', {
+    order_id:      order.id,
+    hotel_nom:     order.hotelName,
+    contact_nom:   order.contact,
+    contact_tel:   order.telephone,
+    contact_email: order.email,
+    date:          order.date,
+    heure:         order.heure,
+    duree:         order.duree + 'h',
+    services:      servicesTexte,
+    montant:       montant + ' €',
+    notes:         order.notes || 'Aucune note'
+  }).catch(err => console.log('Email error:', err));
 
   // Show success
   document.getElementById('order-form').style.display = 'none';
