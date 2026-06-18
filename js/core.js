@@ -317,7 +317,7 @@ const UTILS = {
     return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 }).format(n);
   },
 
-  calcMontant(services, duree, urgence, ferie) {
+  calcMontant(services, duree, urgence, ferie, jours = 1) {
     const tarifs = {
       'femme-chambre': 13.5, 'valet': 13.5, 'equipier': 28,
       'gouvernante': 33,
@@ -328,9 +328,9 @@ const UTILS = {
       const isParChambre = ['femme-chambre', 'valet'].includes(s.poste);
       if (isParChambre) {
         const chambres = Math.max(s.nombre, 18);
-        base += (tarifs[s.poste] || 13.5) * chambres;
+        base += (tarifs[s.poste] || 13.5) * chambres * jours;
       } else {
-        base += (tarifs[s.poste] || 28) * s.nombre * duree;
+        base += (tarifs[s.poste] || 28) * s.nombre * duree * jours;
       }
     }
     if (urgence) base *= 1.15;

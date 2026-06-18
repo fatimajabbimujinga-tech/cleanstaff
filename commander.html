@@ -617,7 +617,7 @@ function submitOrder() {
   const ferie   = document.getElementById('ferie-check').checked;
   const duree   = parseFloat(document.getElementById('mission-duree').value) || 8;
   const jours   = parseInt(document.getElementById('mission-jours')?.value) || 1;
-  const montant = UTILS.calcMontant(services, duree, urgence, ferie);
+  const montant = UTILS.calcMontant(services, duree, urgence, ferie, jours);
 
   const order = {
     id: UTILS.generateId(),
