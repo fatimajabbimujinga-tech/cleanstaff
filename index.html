@@ -4,126 +4,295 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Clean Staff — Personnel Hôtelier d'Excellence</title>
-  <meta name="description" content="Renfort de personnel hôtelier ponctuel pour hôtels 3★ à 5★. Femmes de chambre, gouvernantes, réceptionnistes — sous 24h.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%235C3D2E'/><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='13' fill='white'>CS</text></svg>">
+  <meta name="description" content="Renfort de personnel hôtelier ponctuel pour établissements 3★ à 5★. Femmes de chambre, gouvernantes, réceptionnistes — disponibles sous 24h.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='4' fill='%231C1C1C'/><text x='50%' y='56%' dominant-baseline='middle' text-anchor='middle' font-family='serif' font-weight='700' font-size='13' fill='white'>CS</text></svg>">
   <link rel="stylesheet" href="css/design.css">
   <style>
     /* HERO */
-    .hero{min-height:100vh;display:flex;align-items:center;background:var(--creme);position:relative;overflow:hidden;padding:100px 0 60px}
-    .hero::before{content:'';position:absolute;top:0;right:0;width:55%;height:100%;background:var(--beige);clip-path:polygon(8% 0,100% 0,100% 100%,0% 100%)}
-    .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;position:relative;z-index:2}
-    .hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:0.7rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--marron-2);background:var(--marron-fond);border:1px solid rgba(92,61,46,0.15);border-radius:var(--r5);padding:6px 14px;margin-bottom:24px}
-    .hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sauge)}
-    .hero-title{font-family:var(--font-display);font-size:clamp(2.8rem,5vw,4.8rem);font-weight:400;line-height:1.06;letter-spacing:-0.02em;color:var(--t1);margin-bottom:22px}
-    .hero-title em{font-style:italic;color:var(--marron)}
-    .hero-desc{font-size:1rem;line-height:1.75;color:var(--t2);max-width:440px;margin-bottom:36px}
-    .hero-btns{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:48px}
-    .hero-pills{display:flex;gap:8px;flex-wrap:wrap}
-    .hero-pill{font-size:0.75rem;color:var(--t3);background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r5);padding:5px 12px}
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 100px 0 60px;
+      background: var(--blanc);
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 70% 40%, rgba(184,144,42,0.06) 0%, transparent 70%),
+        var(--blanc);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--or);
+      margin-bottom: 24px;
+    }
+    .hero-label::before { content: ''; width: 28px; height: 1px; background: var(--or); }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 400;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--noir);
+      margin-bottom: 24px;
+    }
+    .hero-title em { font-style: italic; color: var(--or); }
+    .hero-sub {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--texte-2);
+      max-width: 460px;
+      margin-bottom: 40px;
+    }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--bord);
+    }
+    .hero-stat-val {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--noir);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat-lab { font-size: 0.78rem; color: var(--texte-3); }
 
     /* PHOTO SIDE */
-    .hero-photo{position:relative}
-    .hero-photo-main{border-radius:var(--r4);overflow:hidden;height:500px;box-shadow:var(--s4)}
-    .hero-photo-main img{width:100%;height:100%;object-fit:cover}
-    .hero-card-1{position:absolute;bottom:-24px;left:-24px;background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r3);padding:18px 22px;box-shadow:var(--s3);display:flex;align-items:center;gap:14px}
-    .hero-card-icon{width:42px;height:42px;background:var(--sauge-fond);border-radius:var(--r2);display:flex;align-items:center;justify-content:center}
-    .hero-card-val{font-family:var(--font-display);font-size:1.4rem;color:var(--t1);line-height:1}
-    .hero-card-lab{font-size:0.7rem;color:var(--t3);margin-top:3px}
-    .hero-card-2{position:absolute;top:24px;right:-20px;background:var(--marron);border-radius:var(--r3);padding:14px 18px;box-shadow:var(--s3)}
-    .hero-card-2-val{font-family:var(--font-display);font-size:1.6rem;color:var(--blanc);line-height:1}
-    .hero-card-2-lab{font-size:0.68rem;color:rgba(255,255,255,0.7);margin-top:4px}
-    .live{display:inline-flex;align-items:center;gap:5px;font-size:0.65rem;color:var(--sauge);margin-bottom:6px}
-    .live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sauge);animation:blink 2s infinite}
-    @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
-
-    /* STATS */
-    .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--bord);border-radius:var(--r3);overflow:hidden;margin-top:64px}
-    .stat-item{background:var(--blanc);padding:28px 20px;text-align:center}
-    .stat-val{font-family:var(--font-display);font-size:2rem;font-weight:400;color:var(--marron);line-height:1;margin-bottom:4px}
-    .stat-lab{font-size:0.75rem;color:var(--t3);line-height:1.4}
-
-    /* SERVICES */
-    .svc-card{background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r3);padding:28px;transition:all var(--t-base) var(--ease);position:relative;overflow:hidden}
-    .svc-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--beige-3);transition:background var(--t-base)}
-    .svc-card:hover{box-shadow:var(--s2);transform:translateY(-3px);border-color:var(--bord-2)}
-    .svc-card:hover::before{background:var(--marron)}
-    .svc-icon{width:44px;height:44px;border-radius:var(--r2);background:var(--beige);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
-    .svc-name{font-family:var(--font-display);font-size:1.15rem;font-weight:500;color:var(--t1);margin-bottom:4px}
-    .svc-price{font-size:0.78rem;color:var(--marron);font-family:var(--font-mono);margin-bottom:12px}
-    .svc-desc{font-size:0.85rem;color:var(--t3);line-height:1.65}
-    .svc-link{display:inline-flex;align-items:center;gap:4px;font-size:0.78rem;color:var(--sauge-2);font-weight:500;margin-top:14px}
-
-    /* PROCESS */
-    .proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;position:relative}
-    .proc-grid::before{content:'';position:absolute;top:24px;left:60px;right:60px;height:1px;background:var(--bord-2)}
-    .proc-step{text-align:center;position:relative;z-index:1}
-    .proc-num{width:48px;height:48px;border-radius:50%;background:var(--blanc);border:1px solid var(--bord-2);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-family:var(--font-display);font-size:1.1rem;color:var(--marron)}
-    .proc-title{font-family:var(--font-display);font-size:0.95rem;font-weight:500;margin-bottom:8px;color:var(--t1)}
-    .proc-desc{font-size:0.82rem;color:var(--t3);line-height:1.6}
-
-    /* TEMOIGNAGES */
-    .temo{background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r3);padding:28px}
-    .temo-stars{color:var(--or);letter-spacing:3px;font-size:0.82rem;margin-bottom:14px}
-    .temo-text{font-family:var(--font-display);font-style:italic;font-size:0.95rem;color:var(--t1);line-height:1.75;margin-bottom:20px}
-    .temo-author{display:flex;align-items:center;gap:10px}
-    .temo-avatar{width:38px;height:38px;border-radius:50%;background:var(--marron);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:600;color:var(--blanc)}
-    .temo-name{font-size:0.85rem;font-weight:500;color:var(--t1)}
-    .temo-role{font-size:0.72rem;color:var(--t3);margin-top:2px}
-
-    /* GARANTIES */
-    .garantie{text-align:center;padding:32px 20px;border:1px solid var(--bord);border-radius:var(--r3);background:var(--blanc)}
-    .garantie-icon{width:52px;height:52px;border-radius:50%;background:var(--sauge-fond);border:1px solid var(--sauge-bord);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.3rem}
-    .garantie-title{font-family:var(--font-display);font-size:1rem;font-weight:500;margin-bottom:8px;color:var(--t1)}
-    .garantie-desc{font-size:0.82rem;color:var(--t3);line-height:1.6}
-
-    /* CTA */
-    .cta-box{background:var(--marron);border-radius:var(--r4);padding:56px 64px;display:flex;align-items:center;justify-content:space-between;gap:32px;position:relative;overflow:hidden}
-    .cta-box::before{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.04)}
-    .cta-box::after{content:'';position:absolute;right:80px;bottom:-60px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.03)}
-    .cta-title{font-family:var(--font-display);font-size:clamp(1.5rem,3vw,2.2rem);color:var(--blanc);font-weight:400;margin-bottom:8px}
-    .cta-sub{font-size:0.9rem;color:rgba(255,255,255,0.7)}
-    .cta-btns{display:flex;flex-direction:column;gap:10px;flex-shrink:0;position:relative;z-index:1}
+    .hero-visual { position: relative; }
+    .hero-img-main {
+      border-radius: var(--r4);
+      overflow: hidden;
+      height: 520px;
+      box-shadow: var(--ombre-lg);
+    }
+    .hero-img-main img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-badge {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r3);
+      padding: 18px 22px;
+      box-shadow: var(--ombre-md);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .hero-badge-icon {
+      width: 40px; height: 40px;
+      background: var(--or-fond);
+      border-radius: var(--r2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .hero-badge-val { font-family: var(--font-display); font-size: 1.3rem; font-weight: 400; color: var(--noir); line-height: 1; }
+    .hero-badge-lab { font-size: 0.72rem; color: var(--texte-3); margin-top: 2px; }
+    .hero-badge-2 {
+      position: absolute;
+      top: 24px;
+      right: -20px;
+      background: var(--noir);
+      border-radius: var(--r3);
+      padding: 14px 18px;
+      box-shadow: var(--ombre-md);
+    }
+    .hero-badge-2-val { font-family: var(--font-display); font-size: 1.5rem; color: var(--blanc); line-height: 1; }
+    .hero-badge-2-lab { font-size: 0.7rem; color: var(--gris-moyen); margin-top: 4px; }
+    .live-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #27AE60;
+      margin-right: 6px;
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green { 0%,100%{opacity:1}50%{opacity:0.4} }
 
     /* BAND */
-    .band{padding:20px 0;background:var(--beige);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord);overflow:hidden}
-    .band-track{display:flex;gap:52px;animation:slide 28s linear infinite;width:max-content}
-    .band-track:hover{animation-play-state:paused}
-    .band-item{font-family:var(--font-display);font-size:0.9rem;color:var(--t3);white-space:nowrap;font-style:italic;display:flex;align-items:center;gap:8px}
-    .band-item::before{content:'◆';font-size:0.45rem;color:var(--marron-pale)}
-    @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .band {
+      padding: 22px 0;
+      border-top: 1px solid var(--bord);
+      border-bottom: 1px solid var(--bord);
+      background: var(--perle);
+      overflow: hidden;
+    }
+    .band-inner {
+      display: flex;
+      align-items: center;
+      gap: 56px;
+      animation: scrollLeft 30s linear infinite;
+      width: max-content;
+    }
+    .band-inner:hover { animation-play-state: paused; }
+    .band-item {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      color: var(--gris-moyen);
+      white-space: nowrap;
+      font-style: italic;
+    }
+    .band-dot { color: var(--or); font-size: 0.5rem; flex-shrink: 0; }
+    @keyframes scrollLeft { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* SERVICES */
+    .service-card {
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r3);
+      padding: 32px 28px;
+      transition: all var(--t2) var(--ease);
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--or);
+      transform: scaleX(0);
+      transition: transform var(--t2) var(--ease);
+    }
+    .service-card:hover {
+      border-color: var(--gris-leger);
+      box-shadow: var(--ombre-md);
+      transform: translateY(-3px);
+    }
+    .service-card:hover::after { transform: scaleX(1); }
+    .service-icon-wrap {
+      width: 44px; height: 44px;
+      border-radius: var(--r2);
+      background: var(--perle);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .service-icon-wrap svg { width: 22px; height: 22px; }
+    .service-name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; margin-bottom: 4px; color: var(--noir); }
+    .service-price { font-family: var(--font-mono); font-size: 0.8rem; color: var(--or); margin-bottom: 14px; }
+    .service-desc  { font-size: 0.875rem; color: var(--texte-3); line-height: 1.65; }
+    .service-link  { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; color: var(--or); margin-top: 16px; font-weight: 500; }
+
+    /* PROCESS */
+    .process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 40px; }
+    .process-step { text-align: center; }
+    .process-num {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 1px solid var(--bord-or);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--or);
+    }
+    .process-title { font-family: var(--font-display); font-size: 1rem; font-weight: 500; margin-bottom: 8px; color: var(--noir); }
+    .process-desc  { font-size: 0.83rem; color: var(--texte-3); line-height: 1.6; }
+
+    /* TEMOIGNAGES */
+    .temoignage {
+      background: var(--perle);
+      border: 1px solid var(--bord);
+      border-radius: var(--r3);
+      padding: 32px;
+    }
+    .temoignage-stars { color: var(--or); letter-spacing: 3px; font-size: 0.85rem; margin-bottom: 16px; }
+    .temoignage-text {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--texte);
+      line-height: 1.75;
+      margin-bottom: 24px;
+    }
+    .temoignage-author { display: flex; align-items: center; gap: 12px; }
+    .temoignage-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--noir);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 600; color: var(--blanc);
+    }
+    .temoignage-name { font-size: 0.875rem; font-weight: 500; color: var(--noir); }
+    .temoignage-role { font-size: 0.75rem; color: var(--texte-3); margin-top: 2px; }
+
+    /* CTA URGENCE */
+    .cta-band {
+      background: var(--noir);
+      border-radius: var(--r4);
+      padding: 56px 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .cta-band-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--blanc);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+    .cta-band-sub { font-size: 0.9rem; color: var(--gris-moyen); }
+    .cta-band-actions { display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
 
     /* FOOTER */
-    .footer{background:var(--t1);padding:64px 0 32px;color:var(--blanc)}
-    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
-    .footer-logo{font-family:var(--font-display);font-size:1.4rem;color:var(--blanc);margin-bottom:14px}
-    .footer-tag{font-size:0.85rem;color:rgba(255,255,255,0.55);line-height:1.65;max-width:260px;margin-bottom:22px}
-    .footer-contact{font-size:0.83rem;color:rgba(255,255,255,0.65);margin-bottom:8px;display:flex;gap:8px;align-items:center}
-    .footer-col-title{font-size:0.68rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.1)}
-    .footer-links{display:flex;flex-direction:column;gap:9px}
-    .footer-link{font-size:0.85rem;color:rgba(255,255,255,0.6);transition:color var(--t-fast)}
-    .footer-link:hover{color:var(--blanc)}
-    .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:24px;display:flex;align-items:center;justify-content:space-between}
-    .footer-copy{font-size:0.75rem;color:rgba(255,255,255,0.35)}
+    .footer { background: var(--perle); border-top: 1px solid var(--bord); padding: 64px 0 32px; }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--noir); margin-bottom: 14px; }
+    .footer-tagline { font-size: 0.875rem; color: var(--texte-3); line-height: 1.65; max-width: 260px; margin-bottom: 24px; }
+    .footer-contact { font-size: 0.85rem; color: var(--texte-2); margin-bottom: 8px; display: flex; gap: 8px; align-items: center; }
+    .footer-col-title { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--texte-3); margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--bord); }
+    .footer-links { display: flex; flex-direction: column; gap: 10px; }
+    .footer-link { font-size: 0.875rem; color: var(--texte-2); transition: color var(--t1); }
+    .footer-link:hover { color: var(--or); }
+    .footer-bottom { border-top: 1px solid var(--bord); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; }
+    .footer-copy { font-size: 0.78rem; color: var(--texte-3); }
 
-    @media(max-width:1024px){
-      .hero::before{display:none}
-      .hero-grid{grid-template-columns:1fr;gap:40px}
-      .hero-photo{display:none}
-      .stats-row{grid-template-columns:repeat(2,1fr)}
-      .proc-grid{grid-template-columns:repeat(2,1fr)}
-      .proc-grid::before{display:none}
-      .footer-top{grid-template-columns:1fr 1fr}
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .process-grid { grid-template-columns: repeat(2,1fr); }
+      .footer-top { grid-template-columns: 1fr 1fr; }
     }
-    @media(max-width:768px){
-      .stats-row{grid-template-columns:repeat(2,1fr)}
-      .cta-box{flex-direction:column;padding:36px}
-      .cta-btns{width:100%}
-      .footer-top{grid-template-columns:1fr}
-      .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+    @media (max-width: 768px) {
+      .hero-title { font-size: clamp(2.2rem, 8vw, 3rem); }
+      .hero-stats { gap: 24px; }
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .cta-band { flex-direction: column; padding: 36px; }
+      .cta-band-actions { width: 100%; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
     }
-    @media(max-width:480px){
-      .proc-grid{grid-template-columns:1fr}
-      .stats-row{grid-template-columns:1fr 1fr}
+    @media (max-width: 480px) {
+      .process-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -148,6 +317,7 @@
     <div class="nav-burger"><span></span><span></span><span></span></div>
   </div>
 </nav>
+
 <div class="mobile-menu">
   <a href="index.html"    class="nav-link">Accueil</a>
   <a href="services.html" class="nav-link">Services</a>
@@ -158,43 +328,57 @@
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-bg"></div>
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-tag">Personnel hôtelier de prestige</div>
+        <div class="hero-label">Personnel hôtelier de prestige</div>
         <h1 class="hero-title">
           L'excellence,<br>
           <em>disponible</em><br>
           en 24 heures
         </h1>
-        <p class="hero-desc">Clean Staff met à disposition des hôtels 3 à 5 étoiles un personnel qualifié, discret et immédiatement opérationnel pour toutes vos missions ponctuelles.</p>
-        <div class="hero-btns">
+        <p class="hero-sub">
+          Clean Staff met à disposition des hôtels 3 à 5 étoiles un personnel qualifié, discret et immédiatement opérationnel pour toutes vos missions ponctuelles.
+        </p>
+        <div class="hero-actions">
           <a href="commander.html" class="btn btn-primary btn-lg">Faire une demande →</a>
-          <a href="services.html"  class="btn btn-outline btn-lg">Voir les profils</a>
+          <a href="services.html"  class="btn btn-outline btn-lg">Nos profils</a>
         </div>
-        <div class="hero-pills">
-          <span class="hero-pill">✓ Réponse sous 4h</span>
-          <span class="hero-pill">✓ Personnel vérifié</span>
-          <span class="hero-pill">✓ RC Pro incluse</span>
-          <span class="hero-pill">✓ 7j/7</span>
-        </div>
-      </div>
-      <div class="hero-photo">
-        <div class="hero-card-2">
-          <div class="live">Disponible maintenant</div>
-          <div class="hero-card-2-val">24h</div>
-          <div class="hero-card-2-lab">délai maximum</div>
-        </div>
-        <div class="hero-photo-main">
-          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=85&auto=format&fit=crop" alt="Hôtel de prestige">
-        </div>
-        <div class="hero-card-1">
-          <div class="hero-card-icon">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l2.4 5 5.6.8-4 3.9.9 5.3L10 14.5l-4.9 2.5.9-5.3L2 7.8l5.6-.8z" stroke="var(--sauge-2)" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <div class="hero-stats">
+          <div>
+            <div class="hero-stat-val" data-counter="500" data-suffix="+">500+</div>
+            <div class="hero-stat-lab">Missions réalisées</div>
           </div>
           <div>
-            <div class="hero-card-val">98%</div>
-            <div class="hero-card-lab">satisfaction clients</div>
+            <div class="hero-stat-val" data-counter="98" data-suffix="%">98%</div>
+            <div class="hero-stat-lab">Clients satisfaits</div>
+          </div>
+          <div>
+            <div class="hero-stat-val">24h</div>
+            <div class="hero-stat-lab">Délai maximum</div>
+          </div>
+          <div>
+            <div class="hero-stat-val" data-counter="45" data-suffix="+">45+</div>
+            <div class="hero-stat-lab">Hôtels partenaires</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-badge-2">
+          <div style="font-size:0.65rem;color:var(--gris-moyen);margin-bottom:6px"><span class="live-dot"></span>Disponible</div>
+          <div class="hero-badge-2-val">24h</div>
+          <div class="hero-badge-2-lab">délai de réponse</div>
+        </div>
+        <div class="hero-img-main">
+          <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=85&auto=format&fit=crop&crop=center" alt="Personnel hôtelier professionnel">
+        </div>
+        <div class="hero-badge">
+          <div class="hero-badge-icon">★</div>
+          <div>
+            <div class="hero-badge-val">5 étoiles</div>
+            <div class="hero-badge-lab">Standards respectés</div>
           </div>
         </div>
       </div>
@@ -204,164 +388,132 @@
 
 <!-- BAND -->
 <div class="band">
-  <div class="band-track">
-    <span class="band-item">Le Meurice</span>
-    <span class="band-item">Four Seasons Paris</span>
-    <span class="band-item">Hôtel de Crillon</span>
-    <span class="band-item">Mandarin Oriental</span>
-    <span class="band-item">Ritz Paris</span>
-    <span class="band-item">The Peninsula</span>
-    <span class="band-item">Grand Hyatt</span>
-    <span class="band-item">Hôtel Costes</span>
-    <span class="band-item">Sofitel Legend</span>
-    <span class="band-item">Le Meurice</span>
-    <span class="band-item">Four Seasons Paris</span>
-    <span class="band-item">Hôtel de Crillon</span>
-    <span class="band-item">Mandarin Oriental</span>
-    <span class="band-item">Ritz Paris</span>
-    <span class="band-item">The Peninsula</span>
-    <span class="band-item">Grand Hyatt</span>
-    <span class="band-item">Hôtel Costes</span>
-    <span class="band-item">Sofitel Legend</span>
+  <div class="band-inner">
+    <span class="band-item">Le Meurice</span><span class="band-dot">◆</span>
+    <span class="band-item">Four Seasons</span><span class="band-dot">◆</span>
+    <span class="band-item">Hôtel de Crillon</span><span class="band-dot">◆</span>
+    <span class="band-item">Mandarin Oriental</span><span class="band-dot">◆</span>
+    <span class="band-item">Ritz Paris</span><span class="band-dot">◆</span>
+    <span class="band-item">The Peninsula</span><span class="band-dot">◆</span>
+    <span class="band-item">Grand Hyatt</span><span class="band-dot">◆</span>
+    <span class="band-item">Hôtel Costes</span><span class="band-dot">◆</span>
+    <span class="band-item">Sofitel Legend</span><span class="band-dot">◆</span>
+    <span class="band-item">Le Meurice</span><span class="band-dot">◆</span>
+    <span class="band-item">Four Seasons</span><span class="band-dot">◆</span>
+    <span class="band-item">Hôtel de Crillon</span><span class="band-dot">◆</span>
+    <span class="band-item">Mandarin Oriental</span><span class="band-dot">◆</span>
+    <span class="band-item">Ritz Paris</span><span class="band-dot">◆</span>
+    <span class="band-item">The Peninsula</span><span class="band-dot">◆</span>
+    <span class="band-item">Grand Hyatt</span><span class="band-dot">◆</span>
+    <span class="band-item">Hôtel Costes</span><span class="band-dot">◆</span>
+    <span class="band-item">Sofitel Legend</span><span class="band-dot">◆</span>
   </div>
 </div>
 
-<!-- STATS -->
-<section class="section-sm" style="background:var(--blanc)">
-  <div class="container">
-    <div class="stats-row" data-reveal>
-      <div class="stat-item">
-        <div class="stat-val" data-counter="500" data-suffix="+">500+</div>
-        <div class="stat-lab">Missions réalisées</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-val" data-counter="98" data-suffix="%">98%</div>
-        <div class="stat-lab">Clients satisfaits</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-val">24h</div>
-        <div class="stat-lab">Délai de réponse max.</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-val" data-counter="45" data-suffix="+">45+</div>
-        <div class="stat-lab">Hôtels partenaires</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- SERVICES -->
-<section class="section" style="background:var(--creme)">
+<section class="section" style="background:var(--blanc)">
   <div class="container">
-    <div style="max-width:520px;margin-bottom:52px" data-reveal>
-      <div class="eyebrow">Nos profils</div>
-      <h2 class="d2">Un expert pour<br>chaque <em class="italic marron">poste hôtelier</em></h2>
-      <p class="lead mt-4">Sélectionnés pour leur expérience en établissements de standing, nos collaborateurs s'intègrent immédiatement à vos équipes.</p>
+    <div style="max-width:560px;margin-bottom:56px" data-reveal>
+      <div class="section-label">Nos profils</div>
+      <h2 class="d2">Un expert pour chaque<br><em class="italic or">poste de votre établissement</em></h2>
+      <p class="lead mt-4">Sélectionnés pour leur expérience en hôtellerie de standing, nos collaborateurs s'intègrent immédiatement à vos équipes.</p>
     </div>
+
     <div class="grid-3">
-      <div class="svc-card" data-reveal>
-        <div class="svc-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="6" width="18" height="12" rx="2"/><path d="M2 10h18M7 10V6"/><circle cx="11" cy="14" r="1.5"/></svg></div>
-        <div class="svc-name">Femme de chambre</div>
-        <div class="svc-price">13,50 € / chambre · min. 18 chambres</div>
-        <p class="svc-desc">Nettoyage et mise en ordre selon les standards hôteliers. Maîtrise des techniques de pliage et présentation soignée.</p>
-        <a href="services.html" class="svc-link">Voir le détail →</a>
+      <div class="service-card" data-reveal>
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M2 11h20M8 11V7"/><circle cx="12" cy="16" r="1.5"/></svg>
+        </div>
+        <div class="service-name">Femme de chambre</div>
+        <div class="service-price">13,50 € / chambre · min. 18 chambres</div>
+        <p class="service-desc">Nettoyage et mise en ordre selon les standards hôteliers. Maîtrise des techniques de pliage et présentation soignée.</p>
+        <a href="services.html" class="service-link">Voir le détail →</a>
       </div>
-      <div class="svc-card" data-reveal>
-        <div class="svc-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="7" r="3"/><path d="M5 19v-2a6 6 0 0112 0v2"/></svg></div>
-        <div class="svc-name">Valet de chambre</div>
-        <div class="svc-price">13,50 € / chambre · min. 18 chambres</div>
-        <p class="svc-desc">Service de lingerie et entretien de vêtements. Discrétion et savoir-faire pour les hôtes les plus exigeants.</p>
-        <a href="services.html" class="svc-link">Voir le détail →</a>
+
+      <div class="service-card" data-reveal>
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/><path d="M12 14v3"/></svg>
+        </div>
+        <div class="service-name">Valet de chambre</div>
+        <div class="service-price">13,50 € / chambre · min. 18 chambres</div>
+        <p class="service-desc">Service de lingerie et entretien de vêtements. Discrétion et savoir-faire pour les hôtes les plus exigeants.</p>
+        <a href="services.html" class="service-link">Voir le détail →</a>
       </div>
-      <div class="svc-card" data-reveal>
-        <div class="svc-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"><polygon points="11 2 13.5 8 20 8.5 15.5 12.5 17 19 11 15.5 5 19 6.5 12.5 2 8.5 8.5 8"/></svg></div>
-        <div class="svc-name">Gouvernante</div>
-        <div class="svc-price">33 € / heure · min. 7h</div>
-        <p class="svc-desc">Supervision des équipes, contrôle qualité et coordination des opérations d'étage.</p>
-        <a href="services.html" class="svc-link">Voir le détail →</a>
+
+      <div class="service-card" data-reveal>
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.5" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+        </div>
+        <div class="service-name">Gouvernante</div>
+        <div class="service-price">33 € / heure · min. 7h</div>
+        <p class="service-desc">Supervision des équipes, contrôle qualité et coordination des opérations d'étage. Idéale pour les audits qualité.</p>
+        <a href="services.html" class="service-link">Voir le détail →</a>
       </div>
-      <div class="svc-card" data-reveal>
-        <div class="svc-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="16" height="14" rx="2"/><path d="M3 9h16M7 4v5M15 4v5"/></svg></div>
-        <div class="svc-name">Réceptionniste jour</div>
-        <div class="svc-price">29 € / heure · min. 7h</div>
-        <p class="svc-desc">Accueil, check-in/check-out, gestion des demandes. Maîtrise des logiciels hôteliers, anglais courant.</p>
-        <a href="services.html" class="svc-link">Voir le détail →</a>
+
+      <div class="service-card" data-reveal>
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M8 4v6M16 4v6"/></svg>
+        </div>
+        <div class="service-name">Réceptionniste jour</div>
+        <div class="service-price">29 € / heure · min. 7h</div>
+        <p class="service-desc">Accueil, check-in/check-out, gestion des demandes. Maîtrise des logiciels hôteliers, anglais courant.</p>
+        <a href="services.html" class="service-link">Voir le détail →</a>
       </div>
-      <div class="svc-card" data-reveal>
-        <div class="svc-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="9"/><path d="M11 7v4l2.5 2.5"/></svg></div>
-        <div class="svc-name">Réceptionniste nuit</div>
-        <div class="svc-price">30 € / heure · min. 7h</div>
-        <p class="svc-desc">Audit de nuit, clôture de caisse, gestion des urgences nocturnes. Profil autonome et expérimenté.</p>
-        <a href="services.html" class="svc-link">Voir le détail →</a>
+
+      <div class="service-card" data-reveal>
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M5 5l2 2M19 5l-2 2"/></svg>
+        </div>
+        <div class="service-name">Réceptionniste nuit</div>
+        <div class="service-price">30 € / heure · min. 7h</div>
+        <p class="service-desc">Audit de nuit, clôture de caisse, gestion des urgences nocturnes. Profil polyvalent et autonome.</p>
+        <a href="services.html" class="service-link">Voir le détail →</a>
       </div>
-      <div class="svc-card" data-reveal>
-        <div class="svc-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"><path d="M11 4v14M4 11h14"/><circle cx="11" cy="11" r="3"/></svg></div>
-        <div class="svc-name">Équipier polyvalent</div>
-        <div class="svc-price">28 € / heure · min. 7h</div>
-        <p class="svc-desc">Plonge, room service, lingerie, commis. La solution flexible pour tous vos imprévus.</p>
-        <a href="services.html" class="svc-link">Voir le détail →</a>
+
+      <div class="service-card" data-reveal>
+        <div class="service-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--or)" stroke-width="1.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="service-name">Équipier polyvalent</div>
+        <div class="service-price">28 € / heure · min. 7h</div>
+        <p class="service-desc">Plonge, room service, lingerie, commis. La solution flexible pour tous vos imprévus et renforts de dernière minute.</p>
+        <a href="services.html" class="service-link">Voir le détail →</a>
       </div>
     </div>
+
     <div class="center mt-12" data-reveal>
-      <a href="tarifs.html" class="btn btn-outline btn-lg">Grille tarifaire complète</a>
+      <a href="tarifs.html" class="btn btn-outline btn-lg">Voir la grille tarifaire complète</a>
     </div>
   </div>
 </section>
 
 <!-- PROCESS -->
-<section class="section" style="background:var(--blanc)">
+<section class="section" style="background:var(--perle)">
   <div class="container">
-    <div style="text-align:center;max-width:460px;margin:0 auto 52px" data-reveal>
-      <div class="eyebrow" style="justify-content:center">Comment ça fonctionne</div>
-      <h2 class="d2">Simple, rapide,<br><em class="italic marron">sans surprises</em></h2>
+    <div style="text-align:center;max-width:480px;margin:0 auto 56px" data-reveal>
+      <div class="section-label" style="justify-content:center">Comment ça fonctionne</div>
+      <h2 class="d2">Simple, rapide,<br><em class="italic or">fiable</em></h2>
     </div>
-    <div class="proc-grid">
-      <div class="proc-step" data-reveal>
-        <div class="proc-num">1</div>
-        <div class="proc-title">Envoyez votre demande</div>
-        <p class="proc-desc">Via notre formulaire en ligne — dates, horaires, profils et nombre souhaités.</p>
+    <div class="process-grid">
+      <div class="process-step" data-reveal>
+        <div class="process-num">1</div>
+        <div class="process-title">Envoyez votre demande</div>
+        <p class="process-desc">Via notre formulaire en ligne — date, horaires, profils et nombre de personnes souhaités.</p>
       </div>
-      <div class="proc-step" data-reveal>
-        <div class="proc-num">2</div>
-        <div class="proc-title">Confirmation sous 4h</div>
-        <p class="proc-desc">Nous confirmons la disponibilité et vous envoyons un devis détaillé.</p>
+      <div class="process-step" data-reveal>
+        <div class="process-num">2</div>
+        <div class="process-title">Confirmation sous 4h</div>
+        <p class="process-desc">Nous revenons vers vous avec disponibilité confirmée et devis estimatif.</p>
       </div>
-      <div class="proc-step" data-reveal>
-        <div class="proc-num">3</div>
-        <div class="proc-title">Prise en poste</div>
-        <p class="proc-desc">Le personnel se présente à l'heure convenue, prêt à s'intégrer à vos équipes.</p>
+      <div class="process-step" data-reveal>
+        <div class="process-num">3</div>
+        <div class="process-title">Prise en poste</div>
+        <p class="process-desc">Le personnel se présente à l'heure convenue, prêt à s'intégrer à vos équipes.</p>
       </div>
-      <div class="proc-step" data-reveal>
-        <div class="proc-num">4</div>
-        <div class="proc-title">Facturation claire</div>
-        <p class="proc-desc">Facture récapitulative par email en fin de mission. Règlement à 30 jours.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- GARANTIES -->
-<section class="section" style="background:var(--creme)">
-  <div class="container">
-    <div style="text-align:center;max-width:460px;margin:0 auto 48px" data-reveal>
-      <div class="eyebrow" style="justify-content:center">Nos engagements</div>
-      <h2 class="d2">Ce que vous pouvez<br><em class="italic marron">toujours attendre</em></h2>
-    </div>
-    <div class="grid-3">
-      <div class="garantie" data-reveal>
-        <div class="garantie-icon">🎓</div>
-        <div class="garantie-title">Personnel vérifié</div>
-        <p class="garantie-desc">Expérience contrôlée, références vérifiées, formé aux standards hôteliers avant toute prise de poste.</p>
-      </div>
-      <div class="garantie" data-reveal>
-        <div class="garantie-icon">⏱</div>
-        <div class="garantie-title">Ponctualité garantie</div>
-        <p class="garantie-desc">En cas de retard, nous informons immédiatement et assurons un remplacement sous 2 heures.</p>
-      </div>
-      <div class="garantie" data-reveal>
-        <div class="garantie-icon">🛡</div>
-        <div class="garantie-title">RC Pro incluse</div>
-        <p class="garantie-desc">Tous nos collaborateurs sont couverts par notre responsabilité civile professionnelle pendant toute la mission.</p>
+      <div class="process-step" data-reveal>
+        <div class="process-num">4</div>
+        <div class="process-title">Facturation simple</div>
+        <p class="process-desc">Facture récapitulative par email en fin de mission. Règlement à 30 jours.</p>
       </div>
     </div>
   </div>
@@ -370,51 +522,60 @@
 <!-- TEMOIGNAGES -->
 <section class="section" style="background:var(--blanc)">
   <div class="container">
-    <div style="max-width:460px;margin-bottom:48px" data-reveal>
-      <div class="eyebrow">Témoignages</div>
-      <h2 class="d2">Ils nous font<br><em class="italic marron">confiance</em></h2>
+    <div style="max-width:480px;margin-bottom:56px" data-reveal>
+      <div class="section-label">Témoignages</div>
+      <h2 class="d2">Ce que disent<br><em class="italic or">nos clients</em></h2>
     </div>
     <div class="grid-3">
-      <div class="temo" data-reveal>
-        <div class="temo-stars">★★★★★</div>
-        <p class="temo-text">"Une réactivité exemplaire. Appelés à 18h pour un besoin urgent le lendemain, l'équipe était en place à 7h pile."</p>
-        <div class="temo-author">
-          <div class="temo-avatar">GD</div>
-          <div><div class="temo-name">Guillaume Dubois</div><div class="temo-role">Directeur — Le Meurice ★★★★★</div></div>
+      <div class="temoignage" data-reveal>
+        <div class="temoignage-stars">★★★★★</div>
+        <p class="temoignage-text">"Une réactivité exemplaire. Appelés un vendredi à 18h pour un besoin urgent le lendemain, l'équipe était en place à 7h pile."</p>
+        <div class="temoignage-author">
+          <div class="temoignage-avatar">GD</div>
+          <div>
+            <div class="temoignage-name">Guillaume Dubois</div>
+            <div class="temoignage-role">Directeur — Le Meurice ★★★★★</div>
+          </div>
         </div>
       </div>
-      <div class="temo" data-reveal>
-        <div class="temo-stars">★★★★★</div>
-        <p class="temo-text">"Le niveau professionnel des équipes est remarquable. Nos standards les plus exigeants sont parfaitement respectés."</p>
-        <div class="temo-author">
-          <div class="temo-avatar">LM</div>
-          <div><div class="temo-name">Laura Martin</div><div class="temo-role">Hébergement — Grand Palais ★★★★</div></div>
+      <div class="temoignage" data-reveal>
+        <div class="temoignage-stars">★★★★★</div>
+        <p class="temoignage-text">"Le niveau professionnel des équipes est remarquable. Nos standards les plus exigeants sont parfaitement respectés."</p>
+        <div class="temoignage-author">
+          <div class="temoignage-avatar">LM</div>
+          <div>
+            <div class="temoignage-name">Laura Martin</div>
+            <div class="temoignage-role">Responsable hébergement — Grand Palais ★★★★</div>
+          </div>
         </div>
       </div>
-      <div class="temo" data-reveal>
-        <div class="temo-stars">★★★★★</div>
-        <p class="temo-text">"La gouvernante mise à disposition connaissait nos procédures mieux que certains titulaires. Impressionnant."</p>
-        <div class="temo-author">
-          <div class="temo-avatar">MF</div>
-          <div><div class="temo-name">Marc Fontaine</div><div class="temo-role">Réception — Hôtel Costes ★★★★★</div></div>
+      <div class="temoignage" data-reveal>
+        <div class="temoignage-stars">★★★★★</div>
+        <p class="temoignage-text">"La gouvernante mise à disposition pour notre audit qualité connaissait nos procédures mieux que certains titulaires."</p>
+        <div class="temoignage-author">
+          <div class="temoignage-avatar">MF</div>
+          <div>
+            <div class="temoignage-name">Marc Fontaine</div>
+            <div class="temoignage-role">Chef de réception — Hôtel Costes ★★★★★</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<section class="section-sm" style="background:var(--creme)">
+<!-- CTA URGENCE -->
+<section class="section-sm" style="background:var(--perle)">
   <div class="container" data-reveal>
-    <div class="cta-box">
+    <div class="cta-band">
       <div>
-        <div style="font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:10px">Disponible 7j/7</div>
-        <div class="cta-title">Besoin en urgence ?</div>
-        <p class="cta-sub">Traitement des demandes urgentes sous 4 heures, même les jours fériés.</p>
+        <div style="font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gris-moyen);margin-bottom:10px">Disponible 7j/7</div>
+        <div class="cta-band-title">Besoin en urgence ?</div>
+        <p class="cta-band-sub">Nous traitons les demandes urgentes sous 4 heures, même les jours fériés.</p>
       </div>
-      <div class="cta-btns">
-        <a href="tel:+33611707501" class="btn btn-sauge btn-lg" style="min-width:210px;justify-content:center">📞 +33 6 11 70 75 01</a>
-        <a href="commander.html"   class="btn btn-outline btn-lg" style="min-width:210px;justify-content:center;border-color:rgba(255,255,255,0.25);color:var(--blanc)">Formulaire en ligne →</a>
+      <div class="cta-band-actions">
+        <a href="tel:+33611707501" class="btn btn-or btn-lg" style="min-width:200px">📞 +33 6 11 70 75 01</a>
+        <a href="commander.html"   class="btn btn-outline btn-lg" style="border-color:rgba(255,255,255,0.2);color:var(--blanc);min-width:200px">Formulaire en ligne →</a>
       </div>
     </div>
   </div>
@@ -425,8 +586,8 @@
   <div class="container">
     <div class="footer-top">
       <div>
-        <div class="footer-logo">Clean Staff</div>
-        <p class="footer-tag">Personnel hôtelier qualifié pour établissements 3 à 5 étoiles. Discrétion, réactivité et excellence à chaque mission.</p>
+        <div class="footer-logo"><span>Clean</span> Staff</div>
+        <p class="footer-tagline">Personnel hôtelier qualifié pour établissements 3 à 5 étoiles. Discrétion, réactivité et excellence.</p>
         <div class="footer-contact"><span>📍</span> Île-de-France & Paris</div>
         <div class="footer-contact"><span>📞</span> +33 6 11 70 75 01</div>
         <div class="footer-contact"><span>✉</span> admin@cleanstaff.fr</div>
@@ -444,28 +605,31 @@
       <div>
         <div class="footer-col-title">Navigation</div>
         <div class="footer-links">
-          <a href="index.html"     class="footer-link">Accueil</a>
-          <a href="tarifs.html"    class="footer-link">Tarifs</a>
+          <a href="index.html"    class="footer-link">Accueil</a>
+          <a href="tarifs.html"   class="footer-link">Tarifs</a>
           <a href="commander.html" class="footer-link">Faire une demande</a>
-          <a href="contact.html"   class="footer-link">Contact</a>
+          <a href="contact.html"  class="footer-link">Contact</a>
         </div>
       </div>
       <div>
         <div class="footer-col-title">Informations</div>
         <div class="footer-links">
-          <a href="#" class="footer-link">Mentions légales</a>
-          <a href="#" class="footer-link">CGV</a>
+          <a href="mentions-legales.html" class="footer-link">Mentions légales</a>
+          <a href="cgv.html"              class="footer-link">CGV</a>
         </div>
-        <div style="margin-top:20px;padding:14px;background:rgba(255,255,255,0.06);border-radius:var(--r2);border:1px solid rgba(255,255,255,0.08)">
-          <div style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-bottom:4px">Horaires</div>
-          <div style="font-size:0.82rem;color:rgba(255,255,255,0.8);font-weight:500">Lun–Sam : 7h–22h</div>
-          <div style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:2px">Urgences 7j/7</div>
+        <div style="margin-top:24px;padding:16px;background:var(--blanc);border-radius:var(--r2);border:1px solid var(--bord)">
+          <div style="font-size:0.72rem;color:var(--texte-3);margin-bottom:6px">Horaires</div>
+          <div style="font-size:0.83rem;color:var(--texte-2);font-weight:500">Lun–Sam : 7h–22h</div>
+          <div style="font-size:0.78rem;color:var(--texte-3);margin-top:2px">Urgences 7j/7</div>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
       <p class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</p>
-      <p class="footer-copy">Île-de-France · Établissements 3–5★</p>
+      <div style="display:flex;gap:16px">
+        <span style="font-size:0.75rem;color:var(--texte-3);background:var(--blanc);padding:4px 12px;border-radius:var(--r5);border:1px solid var(--bord)">🇫🇷 France</span>
+        <span style="font-size:0.75rem;color:var(--texte-3);background:var(--blanc);padding:4px 12px;border-radius:var(--r5);border:1px solid var(--bord)">Établissements 3–5★</span>
+      </div>
     </div>
   </div>
 </footer>

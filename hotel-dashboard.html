@@ -8,66 +8,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/design.css" />
   <style>
-    body { background: var(--noir-0); min-height: 100vh; display: flex; flex-direction: column; }
+    body { background: var(--creme); min-height: 100vh; display: flex; flex-direction: column; }
 
     /* Layout */
     .dashboard-layout { display: flex; min-height: calc(100vh - var(--nav-height)); padding-top: var(--nav-height); }
-    .sidebar { width: 260px; flex-shrink: 0; background: var(--noir-1); border-right: 1px solid var(--or-2-10); padding: var(--space-8) 0; position: sticky; top: var(--nav-height); height: calc(100vh - var(--nav-height)); overflow-y: auto; }
+    .sidebar { width: 260px; flex-shrink: 0; background: var(--beige); border-right: 1px solid var(--or-2-10); padding: var(--space-8) 0; position: sticky; top: var(--nav-height); height: calc(100vh - var(--nav-height)); overflow-y: auto; }
     .main-area { flex: 1; padding: var(--space-8); overflow-x: hidden; }
 
     /* Sidebar */
     .sidebar-hotel-info { padding: 0 var(--space-6) var(--space-6); border-bottom: 1px solid var(--or-2-10); margin-bottom: var(--space-4); }
-    .sidebar-hotel-badge { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); background: rgba(201,168,76,0.1); border: 1px solid var(--or-2-20); border-radius: 999px; font-size: 0.7rem; color: var(--or-3); margin-bottom: var(--space-3); letter-spacing: 0.1em; text-transform: uppercase; }
-    .sidebar-hotel-name { font-family: var(--font-display); font-size: 1.2rem; color: var(--text-primary); margin-bottom: var(--space-1); }
-    .sidebar-hotel-email { font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono); }
+    .sidebar-hotel-badge { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); background: var(--marron-fond); border: 1px solid var(--or-2-20); border-radius: 999px; font-size: 0.7rem; color: var(--marron-2); margin-bottom: var(--space-3); letter-spacing: 0.1em; text-transform: uppercase; }
+    .sidebar-hotel-name { font-family: var(--font-display); font-size: 1.2rem; color: var(--t1); margin-bottom: var(--space-1); }
+    .sidebar-hotel-email { font-size: 0.75rem; color: var(--t2); font-family: var(--font-mono); }
     .sidebar-nav { padding: 0 var(--space-3); }
-    .sidebar-nav-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-3); border-radius: var(--radius-lg); cursor: pointer; transition: all 0.2s; margin-bottom: var(--space-1); color: var(--text-secondary); font-size: 0.875rem; border: none; background: none; width: 100%; text-align: left; }
-    .sidebar-nav-item:hover { background: var(--noir-3); color: var(--text-primary); }
-    .sidebar-nav-item.active { background: rgba(201,168,76,0.1); color: var(--or-3); border: 1px solid var(--or-2-20); }
+    .sidebar-nav-item { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-3); border-radius: var(--radius-lg); cursor: pointer; transition: all 0.2s; margin-bottom: var(--space-1); color: var(--t2); font-size: 0.875rem; border: none; background: none; width: 100%; text-align: left; }
+    .sidebar-nav-item:hover { background: var(--beige-2); color: var(--t1); }
+    .sidebar-nav-item.active { background: var(--marron-fond); color: var(--marron-2); border: 1px solid var(--or-2-20); }
     .sidebar-nav-item svg { width: 16px; height: 16px; opacity: 0.7; }
     .sidebar-nav-item.active svg { opacity: 1; }
     .sidebar-logout { padding: var(--space-4) var(--space-6); margin-top: auto; border-top: 1px solid var(--or-2-10); }
-    .sidebar-logout-btn { display: flex; align-items: center; gap: var(--space-2); font-size: 0.8rem; color: var(--text-secondary); cursor: pointer; background: none; border: none; width: 100%; transition: color 0.2s; }
+    .sidebar-logout-btn { display: flex; align-items: center; gap: var(--space-2); font-size: 0.8rem; color: var(--t2); cursor: pointer; background: none; border: none; width: 100%; transition: color 0.2s; }
     .sidebar-logout-btn:hover { color: var(--error); }
 
     /* Sections */
     .panel { display: none; }
     .panel.active { display: block; }
-    .panel-title { font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-2); }
-    .panel-subtitle { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: var(--space-8); }
+    .panel-title { font-family: var(--font-display); font-size: 2rem; font-weight: 300; color: var(--t1); margin-bottom: var(--space-2); }
+    .panel-subtitle { color: var(--t2); font-size: 0.9rem; margin-bottom: var(--space-8); }
 
     /* KPI cards */
     .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-8); }
-    .kpi-card { background: var(--noir-2); border: 1px solid var(--or-2-10); border-radius: var(--radius-xl); padding: var(--space-5); }
-    .kpi-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2); }
-    .kpi-value { font-family: var(--font-display); font-size: 2rem; color: var(--or-3); font-weight: 300; }
-    .kpi-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-1); }
+    .kpi-card { background: var(--blanc); border: 1px solid var(--or-2-10); border-radius: var(--radius-xl); padding: var(--space-5); }
+    .kpi-label { font-size: 0.75rem; color: var(--t2); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-2); }
+    .kpi-value { font-family: var(--font-display); font-size: 2rem; color: var(--marron-2); font-weight: 300; }
+    .kpi-sub { font-size: 0.75rem; color: var(--t2); margin-top: var(--space-1); }
 
     /* Orders table */
     .orders-filter-bar { display: flex; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap: wrap; }
-    .filter-tab { padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); font-size: 0.8rem; cursor: pointer; border: 1px solid var(--or-2-20); background: var(--noir-2); color: var(--text-secondary); transition: all 0.2s; }
-    .filter-tab.active, .filter-tab:hover { background: rgba(201,168,76,0.1); color: var(--or-3); border-color: var(--or-2); }
-    .table-wrap { background: var(--noir-1); border: 1px solid var(--or-2-10); border-radius: var(--radius-xl); overflow: hidden; }
+    .filter-tab { padding: var(--space-2) var(--space-4); border-radius: var(--radius-lg); font-size: 0.8rem; cursor: pointer; border: 1px solid var(--or-2-20); background: var(--blanc); color: var(--t2); transition: all 0.2s; }
+    .filter-tab.active, .filter-tab:hover { background: var(--marron-fond); color: var(--marron-2); border-color: var(--marron); }
+    .table-wrap { background: var(--beige); border: 1px solid var(--or-2-10); border-radius: var(--radius-xl); overflow: hidden; }
     table { width: 100%; border-collapse: collapse; }
-    th { padding: var(--space-4) var(--space-5); text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); border-bottom: 1px solid var(--or-2-10); background: var(--noir-2); }
-    td { padding: var(--space-4) var(--space-5); font-size: 0.85rem; color: var(--text-primary); border-bottom: 1px solid var(--or-2-05); }
+    th { padding: var(--space-4) var(--space-5); text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t2); border-bottom: 1px solid var(--or-2-10); background: var(--blanc); }
+    td { padding: var(--space-4) var(--space-5); font-size: 0.85rem; color: var(--t1); border-bottom: 1px solid var(--or-2-05); }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(255,255,255,0.02); }
-    .order-ref { font-family: var(--font-mono); font-size: 0.78rem; color: var(--or-2); }
-    .empty-state { text-align: center; padding: var(--space-16); color: var(--text-secondary); }
+    .order-ref { font-family: var(--font-mono); font-size: 0.78rem; color: var(--marron); }
+    .empty-state { text-align: center; padding: var(--space-16); color: var(--t2); }
     .empty-state p { margin-bottom: var(--space-4); }
 
     /* Quick order form */
-    .quick-order-card { background: var(--noir-2); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-8); }
+    .quick-order-card { background: var(--blanc); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-8); }
     .quick-service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-3); margin-bottom: var(--space-6); }
     .service-toggle { cursor: pointer; }
     .service-toggle input { display: none; }
-    .service-toggle span { display: block; padding: var(--space-3) var(--space-4); border: 1px solid var(--or-2-20); border-radius: var(--radius-lg); font-size: 0.8rem; color: var(--text-secondary); text-align: center; transition: all 0.2s; background: var(--noir-3); }
-    .service-toggle input:checked + span { border-color: var(--or-2); background: rgba(201,168,76,0.1); color: var(--or-3); }
-    .service-toggle span:hover { border-color: var(--or-2); }
+    .service-toggle span { display: block; padding: var(--space-3) var(--space-4); border: 1px solid var(--or-2-20); border-radius: var(--radius-lg); font-size: 0.8rem; color: var(--t2); text-align: center; transition: all 0.2s; background: var(--beige-2); }
+    .service-toggle input:checked + span { border-color: var(--marron); background: var(--marron-fond); color: var(--marron-2); }
+    .service-toggle span:hover { border-color: var(--marron); }
 
     /* Profile card */
-    .profile-card { background: var(--noir-2); border: 1px solid var(--or-2-10); border-radius: var(--radius-2xl); padding: var(--space-8); }
+    .profile-card { background: var(--blanc); border: 1px solid var(--or-2-10); border-radius: var(--radius-2xl); padding: var(--space-8); }
     .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
 
     /* Status badges */
@@ -87,13 +87,13 @@
     /* Tracker */
     .tracker-steps { display: flex; align-items: center; gap: 0; margin: var(--space-6) 0; }
     .tracker-step { flex: 1; display: flex; flex-direction: column; align-items: center; position: relative; }
-    .tracker-step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--or-2-20); background: var(--noir-3); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--text-secondary); z-index: 1; transition: all 0.3s; }
-    .tracker-step.done .tracker-step-dot { background: var(--or-2); border-color: var(--or-2); color: var(--noir-0); }
-    .tracker-step.current .tracker-step-dot { border-color: var(--or-3); background: rgba(201,168,76,0.15); color: var(--or-3); box-shadow: 0 0 0 4px rgba(201,168,76,0.1); }
-    .tracker-step-label { font-size: 0.7rem; color: var(--text-secondary); margin-top: var(--space-2); text-align: center; }
-    .tracker-step.done .tracker-step-label, .tracker-step.current .tracker-step-label { color: var(--or-3); }
+    .tracker-step-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--or-2-20); background: var(--beige-2); display: flex; align-items: center; justify-content: center; font-size: 0.65rem; color: var(--t2); z-index: 1; transition: all 0.3s; }
+    .tracker-step.done .tracker-step-dot { background: var(--marron); border-color: var(--marron); color: var(--creme); }
+    .tracker-step.current .tracker-step-dot { border-color: var(--marron-2); background: rgba(201,168,76,0.15); color: var(--marron-2); box-shadow: 0 0 0 4px var(--marron-fond); }
+    .tracker-step-label { font-size: 0.7rem; color: var(--t2); margin-top: var(--space-2); text-align: center; }
+    .tracker-step.done .tracker-step-label, .tracker-step.current .tracker-step-label { color: var(--marron-2); }
     .tracker-line { flex: 1; height: 2px; background: var(--or-2-20); margin-top: -14px; }
-    .tracker-line.done { background: var(--or-2); }
+    .tracker-line.done { background: var(--marron); }
 
     @media (max-width: 900px) {
       .sidebar { display: none; }
@@ -125,7 +125,7 @@
         </div>
       </a>
       <div class="nav-actions">
-        <button class="btn btn-sm" onclick="showPanel('nouvelle-demande')" style="background: var(--or-2); color: var(--noir-0);">+ Nouvelle demande</button>
+        <button class="btn btn-sm" onclick="showPanel('nouvelle-demande')" style="background: var(--marron); color: var(--creme);">+ Nouvelle demande</button>
       </div>
     </div>
   </div>
@@ -177,7 +177,7 @@
 
     <!-- Aperçu -->
     <div class="panel active" id="panel-apercu">
-      <p class="panel-subtitle" style="margin-bottom: var(--space-2); font-family: var(--font-display); font-size: 0.9rem; color: var(--or-2); letter-spacing: 0.1em; text-transform: uppercase;">Tableau de bord</p>
+      <p class="panel-subtitle" style="margin-bottom: var(--space-2); font-family: var(--font-display); font-size: 0.9rem; color: var(--marron); letter-spacing: 0.1em; text-transform: uppercase;">Tableau de bord</p>
       <h1 class="panel-title">Bonjour, <span id="contactName">G. Dubois</span></h1>
       <p class="panel-subtitle">Voici un résumé de votre activité avec Clean Staff.</p>
 
@@ -199,7 +199,7 @@
         </div>
       </div>
 
-      <h2 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 300; color: var(--text-primary); margin-bottom: var(--space-5);">Dernières commandes</h2>
+      <h2 style="font-family: var(--font-display); font-size: 1.3rem; font-weight: 300; color: var(--t1); margin-bottom: var(--space-5);">Dernières commandes</h2>
       <div class="table-wrap">
         <table>
           <thead><tr><th>Référence</th><th>Date</th><th>Services</th><th>Montant</th><th>Statut</th></tr></thead>
@@ -244,12 +244,12 @@
           <div class="form-group">
             <label class="form-label">Services souhaités *</label>
             <div class="quick-service-grid">
-              <label class="service-toggle"><input type="checkbox" name="services" value="femme-chambre" /><span>👩 Femme de chambre<br/><small style="color: var(--text-secondary);">26 €/h · min 4h</small></span></label>
-              <label class="service-toggle"><input type="checkbox" name="services" value="valet-chambre" /><span>🧹 Valet de chambre<br/><small style="color: var(--text-secondary);">26 €/h · min 4h</small></span></label>
-              <label class="service-toggle"><input type="checkbox" name="services" value="equipier" /><span>🔧 Équipier polyvalent<br/><small style="color: var(--text-secondary);">26 €/h · min 4h</small></span></label>
-              <label class="service-toggle"><input type="checkbox" name="services" value="receptionniste-jour" /><span>🏨 Réceptionniste jour<br/><small style="color: var(--text-secondary);">28 €/h · min 6h</small></span></label>
-              <label class="service-toggle"><input type="checkbox" name="services" value="receptionniste-nuit" /><span>🌙 Réceptionniste nuit<br/><small style="color: var(--text-secondary);">29 €/h · min 8h</small></span></label>
-              <label class="service-toggle"><input type="checkbox" name="services" value="gouvernante" /><span>👑 Gouvernante<br/><small style="color: var(--text-secondary);">32 €/h · min 6h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="femme-chambre" /><span>👩 Femme de chambre<br/><small style="color: var(--t2);">26 €/h · min 4h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="valet-chambre" /><span>🧹 Valet de chambre<br/><small style="color: var(--t2);">26 €/h · min 4h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="equipier" /><span>🔧 Équipier polyvalent<br/><small style="color: var(--t2);">26 €/h · min 4h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="receptionniste-jour" /><span>🏨 Réceptionniste jour<br/><small style="color: var(--t2);">28 €/h · min 6h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="receptionniste-nuit" /><span>🌙 Réceptionniste nuit<br/><small style="color: var(--t2);">29 €/h · min 8h</small></span></label>
+              <label class="service-toggle"><input type="checkbox" name="services" value="gouvernante" /><span>👑 Gouvernante<br/><small style="color: var(--t2);">32 €/h · min 6h</small></span></label>
             </div>
           </div>
 
@@ -270,20 +270,20 @@
           </div>
 
           <div style="display:flex; align-items:center; gap: var(--space-4); flex-wrap: wrap;">
-            <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer; font-size:0.85rem; color: var(--text-secondary);">
-              <input type="checkbox" id="urgentCheck" style="accent-color: var(--or-2);" />
+            <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer; font-size:0.85rem; color: var(--t2);">
+              <input type="checkbox" id="urgentCheck" style="accent-color: var(--marron);" />
               Demande urgente (+15%)
             </label>
-            <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer; font-size:0.85rem; color: var(--text-secondary);">
-              <input type="checkbox" id="ferieCheck" style="accent-color: var(--or-2);" />
+            <label style="display:flex; align-items:center; gap: var(--space-2); cursor:pointer; font-size:0.85rem; color: var(--t2);">
+              <input type="checkbox" id="ferieCheck" style="accent-color: var(--marron);" />
               Jour férié (+25%)
             </label>
           </div>
 
           <div style="margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--or-2-10); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap: var(--space-4);">
             <div>
-              <div style="font-size:0.75rem; color: var(--text-secondary); text-transform:uppercase; letter-spacing:0.1em;">Estimation</div>
-              <div style="font-family: var(--font-display); font-size: 2rem; color: var(--or-3);" id="quickEstimate">— €</div>
+              <div style="font-size:0.75rem; color: var(--t2); text-transform:uppercase; letter-spacing:0.1em;">Estimation</div>
+              <div style="font-family: var(--font-display); font-size: 2rem; color: var(--marron-2);" id="quickEstimate">— €</div>
             </div>
             <button type="submit" class="btn btn-primary" style="min-width: 200px;">Envoyer la demande</button>
           </div>
@@ -302,12 +302,12 @@
       </div>
 
       <div id="trackResult" style="display:none;">
-        <div style="background: var(--noir-2); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-8);">
+        <div style="background: var(--blanc); border: 1px solid var(--or-2-20); border-radius: var(--radius-2xl); padding: var(--space-8);">
           <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap: var(--space-4); margin-bottom: var(--space-6);">
             <div>
               <div class="order-ref" id="trackRefDisplay" style="font-size:1rem; margin-bottom: var(--space-2);"></div>
-              <div style="font-family: var(--font-display); font-size: 1.5rem; color: var(--text-primary);" id="trackService"></div>
-              <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: var(--space-1);" id="trackDate"></div>
+              <div style="font-family: var(--font-display); font-size: 1.5rem; color: var(--t1);" id="trackService"></div>
+              <div style="font-size: 0.85rem; color: var(--t2); margin-top: var(--space-1);" id="trackDate"></div>
             </div>
             <div id="trackStatus"></div>
           </div>
@@ -334,13 +334,13 @@
             </div>
           </div>
 
-          <div style="background: var(--noir-3); border-radius: var(--radius-lg); padding: var(--space-4);">
-            <div style="font-size: 0.78rem; color: var(--text-secondary);" id="trackDetails"></div>
+          <div style="background: var(--beige-2); border-radius: var(--radius-lg); padding: var(--space-4);">
+            <div style="font-size: 0.78rem; color: var(--t2);" id="trackDetails"></div>
           </div>
         </div>
       </div>
 
-      <div id="trackNotFound" style="display:none; text-align:center; padding: var(--space-10); color: var(--text-secondary);">
+      <div id="trackNotFound" style="display:none; text-align:center; padding: var(--space-10); color: var(--t2);">
         <p>Commande introuvable. Vérifiez la référence et réessayez.</p>
       </div>
     </div>
@@ -351,7 +351,7 @@
       <p class="panel-subtitle">Informations de votre établissement et vos coordonnées.</p>
 
       <div class="profile-card">
-        <div class="form-section-title" style="font-family: var(--font-display); font-size: 1rem; color: var(--or-3); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em;">Informations établissement</div>
+        <div class="form-section-title" style="font-family: var(--font-display); font-size: 1rem; color: var(--marron-2); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em;">Informations établissement</div>
         <div class="profile-grid" style="margin-bottom: var(--space-8);">
           <div class="form-group"><label class="form-label">Nom</label><input class="form-control" id="profileHotelName" readonly /></div>
           <div class="form-group"><label class="form-label">Catégorie</label><input class="form-control" id="profileStars" readonly /></div>
@@ -359,7 +359,7 @@
           <div class="form-group"><label class="form-label">Contact</label><input class="form-control" id="profileContact" readonly /></div>
         </div>
 
-        <div class="form-section-title" style="font-family: var(--font-display); font-size: 1rem; color: var(--or-3); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em;">Modifier le mot de passe</div>
+        <div class="form-section-title" style="font-family: var(--font-display); font-size: 1rem; color: var(--marron-2); margin-bottom: var(--space-5); padding-bottom: var(--space-3); border-bottom: 1px solid var(--or-2-10); letter-spacing: 0.05em;">Modifier le mot de passe</div>
         <div class="profile-grid">
           <div class="form-group">
             <label class="form-label">Nouveau mot de passe</label>
@@ -432,7 +432,7 @@ function renderRow(o) {
 // Recent orders (aperçu)
 const recentBody = document.getElementById('recentOrdersBody');
 if (hotelOrders.length === 0) {
-  recentBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--text-secondary); padding: var(--space-8);">Aucune commande pour le moment.</td></tr>';
+  recentBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: var(--t2); padding: var(--space-8);">Aucune commande pour le moment.</td></tr>';
 } else {
   recentBody.innerHTML = hotelOrders.slice(0, 5).map(o => {
     const statusLabels = { 'attente': 'En attente', 'acceptee': 'Acceptée', 'en-cours': 'En cours', 'terminee': 'Terminée', 'refusee': 'Refusée' };
@@ -453,7 +453,7 @@ function renderAllOrders(filter) {
   const body = document.getElementById('allOrdersBody');
   const filtered = filter === 'all' ? hotelOrders : hotelOrders.filter(o => o.status === filter);
   if (filtered.length === 0) {
-    body.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--text-secondary); padding: var(--space-8);">Aucune commande dans cette catégorie.</td></tr>';
+    body.innerHTML = '<tr><td colspan="6" style="text-align:center; color: var(--t2); padding: var(--space-8);">Aucune commande dans cette catégorie.</td></tr>';
   } else {
     body.innerHTML = filtered.map(renderRow).join('');
   }

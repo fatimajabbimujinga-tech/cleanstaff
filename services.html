@@ -10,7 +10,7 @@
   <style>
     .page-hero {
       padding: 140px 0 80px;
-      background: var(--noir-0);
+      background: var(--creme);
       position: relative;
       overflow: hidden;
     }
@@ -18,7 +18,7 @@
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: var(--grad-hero);
+      background: var(--creme);
     }
     .page-hero-content { position: relative; z-index: 2; }
 
@@ -31,49 +31,49 @@
     }
     .filter-tab {
       padding: 8px 20px;
-      border-radius: var(--r-full);
+      border-radius: var(--r5);
       font-size: 0.82rem;
       font-weight: 500;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      transition: all var(--t-base);
+      border: 1px solid var(--bord);
+      color: var(--t2);
+      transition: all 0.25s;
       cursor: pointer;
       background: none;
     }
-    .filter-tab:hover { border-color: var(--border-medium); color: var(--text-primary); }
-    .filter-tab.active { background: var(--grad-or); color: var(--noir-1); border-color: transparent; }
+    .filter-tab:hover { border-color: var(--bord-2); color: var(--t1); }
+    .filter-tab.active { background: var(--marron); color: var(--beige); border-color: transparent; }
 
     .profile-card {
-      background: var(--grad-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r4);
       overflow: hidden;
-      transition: all var(--t-base) var(--ease-smooth);
+      transition: all 0.25s ease;
     }
-    .profile-card:hover { border-color: var(--border-medium); transform: translateY(-6px); box-shadow: var(--shadow-glow); }
+    .profile-card:hover { border-color: var(--bord-2); transform: translateY(-6px); box-shadow: var(--s3); }
     .profile-card-img {
       height: 220px;
       overflow: hidden;
       position: relative;
     }
-    .profile-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease-smooth); }
+    .profile-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
     .profile-card:hover .profile-card-img img { transform: scale(1.05); }
     .profile-card-img-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(0deg, rgba(10,12,20,0.8) 0%, transparent 60%);
+      background: linear-gradient(0deg, rgba(250,248,245,0.97) 0%, transparent 60%);
     }
     .profile-card-tag {
       position: absolute;
       top: 16px;
       right: 16px;
-      background: rgba(10,12,20,0.85);
+      background: rgba(250,248,245,0.97);
       backdrop-filter: blur(10px);
-      border: 1px solid var(--border-medium);
-      border-radius: var(--r-full);
+      border: 1px solid var(--bord-2);
+      border-radius: var(--r5);
       padding: 4px 14px;
       font-size: 0.72rem;
-      color: var(--or-2);
+      color: var(--marron);
       font-weight: 500;
     }
     .profile-card-body { padding: 28px; }
@@ -81,7 +81,7 @@
       font-size: 0.7rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--or-2);
+      color: var(--marron);
       margin-bottom: 8px;
     }
     .profile-card-name {
@@ -93,12 +93,12 @@
     .profile-card-price {
       font-family: var(--font-mono);
       font-size: 0.85rem;
-      color: var(--text-muted);
+      color: var(--t3);
       margin-bottom: 16px;
     }
     .profile-card-desc {
       font-size: 0.88rem;
-      color: var(--text-secondary);
+      color: var(--t2);
       line-height: 1.65;
       margin-bottom: 20px;
     }
@@ -111,23 +111,23 @@
     .skill-tag {
       font-size: 0.72rem;
       padding: 4px 10px;
-      border-radius: var(--r-full);
-      background: rgba(201,168,76,0.08);
+      border-radius: var(--r5);
+      background: var(--marron-fond);
       border: 1px solid rgba(201,168,76,0.15);
-      color: var(--or-3);
+      color: var(--marron-2);
     }
     .profile-card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding-top: 16px;
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--bord);
     }
     .avail-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #4ade80;
+      background: var(--sauge);
       display: inline-block;
       margin-right: 6px;
       animation: pulse-green 2s infinite;
@@ -135,20 +135,20 @@
     @keyframes pulse-green {
       0%,100% { opacity:1; } 50% { opacity:0.4; }
     }
-    .avail-text { font-size: 0.78rem; color: var(--text-secondary); }
+    .avail-text { font-size: 0.78rem; color: var(--t2); }
 
     /* Garanties section */
     .garanties-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .garantie-item {
       text-align: center;
       padding: 40px 24px;
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
+      border: 1px solid var(--bord);
+      border-radius: var(--r4);
       background: rgba(15,22,35,0.4);
     }
     .garantie-icon { font-size: 2.5rem; margin-bottom: 16px; }
     .garantie-title { font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 8px; }
-    .garantie-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
+    .garantie-desc { font-size: 0.85rem; color: var(--t3); line-height: 1.6; }
 
     @media (max-width: 768px) {
       .garanties-grid { grid-template-columns: 1fr; }
@@ -201,7 +201,7 @@
 </section>
 
 <!-- FILTRES + PROFILS -->
-<section class="section" style="background:var(--noir-1)">
+<section class="section" style="background:var(--beige)">
   <div class="container">
     <!-- Filtres -->
     <div class="filter-tabs" data-reveal>
@@ -376,7 +376,7 @@
 </section>
 
 <!-- GARANTIES -->
-<section class="section" style="background:var(--noir-0)">
+<section class="section" style="background:var(--creme)">
   <div class="container">
     <div class="text-center mb-12" data-reveal>
       <span class="section-eyebrow">Nos engagements</span>
@@ -403,7 +403,7 @@
 </section>
 
 <!-- CTA -->
-<section class="section-sm" style="background:var(--noir-1)">
+<section class="section-sm" style="background:var(--beige)">
   <div class="container text-center" data-reveal>
     <h2 class="display-3 mb-4">Prêt à renforcer<br><em class="italic text-gold">vos équipes ?</em></h2>
     <p class="body-lg mb-8">Faites votre demande en moins de 5 minutes. Réponse garantie sous 4 heures.</p>
@@ -413,7 +413,7 @@
 
 <footer class="footer">
   <div class="container">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--border-subtle)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--bord)">
       <div class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</div>
       <div style="display:flex;gap:24px">
         <a href="index.html"  class="footer-link">Accueil</a>

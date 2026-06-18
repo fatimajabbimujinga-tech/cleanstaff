@@ -11,8 +11,8 @@
 
     /* SIDEBAR */
     .admin-sidebar {
-      background: var(--noir-0);
-      border-right: 1px solid var(--border-subtle);
+      background: var(--creme);
+      border-right: 1px solid var(--bord);
       padding: 28px 0;
       position: sticky;
       top: 0;
@@ -23,18 +23,18 @@
     }
     .sidebar-logo {
       padding: 0 24px 28px;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--bord);
       font-family: var(--font-display);
       font-size: 1.2rem;
       font-weight: 600;
     }
-    .sidebar-logo-sub { font-size: 0.72rem; color: var(--or-2); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+    .sidebar-logo-sub { font-size: 0.72rem; color: var(--marron); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
     .sidebar-nav { padding: 20px 12px; flex: 1; }
     .sidebar-section-title {
       font-size: 0.65rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--t3);
       padding: 0 12px;
       margin-bottom: 8px;
       margin-top: 20px;
@@ -44,33 +44,33 @@
       align-items: center;
       gap: 10px;
       padding: 10px 12px;
-      border-radius: var(--r-md);
+      border-radius: var(--r2);
       font-size: 0.875rem;
-      color: var(--text-secondary);
-      transition: all var(--t-fast);
+      color: var(--t2);
+      transition: all 0.15s;
       cursor: pointer;
     }
-    .sidebar-link:hover { background: rgba(255,255,255,0.04); color: var(--text-primary); }
-    .sidebar-link.active { background: rgba(201,168,76,0.1); color: var(--or-2); }
+    .sidebar-link:hover { background: rgba(255,255,255,0.04); color: var(--t1); }
+    .sidebar-link.active { background: var(--marron-fond); color: var(--marron); }
     .sidebar-link-icon { font-size: 1rem; width: 20px; text-align: center; }
     .sidebar-badge {
       margin-left: auto;
       background: rgba(201,168,76,0.15);
-      color: var(--or-2);
+      color: var(--marron);
       font-size: 0.7rem;
       padding: 2px 8px;
-      border-radius: var(--r-full);
+      border-radius: var(--r5);
       font-weight: 600;
     }
     .sidebar-footer {
       padding: 16px 24px;
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid var(--bord);
     }
-    .sidebar-user { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 8px; }
+    .sidebar-user { font-size: 0.82rem; color: var(--t3); margin-bottom: 8px; }
 
     /* MAIN */
     .admin-main {
-      background: var(--noir-1);
+      background: var(--beige);
       overflow-y: auto;
       padding: 32px;
     }
@@ -81,7 +81,7 @@
       margin-bottom: 32px;
     }
     .admin-title { font-family: var(--font-display); font-size: 1.8rem; font-weight: 400; }
-    .admin-subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    .admin-subtitle { font-size: 0.85rem; color: var(--t3); margin-top: 4px; }
 
     /* KPI CARDS */
     .kpi-grid {
@@ -91,19 +91,19 @@
       margin-bottom: 32px;
     }
     .kpi-card {
-      background: var(--noir-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r4);
       padding: 20px 22px;
-      transition: all var(--t-base);
+      transition: all 0.25s;
     }
-    .kpi-card:hover { border-color: var(--border-medium); }
+    .kpi-card:hover { border-color: var(--bord-2); }
     .kpi-card.clickable { cursor: pointer; }
     .kpi-card.clickable:hover { transform: translateY(-2px); }
-    .kpi-card.active { border-color: var(--or-2); background: rgba(201,168,76,0.05); }
-    .kpi-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .kpi-card.active { border-color: var(--marron); background: rgba(201,168,76,0.05); }
+    .kpi-label { font-size: 0.72rem; color: var(--t3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
     .kpi-value { font-family: var(--font-display); font-size: 2rem; font-weight: 300; line-height: 1; }
-    .kpi-sub { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+    .kpi-sub { font-size: 0.75rem; color: var(--t3); margin-top: 4px; }
 
     /* TOOLBAR */
     .table-toolbar {
@@ -116,23 +116,23 @@
     .search-input {
       flex: 1;
       min-width: 200px;
-      background: var(--noir-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-md);
-      color: var(--text-primary);
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r2);
+      color: var(--t1);
       padding: 10px 16px;
       font-size: 0.875rem;
       outline: none;
-      transition: border-color var(--t-base);
+      transition: border-color 0.25s;
     }
-    .search-input:focus { border-color: var(--or-2); }
-    .search-input::placeholder { color: var(--text-muted); }
+    .search-input:focus { border-color: var(--marron); }
+    .search-input::placeholder { color: var(--t3); }
 
     /* TABLE */
     .orders-table-wrap {
-      background: var(--noir-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r4);
       overflow: hidden;
     }
     .orders-table { width: 100%; border-collapse: collapse; }
@@ -141,71 +141,71 @@
       font-size: 0.7rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--t3);
       padding: 14px 20px;
-      border-bottom: 1px solid var(--border-subtle);
-      background: var(--noir-3);
+      border-bottom: 1px solid var(--bord);
+      background: var(--beige-2);
     }
     .orders-table td { padding: 16px 20px; border-bottom: 1px solid rgba(201,168,76,0.05); vertical-align: middle; }
     .orders-table tr:last-child td { border-bottom: none; }
     .orders-table tr:hover td { background: rgba(201,168,76,0.02); }
-    .order-id { font-family: var(--font-mono); font-size: 0.8rem; color: var(--or-2); }
+    .order-id { font-family: var(--font-mono); font-size: 0.8rem; color: var(--marron); }
     .order-hotel { font-weight: 500; font-size: 0.9rem; }
-    .order-hotel-sub { font-size: 0.76rem; color: var(--text-muted); }
-    .order-services-summary { font-size: 0.82rem; color: var(--text-secondary); }
-    .order-amount { font-family: var(--font-mono); font-size: 0.88rem; color: var(--text-primary); }
+    .order-hotel-sub { font-size: 0.76rem; color: var(--t3); }
+    .order-services-summary { font-size: 0.82rem; color: var(--t2); }
+    .order-amount { font-family: var(--font-mono); font-size: 0.88rem; color: var(--t1); }
     .action-btns { display: flex; gap: 6px; }
     .action-btn {
       padding: 6px 12px;
-      border-radius: var(--r-md);
+      border-radius: var(--r2);
       font-size: 0.75rem;
       font-weight: 500;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-      transition: all var(--t-fast);
+      border: 1px solid var(--bord);
+      color: var(--t2);
+      transition: all 0.15s;
       cursor: pointer;
       background: none;
     }
-    .action-btn:hover { border-color: var(--or-2); color: var(--or-2); }
+    .action-btn:hover { border-color: var(--marron); color: var(--marron); }
     .action-btn.view { }
-    .action-btn.accept { border-color: rgba(74,222,128,0.3); color: #4ade80; }
-    .action-btn.refuse { border-color: rgba(248,113,113,0.3); color: #f87171; }
+    .action-btn.accept { border-color: rgba(74,222,128,0.3); color: var(--sauge); }
+    .action-btn.refuse { border-color: rgba(248,113,113,0.3); color: #C0392B; }
 
     /* MODAL */
     .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0; }
     .detail-item { }
-    .detail-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 4px; }
-    .detail-value { font-size: 0.9rem; color: var(--text-primary); }
+    .detail-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--t3); margin-bottom: 4px; }
+    .detail-value { font-size: 0.9rem; color: var(--t1); }
     .services-detail { margin: 16px 0; }
     .service-detail-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 12px 16px;
-      background: var(--noir-1);
-      border-radius: var(--r-md);
+      background: var(--beige);
+      border-radius: var(--r2);
       margin-bottom: 8px;
       font-size: 0.88rem;
     }
-    .status-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-subtle); }
+    .status-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--bord); }
 
     /* HOTELS SECTION */
     .hotels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 8px; }
     .hotel-admin-card {
-      background: var(--noir-2);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r4);
       padding: 20px;
     }
     .hotel-admin-name { font-family: var(--font-display); font-size: 1.1rem; font-weight: 500; margin-bottom: 4px; }
-    .hotel-admin-stars { color: var(--or-2); font-size: 0.75rem; margin-bottom: 12px; }
-    .hotel-admin-info { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 4px; }
+    .hotel-admin-stars { color: var(--marron); font-size: 0.75rem; margin-bottom: 12px; }
+    .hotel-admin-info { font-size: 0.82rem; color: var(--t3); margin-bottom: 4px; }
 
     /* EMPTY STATE */
     .empty-state {
       text-align: center;
       padding: 60px 24px;
-      color: var(--text-muted);
+      color: var(--t3);
     }
     .empty-state-icon { font-size: 3rem; margin-bottom: 16px; }
 
@@ -229,7 +229,7 @@
 <aside class="admin-sidebar">
   <div class="sidebar-logo">
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="nav-logo-mark" style="width:32px;height:32px;background:var(--grad-or);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--noir-1)">CS</div>
+      <div class="nav-logo-mark" style="width:32px;height:32px;background:var(--marron);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--beige)">CS</div>
       Clean Staff
     </div>
     <div class="sidebar-logo-sub">Administration</div>
@@ -279,12 +279,12 @@
       </div>
       <div class="kpi-card clickable" onclick="filterOrders('attente')">
         <div class="kpi-label">⏳ En attente</div>
-        <div class="kpi-value" style="color:var(--or-2)" id="kpi-attente">—</div>
+        <div class="kpi-value" style="color:var(--marron)" id="kpi-attente">—</div>
         <div class="kpi-sub">à traiter</div>
       </div>
       <div class="kpi-card clickable" onclick="filterOrders('acceptee')">
         <div class="kpi-label">✓ Acceptées</div>
-        <div class="kpi-value" style="color:#4ade80" id="kpi-acceptee">—</div>
+        <div class="kpi-value" style="color:var(--sauge)" id="kpi-acceptee">—</div>
         <div class="kpi-sub">confirmées</div>
       </div>
       <div class="kpi-card clickable" onclick="filterOrders('en-cours')">
@@ -302,7 +302,7 @@
     <!-- TOOLBAR -->
     <div class="table-toolbar">
       <input type="text" class="search-input" id="search-input" placeholder="Rechercher par hôtel, numéro, contact…" oninput="renderOrders()">
-      <div id="active-filter" style="display:none;font-size:0.78rem;color:var(--or-2);background:rgba(201,168,76,0.1);padding:6px 12px;border-radius:var(--r-full);border:1px solid var(--border-medium)"></div>
+      <div id="active-filter" style="display:none;font-size:0.78rem;color:var(--marron);background:var(--marron-fond);padding:6px 12px;border-radius:var(--r5);border:1px solid var(--bord-2)"></div>
       <button class="btn btn-ghost btn-sm" onclick="filterOrders('all')" id="clear-filter" style="display:none">✕ Effacer filtre</button>
     </div>
 
@@ -346,7 +346,7 @@
   <div class="modal" style="max-width:700px">
     <div class="modal-header">
       <div>
-        <div id="modal-id" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--or-2);margin-bottom:4px"></div>
+        <div id="modal-id" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--marron);margin-bottom:4px"></div>
         <h2 id="modal-hotel" class="heading-1"></h2>
       </div>
       <button class="modal-close" onclick="UI.closeModal('modal-order')">✕</button>
@@ -357,13 +357,13 @@
     <div class="detail-grid" id="modal-grid"></div>
 
     <div>
-      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px">Personnel demandé</div>
+      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--t3);margin-bottom:12px">Personnel demandé</div>
       <div class="services-detail" id="modal-services"></div>
     </div>
 
     <div id="modal-notes-section" style="display:none;margin-top:16px">
-      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:8px">Notes</div>
-      <div id="modal-notes" style="font-size:0.88rem;color:var(--text-secondary);background:var(--noir-1);border-radius:var(--r-md);padding:14px;font-style:italic;line-height:1.6"></div>
+      <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--t3);margin-bottom:8px">Notes</div>
+      <div id="modal-notes" style="font-size:0.88rem;color:var(--t2);background:var(--beige);border-radius:var(--r2);padding:14px;font-style:italic;line-height:1.6"></div>
     </div>
 
     <div class="status-actions" id="modal-actions"></div>
@@ -435,7 +435,7 @@
         </td>
         <td>
           <div style="font-size:0.88rem">${UTILS.formatDate(o.date)}</div>
-          <div style="font-size:0.76rem;color:var(--text-muted)">${o.heure || ''} · ${o.duree || ''}h</div>
+          <div style="font-size:0.76rem;color:var(--t3)">${o.heure || ''} · ${o.duree || ''}h</div>
         </td>
         <td><div class="order-services-summary">${(o.services||[]).map(s => `${s.nombre}× ${UTILS.posteLabel(s.poste)}`).join('<br>')}</div></td>
         <td><div class="order-amount">${o.montantEstime ? UTILS.formatCurrency(o.montantEstime) : '—'}</div></td>
@@ -481,14 +481,14 @@
 
     document.getElementById('modal-grid').innerHTML = [
       { label: 'Contact', value: o.contact },
-      { label: 'Email', value: `<a href="mailto:${o.email}" style="color:var(--or-2)">${o.email}</a>` },
-      { label: 'Téléphone', value: `<a href="tel:${o.telephone}" style="color:var(--or-2)">${o.telephone}</a>` },
+      { label: 'Email', value: `<a href="mailto:${o.email}" style="color:var(--marron)">${o.email}</a>` },
+      { label: 'Téléphone', value: `<a href="tel:${o.telephone}" style="color:var(--marron)">${o.telephone}</a>` },
       { label: 'Date mission', value: UTILS.formatDate(o.date) },
       { label: 'Heure', value: o.heure },
       { label: 'Durée', value: o.duree + ' heures' },
       { label: 'Urgence', value: o.urgence ? '🚨 Oui (+15%)' : 'Non' },
       { label: 'Jour férié', value: o.ferie ? '📅 Oui (+25%)' : 'Non' },
-      { label: 'Montant estimé', value: o.montantEstime ? `<strong style="color:var(--or-2)">${UTILS.formatCurrency(o.montantEstime)}</strong>` : '—' },
+      { label: 'Montant estimé', value: o.montantEstime ? `<strong style="color:var(--marron)">${UTILS.formatCurrency(o.montantEstime)}</strong>` : '—' },
       { label: 'Demande créée le', value: UTILS.formatDateTime(o.createdAt) },
     ].map(d => `
       <div class="detail-item">
@@ -501,9 +501,9 @@
       <div class="service-detail-row">
         <div>
           <strong>${UTILS.posteLabel(s.poste)}</strong>
-          ${s.specialite ? `<div style="font-size:0.78rem;color:var(--text-muted);margin-top:2px">${s.specialite}</div>` : ''}
+          ${s.specialite ? `<div style="font-size:0.78rem;color:var(--t3);margin-top:2px">${s.specialite}</div>` : ''}
         </div>
-        <div style="font-family:var(--font-mono);color:var(--or-2)">${s.nombre} pers.</div>
+        <div style="font-family:var(--font-mono);color:var(--marron)">${s.nombre} pers.</div>
       </div>
     `).join('');
 
@@ -519,7 +519,7 @@
     if (o.status === 'attente') {
       btns = `
         <button class="btn btn-primary" onclick="updateStatus('${o.id}','acceptee')">✓ Accepter la demande</button>
-        <button class="btn btn-outline" style="border-color:rgba(248,113,113,0.4);color:#f87171" onclick="updateStatus('${o.id}','refusee')">✕ Refuser</button>
+        <button class="btn btn-outline" style="border-color:rgba(248,113,113,0.4);color:#C0392B" onclick="updateStatus('${o.id}','refusee')">✕ Refuser</button>
       `;
     } else if (o.status === 'acceptee') {
       btns = `<button class="btn btn-primary" onclick="updateStatus('${o.id}','en-cours')">⟳ Démarrer la mission</button>`;
@@ -539,7 +539,7 @@
         <div class="hotel-admin-name">${h.nom}</div>
         <div class="hotel-admin-stars">${UTILS.etoiles(h.etoiles)}</div>
         <div class="hotel-admin-info">👤 ${h.contact}</div>
-        <div class="hotel-admin-info">✉ <a href="mailto:${h.email}" style="color:var(--or-2)">${h.email}</a></div>
+        <div class="hotel-admin-info">✉ <a href="mailto:${h.email}" style="color:var(--marron)">${h.email}</a></div>
         <div class="hotel-admin-info">📞 ${h.telephone}</div>
         <div class="hotel-admin-info" style="margin-top:8px">📋 ${h.totalOrders || 0} commandes · Depuis ${h.createdAt}</div>
         ${h.adresse ? `<div class="hotel-admin-info">📍 ${h.adresse}</div>` : ''}

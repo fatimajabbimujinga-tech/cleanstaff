@@ -10,7 +10,7 @@
   <style>
     .page-hero {
       padding: 140px 0 80px;
-      background: var(--noir-0);
+      background: var(--creme);
       position: relative;
       overflow: hidden;
     }
@@ -18,15 +18,15 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--grad-hero);
+      background: var(--creme);
     }
     .page-hero-content { position: relative; z-index: 2; }
 
     /* Calculateur */
     .calc-section {
-      background: var(--noir-2);
-      border: 1px solid var(--border-medium);
-      border-radius: var(--r-xl);
+      background: var(--blanc);
+      border: 1px solid var(--bord-2);
+      border-radius: var(--r4);
       padding: 48px;
       margin-bottom: 64px;
       position: relative;
@@ -37,7 +37,7 @@
       position: absolute;
       top: -20px; right: 40px;
       font-size: 8rem;
-      color: var(--or-2);
+      color: var(--marron);
       opacity: 0.04;
       line-height: 1;
     }
@@ -49,25 +49,25 @@
     }
     .calc-controls { display: flex; flex-direction: column; gap: 20px; }
     .calc-result {
-      background: var(--noir-1);
-      border: 1px solid var(--border-medium);
-      border-radius: var(--r-xl);
+      background: var(--beige);
+      border: 1px solid var(--bord-2);
+      border-radius: var(--r4);
       padding: 32px;
       text-align: center;
     }
-    .calc-result-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+    .calc-result-label { font-size: 0.78rem; color: var(--t3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
     .calc-result-amount {
       font-family: var(--font-display);
       font-size: 3.5rem;
       font-weight: 300;
-      background: var(--grad-or);
+      background: var(--marron);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       line-height: 1;
       margin-bottom: 8px;
     }
-    .calc-result-detail { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+    .calc-result-detail { font-size: 0.82rem; color: var(--t3); line-height: 1.6; }
     .calc-checks { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
     .calc-check {
       display: flex;
@@ -78,11 +78,11 @@
       width: 44px;
       height: 24px;
       border-radius: 12px;
-      background: var(--noir-4);
-      border: 1px solid var(--border-subtle);
+      background: var(--beige-3);
+      border: 1px solid var(--bord);
       position: relative;
       cursor: pointer;
-      transition: background var(--t-base);
+      transition: background 0.25s;
       flex-shrink: 0;
     }
     .calc-check-toggle::after {
@@ -91,13 +91,13 @@
       top: 3px; left: 3px;
       width: 16px; height: 16px;
       border-radius: 50%;
-      background: var(--text-muted);
-      transition: all var(--t-base) var(--ease-spring);
+      background: var(--t3);
+      transition: all 0.25s var(--ease-spring);
     }
-    .calc-check-toggle.on { background: rgba(201,168,76,0.2); border-color: var(--or-2); }
-    .calc-check-toggle.on::after { background: var(--or-2); left: 23px; }
-    .calc-check-label { font-size: 0.88rem; color: var(--text-secondary); }
-    .calc-check-tag { font-size: 0.72rem; color: var(--or-2); font-family: var(--font-mono); margin-left: 8px; }
+    .calc-check-toggle.on { background: rgba(201,168,76,0.2); border-color: var(--marron); }
+    .calc-check-toggle.on::after { background: var(--marron); left: 23px; }
+    .calc-check-label { font-size: 0.88rem; color: var(--t2); }
+    .calc-check-tag { font-size: 0.72rem; color: var(--marron); font-family: var(--font-mono); margin-left: 8px; }
 
     /* Tarifs table */
     .tarif-table {
@@ -110,9 +110,9 @@
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--t3);
       padding: 12px 20px;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--bord);
     }
     .tarif-table td {
       padding: 20px 20px;
@@ -122,15 +122,15 @@
     .tarif-table tr:last-child td { border-bottom: none; }
     .tarif-table tr:hover td { background: rgba(201,168,76,0.03); }
     .tarif-poste { font-family: var(--font-display); font-size: 1rem; font-weight: 500; }
-    .tarif-price { font-family: var(--font-mono); color: var(--or-2); font-size: 1rem; }
-    .tarif-min { color: var(--text-muted); font-size: 0.82rem; }
+    .tarif-price { font-family: var(--font-mono); color: var(--marron); font-size: 1rem; }
+    .tarif-min { color: var(--t3); font-size: 0.82rem; }
 
     /* Supplements */
     .suppl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 48px; }
     .suppl-card {
-      background: var(--grad-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r4);
       padding: 28px;
       text-align: center;
     }
@@ -138,15 +138,15 @@
       font-family: var(--font-display);
       font-size: 2.2rem;
       font-weight: 300;
-      color: var(--or-3);
+      color: var(--marron-2);
       margin: 8px 0;
     }
     .suppl-name { font-weight: 500; margin-bottom: 6px; }
-    .suppl-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+    .suppl-desc { font-size: 0.82rem; color: var(--t3); line-height: 1.5; }
 
     /* FAQ */
     .faq-item {
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--bord);
       padding: 24px 0;
     }
     .faq-question {
@@ -155,7 +155,7 @@
       justify-content: space-between;
       cursor: pointer;
       font-weight: 500;
-      color: var(--text-primary);
+      color: var(--t1);
       font-size: 0.95rem;
       gap: 16px;
     }
@@ -163,21 +163,21 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      border: 1px solid var(--border-medium);
+      border: 1px solid var(--bord-2);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1rem;
-      color: var(--or-2);
+      color: var(--marron);
       flex-shrink: 0;
-      transition: transform var(--t-base);
+      transition: transform 0.25s;
     }
     .faq-item.open .faq-icon { transform: rotate(45deg); }
     .faq-answer {
       display: none;
       padding-top: 16px;
       font-size: 0.88rem;
-      color: var(--text-secondary);
+      color: var(--t2);
       line-height: 1.7;
     }
     .faq-item.open .faq-answer { display: block; }
@@ -232,7 +232,7 @@
   </div>
 </section>
 
-<section class="section" style="background:var(--noir-1)">
+<section class="section" style="background:var(--beige)">
   <div class="container">
 
     <!-- SIMULATEUR -->
@@ -283,8 +283,8 @@
           <div class="calc-result-detail" id="calc-detail">
             1 personne × 13,50 €/chambre × 7 heures
           </div>
-          <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border-subtle)">
-            <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:16px">Prix HT indicatif. Devis définitif sur confirmation.</div>
+          <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--bord)">
+            <div style="font-size:0.78rem;color:var(--t3);margin-bottom:16px">Prix HT indicatif. Devis définitif sur confirmation.</div>
             <a href="commander.html" class="btn btn-primary" style="width:100%;justify-content:center">Commander maintenant →</a>
           </div>
         </div>
@@ -295,7 +295,7 @@
     <div data-reveal>
       <span class="section-eyebrow mb-6">Grille tarifaire</span>
       <h2 class="heading-1 mb-8">Tarifs horaires par profil</h2>
-      <div style="background:var(--grad-card);border:1px solid var(--border-subtle);border-radius:var(--r-xl);overflow:hidden">
+      <div style="background:var(--blanc);border:1px solid var(--bord);border-radius:var(--r4);overflow:hidden">
         <table class="tarif-table">
           <thead>
             <tr>
@@ -309,42 +309,42 @@
           <tbody>
             <tr>
               <td><div class="tarif-poste">Femme de chambre</div></td>
-              <td><span style="color:var(--text-muted)">Housekeeping</span></td>
+              <td><span style="color:var(--t3)">Housekeeping</span></td>
               <td><div class="tarif-price">13,50 €/chambre</div></td>
               <td><div class="tarif-min">18 chambres min.</div></td>
               <td style="text-align:right"><a href="commander.html?poste=femme-chambre" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
             <tr>
               <td><div class="tarif-poste">Valet de chambre</div></td>
-              <td><span style="color:var(--text-muted)">Housekeeping</span></td>
+              <td><span style="color:var(--t3)">Housekeeping</span></td>
               <td><div class="tarif-price">13,50 €/chambre</div></td>
               <td><div class="tarif-min">18 chambres min.</div></td>
               <td style="text-align:right"><a href="commander.html?poste=valet" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
             <tr>
               <td><div class="tarif-poste">Équipier polyvalent</div></td>
-              <td><span style="color:var(--text-muted)">Polyvalent</span></td>
+              <td><span style="color:var(--t3)">Polyvalent</span></td>
               <td><div class="tarif-price">28 €/h</div></td>
               <td><div class="tarif-min">7 heures</div></td>
               <td style="text-align:right"><a href="commander.html?poste=equipier" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
             <tr>
               <td><div class="tarif-poste">Réceptionniste (jour)</div></td>
-              <td><span style="color:var(--text-muted)">Réception</span></td>
+              <td><span style="color:var(--t3)">Réception</span></td>
               <td><div class="tarif-price">29 €/h</div></td>
               <td><div class="tarif-min">7 heures</div></td>
               <td style="text-align:right"><a href="commander.html?poste=receptionniste-jour" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
             <tr>
               <td><div class="tarif-poste">Réceptionniste (nuit)</div></td>
-              <td><span style="color:var(--text-muted)">Réception</span></td>
+              <td><span style="color:var(--t3)">Réception</span></td>
               <td><div class="tarif-price">30 €/h</div></td>
               <td><div class="tarif-min">7 heures</div></td>
               <td style="text-align:right"><a href="commander.html?poste=receptionniste-nuit" class="btn btn-primary btn-sm">Demander</a></td>
             </tr>
             <tr>
               <td><div class="tarif-poste">Gouvernante</div></td>
-              <td><span style="color:var(--text-muted)">Encadrement</span></td>
+              <td><span style="color:var(--t3)">Encadrement</span></td>
               <td><div class="tarif-price">33 €/h</div></td>
               <td><div class="tarif-min">7 heures</div></td>
               <td style="text-align:right"><a href="commander.html?poste=gouvernante" class="btn btn-primary btn-sm">Demander</a></td>
@@ -435,7 +435,7 @@
 </section>
 
 <!-- CTA -->
-<section class="section-sm" style="background:var(--noir-0)">
+<section class="section-sm" style="background:var(--creme)">
   <div class="container text-center" data-reveal>
     <h2 class="display-3 mb-4">Commencer maintenant</h2>
     <p class="body-lg mb-8">Votre demande est traitée en moins de 18 chambres min..</p>
@@ -448,7 +448,7 @@
 
 <footer class="footer">
   <div class="container">
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--border-subtle)">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-top:1px solid var(--bord)">
       <div class="footer-copy">© 2024 Clean Staff. Tous droits réservés.</div>
       <div style="display:flex;gap:24px">
         <a href="index.html"   class="footer-link">Accueil</a>
