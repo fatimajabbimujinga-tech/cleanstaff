@@ -11,25 +11,148 @@
   <style>
     .order-layout {
       display: grid;
-      grid-template-columns: 1fr 380px;
-      gap: 40px;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
       align-items: start;
-      padding-top: 120px;
+      padding-top: 100px;
       padding-bottom: 80px;
     }
     .order-form-section {
-      background: var(--grad-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-xl);
-      padding: 40px;
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r3);
+      padding: 32px;
+      margin-bottom: 20px;
     }
+    .form-section-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--bord);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--t1);
+    }
+    .form-section-num {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: var(--marron-fond);
+      border: 1px solid rgba(92,61,46,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--marron);
+      font-family: var(--font-body);
+      flex-shrink: 0;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Services */
+    .services-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 16px; }
+    .service-row {
+      background: var(--creme);
+      border: 1px solid var(--bord);
+      border-radius: var(--r2);
+      padding: 18px;
+      position: relative;
+    }
+    .service-row-grid { display: grid; grid-template-columns: 2fr 100px 1fr; gap: 12px; align-items: end; }
+    .service-remove {
+      position: absolute;
+      top: 10px; right: 10px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 1px solid var(--bord-2);
+      color: var(--t3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+    .service-remove:hover { border-color: #C0392B; color: #C0392B; }
+    .add-service-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--marron);
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 10px 0;
+      transition: color 0.15s;
+    }
+    .add-service-btn:hover { color: var(--marron-2); }
+
+    /* Sidebar */
+    .order-sidebar { position: sticky; top: 88px; }
+    .sidebar-card {
+      background: var(--blanc);
+      border: 1px solid var(--bord);
+      border-radius: var(--r3);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .sidebar-title {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--t3);
+      margin-bottom: 16px;
+    }
+    .sidebar-total {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--marron);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .sidebar-total-detail { font-size: 0.78rem; color: var(--t3); margin-bottom: 16px; }
+    .sidebar-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.83rem;
+      color: var(--t2);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--bord);
+    }
+    .sidebar-line:last-of-type { border-bottom: none; }
+    .sidebar-line strong { color: var(--t1); }
+
+    /* Tracker */
+    .tracker-step { display: flex; gap: 14px; position: relative; }
+    .tracker-step:not(:last-child)::before { content: ''; position: absolute; left: 10px; top: 26px; bottom: 0; width: 1px; background: var(--bord); }
+    .tracker-dot { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--bord-2); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; flex-shrink: 0; margin-top: 2px; }
+    .tracker-dot.active { border-color: var(--marron); background: var(--marron-fond); color: var(--marron); }
+    .tracker-dot.done { border-color: var(--sauge); background: var(--sauge-fond); color: var(--sauge-2); }
+    .tracker-dot.refused { border-color: #C0392B; background: #FFF5F5; color: #C0392B; }
+    .tracker-info { padding-bottom: 16px; }
+    .tracker-label { font-size: 0.85rem; font-weight: 500; color: var(--t1); }
+    .tracker-date { font-size: 0.73rem; color: var(--t3); margin-top: 2px; }
+    .tracker-note { font-size: 0.76rem; color: var(--t2); margin-top: 3px; font-style: italic; }
+
+    /* Search bar */
+    .search-bar { display: flex; gap: 10px; margin-bottom: 16px; }
+    .search-bar .form-input { flex: 1; }
+
+    /* Success */
+    .success-screen { display: none; text-align: center; padding: 48px 32px; }
+    .success-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--sauge-fond); border: 2px solid var(--sauge-bord); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 20px; }
+
+    @media (max-width: 1024px) { .order-layout { grid-template-columns: 1fr; } .order-sidebar { position: static; } }
+    @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .service-row-grid { grid-template-columns: 1fr 80px; } }
+  </style>
     .form-section-title {
       font-family: var(--font-display);
       font-size: 1.3rem;
       font-weight: 500;
       margin-bottom: 24px;
       padding-bottom: 16px;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--bord);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -37,13 +160,13 @@
     .form-section-num {
       width: 28px; height: 28px;
       border-radius: 50%;
-      background: rgba(201,168,76,0.12);
-      border: 1px solid var(--border-medium);
+      background: var(--marron-fond);
+      border: 1px solid var(--bord-2);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.78rem;
-      color: var(--or-2);
+      color: var(--marron);
       font-family: var(--font-body);
       flex-shrink: 0;
     }
@@ -52,9 +175,9 @@
     /* Service rows */
     .services-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
     .service-row {
-      background: var(--noir-1);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--r-lg);
+      background: var(--beige);
+      border: 1px solid var(--bord);
+      border-radius: var(--r3);
       padding: 20px;
       position: relative;
     }
@@ -65,13 +188,13 @@
       right: 12px;
       width: 24px; height: 24px;
       border-radius: 50%;
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
+      border: 1px solid var(--bord);
+      color: var(--t3);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.9rem;
-      transition: all var(--t-fast);
+      transition: all 0.15s;
     }
     .service-remove:hover { border-color: #f87171; color: #f87171; }
 
@@ -79,20 +202,20 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      color: var(--or-2);
+      color: var(--marron);
       font-size: 0.875rem;
       font-weight: 500;
       padding: 12px 0;
-      transition: color var(--t-fast);
+      transition: color 0.15s;
     }
-    .add-service-btn:hover { color: var(--or-3); }
+    .add-service-btn:hover { color: var(--marron-2); }
 
     /* Sidebar */
     .order-sidebar { position: sticky; top: 100px; }
     .sidebar-card {
-      background: var(--noir-2);
-      border: 1px solid var(--border-medium);
-      border-radius: var(--r-xl);
+      background: var(--beige-2);
+      border: 1px solid var(--bord-2);
+      border-radius: var(--r4);
       padding: 28px;
       margin-bottom: 20px;
     }
@@ -100,31 +223,31 @@
       font-size: 0.75rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--t3);
       margin-bottom: 20px;
     }
     .sidebar-total {
       font-family: var(--font-display);
       font-size: 2.5rem;
       font-weight: 300;
-      background: var(--grad-or);
+      background: var(--marron);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
       line-height: 1;
       margin-bottom: 6px;
     }
-    .sidebar-total-detail { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px; }
+    .sidebar-total-detail { font-size: 0.8rem; color: var(--t3); margin-bottom: 20px; }
     .sidebar-line {
       display: flex;
       justify-content: space-between;
       font-size: 0.85rem;
-      color: var(--text-secondary);
+      color: var(--t2);
       padding: 8px 0;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--bord);
     }
     .sidebar-line:last-of-type { border-bottom: none; }
-    .sidebar-line strong { color: var(--text-primary); }
+    .sidebar-line strong { color: var(--t1); }
 
     /* Tracker statut */
     .tracker { padding: 0; }
@@ -140,28 +263,28 @@
       top: 28px;
       bottom: 0;
       width: 1px;
-      background: var(--border-subtle);
+      background: var(--bord);
     }
     .tracker-dot {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      border: 2px solid var(--border-subtle);
+      border: 2px solid var(--bord);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.65rem;
       flex-shrink: 0;
       margin-top: 2px;
-      transition: all var(--t-base);
+      transition: all 0.25s;
     }
-    .tracker-dot.active { border-color: var(--or-2); background: rgba(201,168,76,0.1); color: var(--or-2); }
+    .tracker-dot.active { border-color: var(--marron); background: var(--marron-fond); color: var(--marron); }
     .tracker-dot.done   { border-color: #4ade80; background: rgba(74,222,128,0.1); color: #4ade80; }
     .tracker-dot.refused { border-color: #f87171; background: rgba(248,113,113,0.1); color: #f87171; }
     .tracker-info { padding-bottom: 20px; }
     .tracker-label { font-size: 0.85rem; font-weight: 500; }
-    .tracker-date  { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
-    .tracker-note  { font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px; font-style: italic; }
+    .tracker-date  { font-size: 0.75rem; color: var(--t3); margin-top: 2px; }
+    .tracker-note  { font-size: 0.78rem; color: var(--t2); margin-top: 4px; font-style: italic; }
 
     /* Success state */
     .success-screen {
@@ -227,7 +350,7 @@
   <a href="contact.html"  class="nav-link">Contact</a>
 </div>
 
-<div style="background:var(--noir-0);min-height:100vh">
+<div style="background:var(--creme);min-height:100vh">
   <div class="container">
     <div class="order-layout">
 
@@ -317,12 +440,12 @@
               </div>
               <div style="display:flex;gap:24px;flex-wrap:wrap">
                 <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.88rem">
-                  <input type="checkbox" id="urgence-check" onchange="updateTotal()" style="accent-color:var(--or-2)">
-                  <span>Demande urgente <span style="color:var(--or-2);font-family:var(--font-mono);font-size:0.75rem">+15%</span></span>
+                  <input type="checkbox" id="urgence-check" onchange="updateTotal()" style="accent-color:var(--marron)">
+                  <span>Demande urgente <span style="color:var(--marron);font-family:var(--font-mono);font-size:0.75rem">+15%</span></span>
                 </label>
                 <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.88rem">
-                  <input type="checkbox" id="ferie-check" onchange="updateTotal()" style="accent-color:var(--or-2)">
-                  <span>Jour férié / dimanche <span style="color:var(--or-2);font-family:var(--font-mono);font-size:0.75rem">+25%</span></span>
+                  <input type="checkbox" id="ferie-check" onchange="updateTotal()" style="accent-color:var(--marron)">
+                  <span>Jour férié / dimanche <span style="color:var(--marron);font-family:var(--font-mono);font-size:0.75rem">+25%</span></span>
                 </label>
               </div>
             </div>
@@ -358,7 +481,7 @@
           <button class="btn btn-primary btn-lg" onclick="submitOrder()" style="width:100%;justify-content:center">
             Envoyer ma demande →
           </button>
-          <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:12px">
+          <p style="font-size:0.78rem;color:var(--t3);text-align:center;margin-top:12px">
             En soumettant ce formulaire, vous acceptez d'être contacté par Clean Staff pour la confirmation de votre demande.
           </p>
         </div>
@@ -368,10 +491,10 @@
           <div class="success-icon">✓</div>
           <h2 class="heading-1 mb-4">Demande envoyée !</h2>
           <p class="body-lg mb-6">Votre numéro de demande est :</p>
-          <div style="font-family:var(--font-mono);font-size:1.8rem;color:var(--or-2);background:rgba(201,168,76,0.08);border:1px solid var(--border-medium);border-radius:var(--r-lg);padding:20px;margin-bottom:24px">
+          <div style="font-family:var(--font-mono);font-size:1.8rem;color:var(--marron);background:var(--marron-fond);border:1px solid var(--bord-2);border-radius:var(--r3);padding:20px;margin-bottom:24px">
             <span id="success-id"></span>
           </div>
-          <p style="font-size:0.88rem;color:var(--text-secondary);margin-bottom:32px">
+          <p style="font-size:0.88rem;color:var(--t2);margin-bottom:32px">
             Nous vous contactons dans les 4 heures pour confirmer la disponibilité et les modalités. Gardez ce numéro pour suivre votre demande.
           </p>
           <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
@@ -383,7 +506,7 @@
         <!-- SUIVI PAR ID -->
         <div class="order-form-section mt-8">
           <div class="form-section-title" style="margin-bottom:16px">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v6m0 2v.5" stroke="var(--or-2)" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm0 4v6m0 2v.5" stroke="var(--marron)" stroke-width="1.5" stroke-linecap="round"/></svg>
             Suivre une demande existante
           </div>
           <div class="search-bar">
@@ -400,25 +523,25 @@
           <div class="sidebar-title">Récapitulatif</div>
           <div class="sidebar-total" id="sidebar-total">0 €</div>
           <div class="sidebar-total-detail" id="sidebar-detail">Ajoutez un service pour estimer</div>
-          <div style="border-top:1px solid var(--border-subtle);margin:16px 0"></div>
+          <div style="border-top:1px solid var(--bord);margin:16px 0"></div>
           <div id="sidebar-lines">
-            <div class="sidebar-line" style="font-style:italic;color:var(--text-muted)">Aucun service ajouté</div>
+            <div class="sidebar-line" style="font-style:italic;color:var(--t3)">Aucun service ajouté</div>
           </div>
-          <div style="border-top:1px solid var(--border-subtle);margin:16px 0"></div>
-          <div style="font-size:0.75rem;color:var(--text-muted);line-height:1.5">Prix HT indicatif. Confirmé après validation de disponibilité.</div>
+          <div style="border-top:1px solid var(--bord);margin:16px 0"></div>
+          <div style="font-size:0.75rem;color:var(--t3);line-height:1.5">Prix HT indicatif. Confirmé après validation de disponibilité.</div>
         </div>
 
         <div class="sidebar-card">
           <div class="sidebar-title">Besoin d'aide ?</div>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <a href="tel:+33611707501" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-secondary)">
-              <span style="color:var(--or-2)">📞</span> +33 6 11 70 75 01
+            <a href="tel:+33611707501" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--t2)">
+              <span style="color:var(--marron)">📞</span> +33 6 11 70 75 01
             </a>
-            <a href="https://wa.me/33611707501" target="_blank" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-secondary)">
-              <span style="color:var(--or-2)">💬</span> WhatsApp
+            <a href="https://wa.me/33611707501" target="_blank" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--t2)">
+              <span style="color:var(--marron)">💬</span> WhatsApp
             </a>
-            <a href="mailto:admin@cleanstaff.fr" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--text-secondary)">
-              <span style="color:var(--or-2)">✉</span> admin@cleanstaff.fr
+            <a href="mailto:admin@cleanstaff.fr" style="display:flex;align-items:center;gap:10px;font-size:0.88rem;color:var(--t2)">
+              <span style="color:var(--marron)">✉</span> admin@cleanstaff.fr
             </a>
           </div>
         </div>
@@ -426,13 +549,13 @@
         <div class="sidebar-card">
           <div class="sidebar-title">Garanties</div>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--text-secondary)">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--t2)">
               <span>⚡</span> Réponse sous 4h garantie
             </div>
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--text-secondary)">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--t2)">
               <span>🛡️</span> Personnel assuré RC pro
             </div>
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--text-secondary)">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;color:var(--t2)">
               <span>🔒</span> Données sécurisées RGPD
             </div>
           </div>
@@ -590,9 +713,9 @@ function updateTotal() {
       `<div class="sidebar-line"><span>${l.nb}× ${l.label}</span><strong>${Math.round(l.sub).toLocaleString('fr-FR')} €</strong></div>`
     ).join('') +
     (extras.length ? `<div class="sidebar-line"><span>${extras.join(', ')}</span><strong>Incl.</strong></div>` : '') +
-    `<div class="sidebar-line" style="font-weight:600;color:var(--or-2)"><span>Total estimé</span><strong>${Math.round(totalFinal).toLocaleString('fr-FR')} €</strong></div>`;
+    `<div class="sidebar-line" style="font-weight:600;color:var(--marron)"><span>Total estimé</span><strong>${Math.round(totalFinal).toLocaleString('fr-FR')} €</strong></div>`;
   } else {
-    linesEl.innerHTML = '<div class="sidebar-line" style="font-style:italic;color:var(--text-muted)">Aucun service ajouté</div>';
+    linesEl.innerHTML = '<div class="sidebar-line" style="font-style:italic;color:var(--t3)">Aucun service ajouté</div>';
   }
 }
 
@@ -697,18 +820,18 @@ function trackOrder() {
   const result = document.getElementById('track-result');
   const order = STORE.getOrder(id);
   if (!order) {
-    result.innerHTML = `<div style="padding:16px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:var(--r-lg);font-size:0.88rem;color:#f87171">Aucune demande trouvée avec le numéro <strong>${id}</strong>.</div>`;
+    result.innerHTML = `<div style="padding:16px;background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.2);border-radius:var(--r3);font-size:0.88rem;color:#f87171">Aucune demande trouvée avec le numéro <strong>${id}</strong>.</div>`;
     return;
   }
 
   const statusCfg = UTILS.STATUS_CONFIG[order.status] || {};
   result.innerHTML = `
-    <div style="background:var(--noir-2);border:1px solid var(--border-medium);border-radius:var(--r-xl);padding:24px">
+    <div style="background:var(--beige-2);border:1px solid var(--bord-2);border-radius:var(--r4);padding:24px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
         <div>
-          <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--or-2);margin-bottom:4px">${order.id}</div>
+          <div style="font-family:var(--font-mono);font-size:0.85rem;color:var(--marron);margin-bottom:4px">${order.id}</div>
           <div style="font-weight:500">${order.hotelName}</div>
-          <div style="font-size:0.82rem;color:var(--text-muted)">${UTILS.formatDate(order.date)} à ${order.heure}</div>
+          <div style="font-size:0.82rem;color:var(--t3)">${UTILS.formatDate(order.date)} à ${order.heure}</div>
         </div>
         ${UTILS.statusBadge(order.status)}
       </div>
