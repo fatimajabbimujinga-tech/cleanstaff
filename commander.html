@@ -295,36 +295,24 @@
             <div style="display:flex;flex-direction:column;gap:16px">
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label">Date souhaitée *</label>
+                  <label class="form-label">Date de début *</label>
                   <input type="date" class="form-input" id="mission-date" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label">Heure de début *</label>
-                  <input type="time" class="form-input" id="mission-heure" value="08:00" required>
+                  <label class="form-label">Date de fin *</label>
+                  <input type="date" class="form-input" id="mission-date-fin" required>
+                  <span class="form-help" id="jours-calc-label">Nombre de jours : —</span>
                 </div>
               </div>
               <div class="form-row">
                 <div class="form-group">
-                  <label class="form-label">Durée par jour (heures)</label>
+                  <label class="form-label">Heure de début *</label>
+                  <input type="time" class="form-input" id="mission-heure" value="08:00" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Durée par jour (heures) *</label>
                   <input type="number" class="form-input" id="mission-duree" value="8" min="7" max="24" step="0.5">
                   <span class="form-help">Minimum 7h par poste</span>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Nombre de jours</label>
-                  <input type="number" class="form-input" id="mission-jours" value="1" min="1" max="30">
-                  <span class="form-help">Durée totale de la mission</span>
-                  <span class="form-help">Minimum 4h par poste</span>
-                </div>
-                <div class="form-group">
-                  <label class="form-label">Type de mission</label>
-                  <select class="form-select" id="mission-type">
-                    <option value="">— Sélectionnez —</option>
-                    <option value="remplacement">Remplacement maladie / absence</option>
-                    <option value="renfort">Renfort pic d'activité</option>
-                    <option value="evenement">Événement / groupe</option>
-                    <option value="audit">Préparation audit qualité</option>
-                    <option value="autre">Autre</option>
-                  </select>
                 </div>
               </div>
               <div style="display:flex;gap:24px;flex-wrap:wrap">
@@ -513,7 +501,34 @@ function addService(preselect = null) {
   updateTotal();
 }
 
-function updatePosteLabel(select) {
+// Calcul automatique du nombre de jours
+function calcJours() {
+  const debut = document.getElementById('mission-date').value;
+  const fin   = document.getElementById('mission-date-fin').value;
+  if (!debut || !fin) return 1;
+  const d1 = new Date(debut);
+  const d2 = new Date(fin);
+  const diff = Math.round((d2 - d1) / (1000 * 60 * 60 * 24)) + 1; // +1 car date fin incluse
+  return diff > 0 ? diff : 1;
+}
+
+function updateJoursLabel() {
+  const jours = calcJours();
+  const label = document.getElementById('jours-calc-label');
+  const debut = document.getElementById('mission-date').value;
+  const fin   = document.getElementById('mission-date-fin').value;
+  if (label && debut && fin) {
+    const diff = Math.round((new Date(fin) - new Date(debut)) / (1000 * 60 * 60 * 24)) + 1;
+    if (diff > 0) {
+      label.textContent = `✓ ${diff} jour${diff > 1 ? 's' : ''} (fin incluse)`;
+      label.style.color = 'var(--sauge-2)';
+    } else {
+      label.textContent = '⚠ La date de fin doit être après la date de début';
+      label.style.color = '#C0392B';
+    }
+  }
+  updateTotal();
+}
   const row = select.closest('.service-row');
   const isParChambre = ['femme-chambre', 'valet'].includes(select.value);
   const label = row.querySelector('.service-nb-label');
@@ -536,7 +551,7 @@ function removeService(id) {
 
 function updateTotal() {
   const duree   = parseFloat(document.getElementById('mission-duree').value) || 8;
-  const jours   = parseInt(document.getElementById('mission-jours')?.value) || 1;
+  const jours   = calcJours();
   const urgence = document.getElementById('urgence-check').checked;
   const ferie   = document.getElementById('ferie-check').checked;
 
@@ -584,11 +599,12 @@ function updateTotal() {
 function submitOrder() {
   // Validation
   const fields = [
-    { id: 'hotel-nom',     label: 'Nom de l\'hôtel' },
-    { id: 'contact-nom',   label: 'Nom du contact' },
-    { id: 'contact-email', label: 'Email' },
-    { id: 'contact-tel',   label: 'Téléphone' },
-    { id: 'mission-date',  label: 'Date' },
+    { id: 'hotel-nom',       label: 'Nom de l\'hôtel' },
+    { id: 'contact-nom',     label: 'Nom du contact' },
+    { id: 'contact-email',   label: 'Email' },
+    { id: 'contact-tel',     label: 'Téléphone' },
+    { id: 'mission-date',    label: 'Date de début' },
+    { id: 'mission-date-fin',label: 'Date de fin' },
   ];
   for (const f of fields) {
     const el = document.getElementById(f.id);
@@ -616,8 +632,8 @@ function submitOrder() {
   const urgence = document.getElementById('urgence-check').checked;
   const ferie   = document.getElementById('ferie-check').checked;
   const duree   = parseFloat(document.getElementById('mission-duree').value) || 8;
-  const jours   = parseInt(document.getElementById('mission-jours')?.value) || 1;
-  const montant = UTILS.calcMontant(services, duree, urgence, ferie);
+  const jours   = calcJours();
+  const montant = UTILS.calcMontant(services, duree, urgence, ferie, jours);
 
   const order = {
     id: UTILS.generateId(),
@@ -627,6 +643,7 @@ function submitOrder() {
     email: document.getElementById('contact-email').value,
     telephone: document.getElementById('contact-tel').value,
     date: document.getElementById('mission-date').value,
+    dateFin: document.getElementById('mission-date-fin').value,
     heure: document.getElementById('mission-heure').value,
     duree,
     jours,
@@ -651,9 +668,9 @@ function submitOrder() {
     contact_nom:   order.contact,
     contact_tel:   order.telephone,
     contact_email: order.email,
-    date:          order.date,
+    date:          'Du ' + order.date + ' au ' + order.dateFin + ' (' + jours + ' jour' + (jours>1?'s':'') + ')',
     heure:         order.heure,
-    duree:         order.duree + 'h/jour × ' + jours + ' jour(s)',
+    duree:         order.duree + 'h/jour',
     services:      servicesTexte,
     montant:       montant + ' €',
     notes:         order.notes || 'Aucune note'
@@ -718,6 +735,8 @@ function trackOrder() {
 
 // Init
 addService(prePoste);
+document.getElementById('mission-date').addEventListener('change', updateJoursLabel);
+document.getElementById('mission-date-fin').addEventListener('change', updateJoursLabel);
 document.getElementById('mission-duree').addEventListener('input', updateTotal);
 document.getElementById('mission-jours')?.addEventListener('input', updateTotal);
 </script>

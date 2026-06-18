@@ -51,20 +51,14 @@
       <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Accès réservé au personnel Clean Staff</div>
     </div>
 
-    <div class="demo-box">
-      <div style="color:var(--or-2);margin-bottom:6px;font-size:0.72rem;letter-spacing:0.08em">DÉMO</div>
-      Email : admin@cleanstaff.fr<br>
-      Mot de passe : CleanStaff2024!
-    </div>
-
     <div style="display:flex;flex-direction:column;gap:16px">
       <div class="form-group">
         <label class="form-label">Email</label>
-        <input type="email" class="form-input" id="email" placeholder="admin@cleanstaff.fr" value="admin@cleanstaff.fr">
+        <input type="email" class="form-input" id="email" placeholder="admin@cleanstaff.fr">
       </div>
       <div class="form-group">
         <label class="form-label">Mot de passe</label>
-        <input type="password" class="form-input" id="password" placeholder="••••••••" value="CleanStaff2024!" onkeydown="if(event.key==='Enter') login()">
+        <input type="password" class="form-input" id="password" placeholder="••••••••" onkeydown="if(event.key==='Enter') login()">
       </div>
       <div id="error-msg" style="display:none;color:#f87171;font-size:0.83rem;background:rgba(248,113,113,0.1);padding:10px 14px;border-radius:var(--r-md);border:1px solid rgba(248,113,113,0.2)"></div>
       <button class="btn btn-primary btn-lg" onclick="login()" style="justify-content:center;margin-top:8px">
