@@ -8,14 +8,14 @@
 /* ── TOKENS ── */
 :root {
   --blanc:        #FFFFFF;
-  --perle:        #F2F5F2;
-  --perle-2:      #E8EDE8;
-  --perle-3:      #DDE4DD;
-  --gris-leger:   #C8D4C8;
-  --gris-moyen:   #8A9E8A;
-  --gris-fonce:   #5A7A5A;
-  --anthracite:   #2A3A2A;
-  --noir:         #1A2A1A;
+  --perle:        #F7F6F4;
+  --perle-2:      #EEECEA;
+  --perle-3:      #E4E1DC;
+  --gris-leger:   #D4D0CA;
+  --gris-moyen:   #9A9590;
+  --gris-fonce:   #6B6B6B;
+  --anthracite:   #2C2C2C;
+  --noir:         #1C1C1C;
 
   --or:           #B8902A;
   --or-clair:     #D4AA48;
@@ -27,22 +27,22 @@
   --bleu:         #2980B9;
 
   /* Textes */
-  --texte:        #1A2A1A;
-  --texte-2:      #3A4A3A;
-  --texte-3:      #6A7A6A;
+  --texte:        #1C1C1C;
+  --texte-2:      #4A4A4A;
+  --texte-3:      #7A7A7A;
   --texte-or:     #B8902A;
 
   /* Bordures */
-  --bord:         #D4DDD4;
+  --bord:         #E4E1DC;
   --bord-or:      rgba(184,144,42,0.25);
   --bord-or-fort: rgba(184,144,42,0.5);
 
   /* Ombres */
-  --ombre-xs:  0 1px 3px rgba(26,42,26,0.08);
-  --ombre-sm:  0 2px 8px rgba(26,42,26,0.1);
-  --ombre-md:  0 4px 20px rgba(26,42,26,0.12);
-  --ombre-lg:  0 12px 40px rgba(26,42,26,0.15);
-  --ombre-or:  0 4px 20px rgba(184,144,42,0.2);
+  --ombre-xs:  0 1px 3px rgba(0,0,0,0.06);
+  --ombre-sm:  0 2px 8px rgba(0,0,0,0.08);
+  --ombre-md:  0 4px 20px rgba(0,0,0,0.1);
+  --ombre-lg:  0 12px 40px rgba(0,0,0,0.12);
+  --ombre-or:  0 4px 20px rgba(184,144,42,0.15);
 
   /* Rayons */
   --r-xs:  2px;
@@ -253,7 +253,7 @@ input, textarea, select { font-family: inherit; }
   justify-content: space-between;
 }
 .nav--scrolled {
-  background: rgba(242,245,242,0.97);
+  background: rgba(255,255,255,0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--bord);
   box-shadow: var(--ombre-xs);
@@ -270,7 +270,7 @@ input, textarea, select { font-family: inherit; }
 }
 .nav-logo-mark {
   width: 34px; height: 34px;
-  background: var(--anthracite);
+  background: var(--noir);
   border-radius: var(--r-sm);
   display: flex;
   align-items: center;
@@ -505,7 +505,7 @@ input, textarea, select { font-family: inherit; }
     flex-direction: column;
     position: fixed;
     top: 68px; left: 0; right: 0;
-    background: rgba(242,245,242,0.98);
+    background: rgba(255,255,255,0.98);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--bord);
     padding: 20px 24px;
